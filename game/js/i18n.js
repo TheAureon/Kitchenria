@@ -1,11 +1,12 @@
 // i18n.js — all on-screen words come from lang/<language>.json.
 // t('toast.made', { a: 'Flour', b: 'Water' }) → "Flour + Water"
 
+import { loadJSON } from './load.js';
+
 let strings = {};
 
 export async function loadLanguage(code = 'en') {
-  const res = await fetch(`lang/${code}.json`);
-  strings = await res.json();
+  strings = await loadJSON(`lang/${code}.json`);
   document.documentElement.lang = code;
 }
 

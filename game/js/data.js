@@ -2,6 +2,8 @@
 // Mistakes in the JSON files are reported in the browser console and skipped,
 // so a typo never breaks the game.
 
+import { loadJSON } from './load.js';
+
 export const items = new Map();   // id -> item
 const recipes = new Map();        // "a|b" (sorted) -> result id
 
@@ -10,8 +12,8 @@ const pairKey = (a, b) => (a < b ? `${a}|${b}` : `${b}|${a}`);
 
 export async function loadData() {
   const [itemJson, recipeJson] = await Promise.all([
-    fetch('data/items.json').then((r) => r.json()),
-    fetch('data/recipes.json').then((r) => r.json()),
+    loadJSON('data/items.json'),
+    loadJSON('data/recipes.json'),
   ]);
   for (const it of itemJson.items) {
     if (!it.id || items.has(it.id)) { console.warn('[Kitchenria] Skipping item with missing or duplicate id:', it); continue; }

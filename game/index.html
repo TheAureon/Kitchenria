@@ -123,10 +123,10 @@
 
   <div id="boot-error" class="boot-error" hidden>
     <p><strong>Oh no, the kitchen didn’t open.</strong></p>
-    <p>Kitchenria needs to be opened through a web address (for example from your website, or with the “Start Kitchenria” file on a Mac), not by double-clicking <em>index.html</em>.</p>
+    <p>This copy of the game only works from a website. To play straight from your computer, double-click the <em>index.html</em> in the main Kitchenria folder instead (the one next to README).</p>
   </div>
-  <script>
-    // Opening index.html straight from the Finder can't load the game's modules; explain kindly.
+  <script data-web-only>
+    // Opening this file straight from the Finder can't load the game's modules; explain kindly.
     if (location.protocol === 'file:') document.getElementById('boot-error').hidden = false;
   </script>
   <noscript><div class="boot-error"><p>Kitchenria needs JavaScript turned on.</p></div></noscript>

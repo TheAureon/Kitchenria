@@ -9,12 +9,16 @@ A cosy cooking discovery game for your web browser. Drag ingredients onto each o
 ## ▶️ Play it on your Mac
 
 1. Download this project. On GitHub, click the green **Code** button, then **Download ZIP**, and double-click the ZIP to unpack it.
-2. Open the unpacked folder and double-click **`Start Kitchenria.command`**.
-   * The first time, your Mac may say it *"cannot be opened because it is from an unidentified developer"*. If it does, **right-click** (or Control-click) the file, choose **Open**, then click **Open** again. You only need to do this once.
-   * If your Mac offers to install **"Command Line Developer Tools"**, click **Install** and wait for it to finish. Then double-click the file again. This is a free Apple download, and the game needs it to run on your computer.
-3. Your web browser opens the game at `http://localhost:8123`. Keep the small Terminal window open while you play, and close it when you're done.
+2. Open the unpacked folder and **double-click `index.html`**. That's it: the game opens in your web browser. No Terminal, no installing.
 
-**Why can't I just double-click `index.html`?** Browsers block games like this one from loading their own files directly from your disk, for safety. The start file runs a tiny private web server (only your Mac can see it) so the browser is happy. Once the game is on your website, players just visit the address.
+`index.html` is the whole game packed into one file. You can copy it anywhere, put it on a USB stick or email it to a friend, and it still works. Your progress is saved in the browser you play in.
+
+**Alternative: `Start Kitchenria.command`.** This runs the game from the `game` folder through a tiny private web server. Use it when you have edited recipes or art and want to see your changes straight away (see [Adding recipes](#-adding-recipes)).
+* The first time, your Mac may say it *"cannot be opened because it is from an unidentified developer"*. If it does, **right-click** (or Control-click) the file, choose **Open**, then click **Open** again.
+* If your Mac offers to install **"Command Line Developer Tools"**, click **Install**, wait for it to finish, then double-click the file again.
+* Keep the small Terminal window open while you play.
+
+Progress is saved separately for each way of playing (and each website), so the two don't share a save. Export and import of saves arrive in stage 6.
 
 ## 🎮 How to play
 
@@ -32,7 +36,8 @@ A cosy cooking discovery game for your web browser. Drag ingredients onto each o
 
 ```
 Kitchenria/
-├── Start Kitchenria.command   ← double-click to play on your Mac
+├── index.html                 ← double-click to play: the whole game in one file (built automatically)
+├── Start Kitchenria.command   ← plays the game/ folder through a mini web server (shows your edits instantly)
 ├── README.md                  ← this guide
 ├── game/                      ← THE GAME. This is the folder you upload to your website.
 │   ├── index.html             ← the page itself
@@ -47,7 +52,7 @@ Kitchenria/
 │   │   ├── effects.js         ←   sparkles and message bubbles
 │   │   ├── audio.js           ←   sound effects, made in code (no sound files)
 │   │   ├── state.js           ←   remembers your progress (auto-save)
-│   │   └── i18n.js            ←   looks up on-screen text in the language file
+│   │   ├── i18n.js            ←   looks up on-screen text in the language file
 │   ├── data/
 │   │   ├── items.json         ← every ingredient, tool and dish
 │   │   └── recipes.json       ← every combination
@@ -55,6 +60,7 @@ Kitchenria/
 │   ├── art/items/             ← put your own pictures here (see below)
 │   └── fonts/                 ← the Fredoka font and its licence
 └── dev/                       ← helper tools for development. NOT needed on your website.
+    ├── build-standalone.mjs   ← packs game/ into the one-file index.html
     ├── gallery.html           ← shows every doodle on one page
     ├── check-recipes.mjs      ← checks the recipe files for mistakes
     └── test-game.cjs          ← automatic browser test
@@ -81,7 +87,9 @@ To add a **brand-new item**, add a line to `game/data/items.json` first:
   "art": { "shape": "jar", "color": "#c8324a", "accent": "#f2efe8" } },
 ```
 
-`type` is `ingredient`, `tool`, `prep` (an in-between step like dough) or `dish`. Then use `jam` in a recipe. If you make a typo, the game doesn't break: it skips that line and lists the problem in the browser's console (in Safari, choose *Develop → Show JavaScript Console*).
+`type` is `ingredient`, `tool`, `prep` (an in-between step like dough) or `dish`. Then use `jam` in a recipe. **Seeing your changes:** the `game` folder is the real game, and the one-file `index.html` is a packed copy of it. To try your edits right away, play with **`Start Kitchenria.command`**, which always uses the `game` folder. The packed `index.html` only picks up changes when it is rebuilt (`node dev/build-standalone.mjs`; I rebuild it at every stage, and the automatic test fails if it's out of date).
+
+If you make a typo, the game doesn't break: it skips that line and lists the problem in the browser's console (in Safari, choose *Develop → Show JavaScript Console*).
 
 ## 🎨 Replacing the art with your own pictures
 
@@ -101,7 +109,9 @@ That's it. The picture replaces the doodle everywhere. Delete the `image` line t
 
 ## 🌍 Putting it on your website
 
-Upload **the contents of the `game` folder**: `index.html` and the `css`, `js`, `data`, `lang`, `art` and `fonts` folders. Put them together in one folder on your site, e.g. `yoursite.com/kitchenria/`. There is no server code, so any static hosting works: itch.io (upload a ZIP of the `game` folder and choose "HTML"), Netlify, GitHub Pages, Neocities, or your own host. Don't upload the `dev` folder.
+**Easiest:** upload just the one-file `index.html` from the main folder. It contains everything.
+
+**Or** upload **the contents of the `game` folder**. Later stages will make this the better choice, because it lets players install the game as an app and play offline. That needs the separate files. Upload `index.html` and the `css`, `js`, `data`, `lang`, `art` and `fonts` folders, and put them together in one folder on your site, e.g. `yoursite.com/kitchenria/`. There is no server code, so any static hosting works: itch.io (upload a ZIP of the `game` folder and choose "HTML"), Netlify, GitHub Pages, Neocities, or your own host. Don't upload the `dev` folder.
 
 ---
 

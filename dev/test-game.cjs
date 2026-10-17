@@ -139,6 +139,31 @@ const chipCount = (page, id) => page.locator(`#table .chip[data-id="${id}"]:not(
   check(sl1 > sl0, `touch: sideways swipe scrolls the shelf (${sl0} → ${sl1})`);
   check(await mp.locator('#table .chip').count() === 2, 'touch: swiping did not drop anything on the table');
 
+  // ---------------- one-file version, opened straight from disk ----------------
+  console.log('One-file index.html (double-clicked, no server):');
+  const { execSync } = require('child_process');
+  let upToDate = true;
+  try { execSync(`node ${__dirname}/build-standalone.mjs --check`); } catch { upToDate = false; }
+  check(upToDate, 'index.html matches the game/ folder (rebuilt after the latest changes)');
+  const fctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const fp = await fctx.newPage();
+  fp.on('pageerror', (e) => errors.push('file: ' + e.message));
+  fp.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') errors.push('file: ' + m.text()); });
+  const fileUrl = 'file://' + require('path').resolve(__dirname, '..', 'index.html');
+  await fp.goto(fileUrl);
+  await fp.waitForSelector('body.ready', { timeout: 5000 });
+  check(await fp.locator('.tile').count() === 18, 'opens from disk with 18 items on the shelf');
+  check(await fp.locator('#boot-error').isHidden(), 'no "didn\'t open" message');
+  await mouseDrag(fp, await center(fp, '.tile[data-id="flour"]'), [420, 420]);
+  await mouseDrag(fp, await center(fp, '.tile[data-id="water"]'), [425, 425]);
+  check(await chipCount(fp, 'dough') === 1, 'flour + water = dough');
+  check(await fp.evaluate(() => getComputedStyle(document.body).fontFamily.startsWith('Fredoka') && document.fonts.check('16px Fredoka')), 'the cosy font is loaded');
+  await fp.waitForTimeout(500);
+  await fp.reload();
+  await fp.waitForSelector('body.ready');
+  check((await fp.textContent('#found-text')).startsWith('19 /'), 'progress is saved between visits');
+  await fp.screenshot({ path: SHOTS + 'standalone.png' });
+
   // ---------------- art gallery ----------------
   const gp = await ctx.newPage();
   gp.on('pageerror', (e) => errors.push('gallery: ' + e.message));
