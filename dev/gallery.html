@@ -29,7 +29,7 @@
     const E = createEngine({ ingredients: ing.ingredients, signatures: sig.signatures, t, pick });
     const fig = (html, name, sub) => `<figure>${html}<figcaption>${name}<small>${sub}</small></figcaption></figure>`;
     document.getElementById('ing').innerHTML = ing.ingredients.map((g) => fig(renderArt(E.baseItem(g.id)), g.name, g.pack)).join('');
-    document.getElementById('tools').innerHTML = kit.tools.map((tl) => fig(renderArtRaw(tl.art, tl.id, 'tool'), t('tool.' + tl.id), tl.op)).join('');
+    document.getElementById('tools').innerHTML = [...kit.handTools, ...kit.appliances].map((tl) => fig(renderArtRaw(tl.art, tl.id, 'tool'), t('tool.' + tl.id), tl.op)).join('');
     const B = (id) => E.baseItem(id), C = (op, ...xs) => E.cook(op, xs.map((x) => (typeof x === 'string' ? B(x) : x)));
     const dough = C('mix', 'flour', 'water'), bread = C('bake', dough), pasta = C('boil', C('chop', C('mix', 'flour', 'egg')), 'water');
     const sauce = C('boil', C('chop', 'tomato'), 'onion', 'herbs');

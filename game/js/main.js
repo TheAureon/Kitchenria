@@ -1,16 +1,17 @@
 // main.js — starts the game: loads text, ingredients and tools, restores the save,
-// then wires the pantry, the counter, the cooking tools, the critic and the top bar together.
+// then wires the pantry, the counter, the hand tools, the appliances, the critic
+// and the top bar together.
 
 import { loadLanguage, applyToPage, t } from './i18n.js';
-import { loadData, getItem } from './data.js';
+import { loadData, toolById } from './data.js';
 import { state, loadSave, saveNow } from './state.js';
-import { ensureUnlocks, rankPoints, rankCount } from './progress.js';
 import { cook as cookItems, serve as serveItems } from './kitchen.js';
-import { initShelf, render as renderShelf } from './shelf.js';
-import { initTable, beginShelfDrag, placeFromShelf, placeBelow, clearTable, takeSelected } from './table.js';
-import { initStations, render as renderStations, add as addToStation, stationAt, highlight, stationRect } from './stations.js';
+import { initShelf } from './shelf.js';
+import { initTable, beginShelfDrag, beginToolDrag, useOnSelected, placeFromShelf, placeBelow, clearTable, takeSelected } from './table.js';
+import { initRack } from './rack.js';
+import { initAppliances, drop as dropInAppliance, applianceAt, highlight, applianceRect } from './appliances.js';
 import { showReview } from './review.js';
-import { openCookbook } from './cookbook.js';
+import { openBook, bookSummary } from './book.js';
 import { renderArt } from './doodle.js';
 import { setMuted, play } from './audio.js';
 import { sparkleBurst, toast, bounce, esc } from './effects.js';
@@ -19,41 +20,42 @@ async function boot() {
   await Promise.all([loadLanguage('en'), loadData()]);
   applyToPage();
   loadSave();
-  ensureUnlocks();
 
   initShelf({
     onTileDragStart: (id, e) => beginShelfDrag(id, e),
     onTileActivate: (id) => placeFromShelf(id),
   });
   initTable({
-    mix: (a, b) => afterCook(cookItems('mix', [a, b])),
+    useTool: (toolId, ids) => {
+      play(TOOL_SOUND[toolId] || 'stir');
+      return cookItems(toolById(toolId).op, ids);
+    },
     celebrate,
-    stationAt,
-    addToStation,
-    highlightStation: highlight,
+    applianceAt,
+    dropInAppliance,
+    highlightAppliance: highlight,
   });
-  initStations({
+  initRack({ beginToolDrag, useOnSelected });
+  initAppliances({
     takeSelected,
-    returnToCounter: (toolId, id) => placeBelow(stationRect(toolId), id, 'squash'),
-    cook: (toolId, op, ids) => {
-      const res = afterCook(cookItems(op, ids));
+    returnToCounter: (applianceId, id) => placeBelow(applianceRect(applianceId), [id], 'squash'),
+    cook: (applianceId, op, items) => {
+      const res = cookItems(op, items);
       if (!res) return;
-      const el = placeBelow(stationRect(toolId), res.item.id);
+      const el = placeBelow(applianceRect(applianceId), [res.item.id]);
       celebrate(res, el);
     },
     serve: async (ids) => {
       const r = serveItems(ids);
       if (!r) return;
       await showReview(r);
-      handleEvents(r.events);
       updateTop();
     },
   });
 
   // --- top bar ---
   document.getElementById('btn-clear').addEventListener('click', () => clearTable());
-  document.getElementById('btn-book').addEventListener('click', () => { play('click'); openCookbook(); });
-  document.getElementById('btn-rank').addEventListener('click', () => { play('click'); openCookbook(); });
+  document.getElementById('btn-book').addEventListener('click', () => { play('click'); openBook(); });
   const soundBtn = document.getElementById('btn-sound');
   const syncSound = () => {
     setMuted(state.settings.muted);
@@ -76,78 +78,32 @@ async function boot() {
   document.body.classList.add('ready');
 }
 
-/** After anything is cooked: refresh the pantry if it's new, and celebrate points/ranks/badges. */
-function afterCook(res) {
-  if (!res) return null;
-  if (res.isNew) renderShelf();
-  handleEvents(res.events);
-  return res;
-}
+const TOOL_SOUND = { hands: 'grind', knife: 'chop', whisk: 'whirr', spoon: 'stir', pin: 'grind', masher: 'grind', grater: 'chop', mortar: 'grind' };
 
-/** Sparkles and a message for brand-new creations and classic dishes. */
+/** A little sparkle the first time you make something this visit; a big one for classic dishes. */
 function celebrate(res, el) {
   if (!res || !el) return;
-  if (res.isNew || res.isNewSig) {
+  if (res.isNewSig) {
     setTimeout(() => {
       const r = el.getBoundingClientRect();
-      sparkleBurst(r.left + r.width / 2, r.top + r.height / 2.6, res.isNewSig ? 24 : 14);
+      sparkleBurst(r.left + r.width / 2, r.top + r.height / 2.6, 24);
       play('discover');
-      el.classList.add('is-new');
-      setTimeout(() => el.classList.remove('is-new'), 4000);
     }, 160);
-    toast({
-      kind: res.isNewSig ? 'sig' : 'new',
-      art: renderArt(res.item),
-      title: `${t(res.isNewSig ? 'toast.newSig' : 'toast.new')} ${esc(res.item.name)}`,
-      body: esc(res.item.desc),
-      ms: 4200,
-    });
+    toast({ kind: 'sig', art: renderArt(res.item), title: `${t('toast.newSig')} ${esc(res.item.name)}`, body: esc(res.item.desc), ms: 4200 });
+  } else if (res.isNew) {
+    setTimeout(() => {
+      const r = el.getBoundingClientRect();
+      sparkleBurst(r.left + r.width / 2, r.top + r.height / 2.6, 8);
+    }, 160);
+    toast({ kind: 'soft', body: `<b>${esc(res.item.name)}</b> · ${esc(res.item.desc)}`, ms: 2600 });
   } else {
     bounce(el, 'squash');
   }
 }
 
-/** Shows points, rank-ups and badges. */
-function handleEvents(events = []) {
-  let pts = 0;
-  for (const ev of events) {
-    if (ev.type === 'points') pts += ev.p;
-    if (ev.type === 'rank') {
-      play('rankup');
-      const list = ev.unlocked.map((u) => (u.kind === 'tool' ? t(`tool.${u.id}`) : t(`pack.${u.id}`))).join(', ');
-      toast({ kind: 'sig', title: t('toast.rankUp', { rank: t(`rank.${ev.rank}`) }), body: list ? t('toast.unlocked', { list }) : '', ms: 6000 });
-      renderStations();
-      renderShelf();
-      const r = document.getElementById('btn-rank').getBoundingClientRect();
-      sparkleBurst(r.left + r.width / 2, r.top + r.height / 2, 26);
-    }
-    if (ev.type === 'badge') toast({ kind: 'info', art: `<span class="badge-icon big">${ev.icon}</span>`, title: t('toast.badge', { name: t(`badge.${ev.id}`) }), body: t(`badge.${ev.id}.desc`), ms: 4200 });
-  }
-  if (pts) floatPoints(pts);
-  updateTop();
-}
-
-/** A little "+5" that floats up from the rank badge. */
-function floatPoints(p) {
-  const btn = document.getElementById('btn-rank');
-  const r = btn.getBoundingClientRect();
-  const s = document.createElement('span');
-  s.className = 'float-points';
-  s.textContent = `+${p}`;
-  s.style.left = `${r.left + r.width / 2}px`;
-  s.style.top = `${r.bottom}px`;
-  document.getElementById('fx-layer').appendChild(s);
-  s.addEventListener('animationend', () => s.remove());
-  bounce(btn, 'squash');
-}
-
 function updateTop() {
-  const creations = state.discovered.filter((id) => getItem(id)?.kind === 'creation').length;
-  document.getElementById('creations-text').textContent = t('top.creations', { n: creations });
-  document.getElementById('rank-name').textContent = t(`rank.${state.rank}`);
-  const lo = rankPoints(state.rank), hi = state.rank < rankCount() ? rankPoints(state.rank + 1) : null;
-  document.getElementById('rank-points').textContent = hi ? t('top.points', { p: state.points, next: hi }) : t('top.pointsMax', { p: state.points });
-  document.getElementById('rank-bar').style.width = `${hi ? Math.round(((state.points - lo) / (hi - lo)) * 100) : 100}%`;
+  const { count, avg } = bookSummary();
+  document.getElementById('book-summary').textContent = count ? t(count === 1 ? 'top.summaryOne' : 'top.summary', { n: count, avg: avg.toFixed(1) }) : t('top.noDishes');
 }
 
 boot().catch((err) => {

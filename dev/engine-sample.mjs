@@ -19,7 +19,7 @@ export const cook = (op, ...items) => E.cook(op, items.map((i) => (typeof i === 
 
 if (process.argv[2] === 'random') {
   const ids = [...E.ING.keys()];
-  const ops = ['chop', 'boil', 'fry', 'bake', 'mix', 'blend', 'grind', 'freeze', 'grill', 'marinate', 'steam', 'age'];
+  const ops = ['knead', 'chop', 'whisk', 'mix', 'roll', 'mash', 'grate', 'grind', 'boil', 'fry', 'bake', 'blend', 'freeze', 'grill', 'marinate', 'steam', 'age'];
   let s = 12345; const rnd = () => ((s = (s * 1103515245 + 12345) % 2147483648) / 2147483648);
   const pool = ids.map(B);
   const names = new Map();

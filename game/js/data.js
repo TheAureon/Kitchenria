@@ -7,8 +7,8 @@ import { createEngine } from './engine.js';
 import { t, pick } from './i18n.js';
 import { state } from './state.js';
 
-/** Everything loaded, in one place: db.engine, db.kitchen, db.tools, db.signatures */
-export const db = { engine: null, kitchen: null, tools: [], signatures: [] };
+/** Everything loaded, in one place. */
+export const db = { engine: null, kitchen: null, handTools: [], appliances: [], signatures: [], ingredients: [] };
 
 export async function loadData() {
   const [ing, kitchen, sig] = await Promise.all([
@@ -25,12 +25,14 @@ export async function loadData() {
   });
   db.engine = createEngine({ ingredients, signatures: sig.signatures, t, pick });
   db.kitchen = kitchen;
-  db.tools = kitchen.tools;
+  db.handTools = kitchen.handTools;
+  db.appliances = kitchen.appliances;
   db.signatures = sig.signatures;
+  db.ingredients = ingredients;
 }
 
 const baseCache = new Map();
-/** Any item by id: a pantry ingredient, or something you cooked. */
+/** Any food by id: a pantry ingredient, or something you cooked that's on the counter. */
 export function getItem(id) {
   if (db.engine.ING.has(id)) {
     if (!baseCache.has(id)) baseCache.set(id, db.engine.baseItem(id));
@@ -39,5 +41,4 @@ export function getItem(id) {
   return state.creations[id] || null;
 }
 
-export const toolById = (id) => db.tools.find((tl) => tl.id === id);
-export const packIngredients = (pack) => [...db.engine.ING.values()].filter((g) => (g.pack || 'starter') === pack).map((g) => g.id);
+export const toolById = (id) => db.handTools.find((x) => x.id === id) || db.appliances.find((x) => x.id === id);

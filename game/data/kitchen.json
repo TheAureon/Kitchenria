@@ -1,63 +1,43 @@
 {
   "_help": [
-    "tools : the cooking stations on the counter.",
-    "        op = what it does (chop, boil, fry, bake, mix, plate, blend, grind, freeze, grill, marinate, steam, age),",
-    "        slots = how many things fit in at once, instant = works as soon as something is dropped in,",
-    "        rank = the chef rank that unlocks it (1 = from the start).",
-    "ranks : chef ranks. points = points needed. unlock = tools and pantries that open at that rank.",
-    "badges: little achievements. 'when' is checked by the game (see js/progress.js for the options)."
+    "handTools : utensils hanging on the wall rail. Drag one onto food (or a stack of food) to use it.",
+    "            op = what it does: knead, chop, whisk, mix, roll, mash, grate, grind.",
+    "appliances: the big tools on the counter. Drop food (or a stack) into one to cook it.",
+    "            op = boil, fry, bake, blend, grill, steam, freeze, marinate, age, plate.",
+    "            The plate collects up to 'slots' things; press Serve to call the critic.",
+    "pantry    : the sections of the pantry, and which ingredient categories ('cat' in ingredients.json) go in each."
   ],
-  "tools": [
-    { "id": "knife",   "op": "chop",     "slots": 1, "instant": true, "rank": 1, "art": { "shape": "board",   "color": "#d9a66b", "accent": "#b98149" } },
-    { "id": "pot",     "op": "boil",     "slots": 4, "rank": 1, "art": { "shape": "pot",     "color": "#7fa7c9", "accent": "#5d84a6" } },
-    { "id": "pan",     "op": "fry",      "slots": 4, "rank": 1, "art": { "shape": "pan",     "color": "#5b5551", "accent": "#a7714a" } },
-    { "id": "oven",    "op": "bake",     "slots": 4, "rank": 1, "art": { "shape": "oven",    "color": "#f1dcc0", "accent": "#d2683f" } },
-    { "id": "bowl",    "op": "mix",      "slots": 4, "rank": 1, "art": { "shape": "mixbowl", "color": "#9cc3a4", "accent": "#6f9a7a" } },
-    { "id": "plate",   "op": "plate",    "slots": 4, "rank": 1, "art": { "shape": "servePlate", "color": "#f7f3ea", "accent": "#7fb6d6" } },
-    { "id": "blender", "op": "blend",    "slots": 4, "rank": 2, "art": { "shape": "blender", "color": "#cfe8ee", "accent": "#e07a6a" } },
-    { "id": "mortar",  "op": "grind",    "slots": 3, "rank": 3, "art": { "shape": "mortar",  "color": "#b9b2a8", "accent": "#8f877c" } },
-    { "id": "freezer", "op": "freeze",   "slots": 3, "rank": 4, "art": { "shape": "freezer", "color": "#dceff7", "accent": "#7fb6d6" } },
-    { "id": "grill",   "op": "grill",    "slots": 4, "rank": 5, "art": { "shape": "grill",   "color": "#4a4440", "accent": "#e2533f" } },
-    { "id": "jar",     "op": "marinate", "slots": 4, "rank": 6, "art": { "shape": "jar",     "color": "#eef3e4", "accent": "#b98149" } },
-    { "id": "steamer", "op": "steam",    "slots": 4, "rank": 7, "art": { "shape": "steamer", "color": "#e2c48a", "accent": "#b98149" } },
-    { "id": "cellar",  "op": "age",      "slots": 2, "rank": 8, "art": { "shape": "barrel",  "color": "#b98149", "accent": "#6b4a33" } }
+  "handTools": [
+    { "id": "hands",   "op": "knead", "art": { "shape": "hand",       "color": "#f6d2b8", "accent": "#e8a98a" } },
+    { "id": "knife",   "op": "chop",  "art": { "shape": "knife",      "color": "#dfe5ea", "accent": "#6b4a33" } },
+    { "id": "whisk",   "op": "whisk", "art": { "shape": "whisk",      "color": "#c9d2da", "accent": "#d9a66b" } },
+    { "id": "spoon",   "op": "mix",   "art": { "shape": "spoon",      "color": "#d9a66b", "accent": "#b98149" } },
+    { "id": "pin",     "op": "roll",  "art": { "shape": "rollingPin", "color": "#e2b77e", "accent": "#b98149" } },
+    { "id": "masher",  "op": "mash",  "art": { "shape": "masher",     "color": "#c9d2da", "accent": "#e07a6a" } },
+    { "id": "grater",  "op": "grate", "art": { "shape": "grater",     "color": "#d4dbe1", "accent": "#7fa7c9" } },
+    { "id": "mortar",  "op": "grind", "art": { "shape": "mortar",     "color": "#b9b2a8", "accent": "#8f877c" } }
   ],
-  "ranks": [
-    { "points": 0,    "unlock": [] },
-    { "points": 40,   "unlock": ["tool:blender", "pack:garden"] },
-    { "points": 110,  "unlock": ["tool:mortar", "pack:spice"] },
-    { "points": 220,  "unlock": ["tool:freezer", "pack:bakery"] },
-    { "points": 380,  "unlock": ["tool:grill", "pack:market"] },
-    { "points": 600,  "unlock": ["tool:jar", "pack:world"] },
-    { "points": 900,  "unlock": ["tool:steamer", "pack:orchard"] },
-    { "points": 1300, "unlock": ["tool:cellar"] },
-    { "points": 1800, "unlock": [] },
-    { "points": 2500, "unlock": [] }
+  "appliances": [
+    { "id": "plate",   "op": "plate", "slots": 4, "art": { "shape": "servePlate", "color": "#f7f3ea", "accent": "#7fb6d6" } },
+    { "id": "pot",     "op": "boil",     "art": { "shape": "pot",     "color": "#7fa7c9", "accent": "#5d84a6" } },
+    { "id": "pan",     "op": "fry",      "art": { "shape": "pan",     "color": "#5b5551", "accent": "#a7714a" } },
+    { "id": "oven",    "op": "bake",     "art": { "shape": "oven",    "color": "#f1dcc0", "accent": "#d2683f" } },
+    { "id": "blender", "op": "blend",    "art": { "shape": "blender", "color": "#cfe8ee", "accent": "#e07a6a" } },
+    { "id": "grill",   "op": "grill",    "art": { "shape": "grill",   "color": "#4a4440", "accent": "#e2533f" } },
+    { "id": "steamer", "op": "steam",    "art": { "shape": "steamer", "color": "#e2c48a", "accent": "#b98149" } },
+    { "id": "freezer", "op": "freeze",   "art": { "shape": "freezer", "color": "#dceff7", "accent": "#7fb6d6" } },
+    { "id": "jar",     "op": "marinate", "art": { "shape": "jar",     "color": "#eef3e4", "accent": "#b98149" } },
+    { "id": "cellar",  "op": "age",      "art": { "shape": "barrel",  "color": "#b98149", "accent": "#6b4a33" } }
   ],
-  "points": {
-    "newCreation": 5,
-    "newSignature": 15,
-    "servePerStar": 10,
-    "serveAgain": 1
-  },
-  "badges": [
-    { "id": "first_serve", "icon": "🍽️", "when": "served>=1" },
-    { "id": "five_dishes", "icon": "📒", "when": "served>=5" },
-    { "id": "great_dish",  "icon": "⭐", "when": "stars>=4" },
-    { "id": "perfect",     "icon": "🌟", "when": "stars>=4.8" },
-    { "id": "lonely",      "icon": "🥺", "when": "served-raw" },
-    { "id": "burnt",       "icon": "🔥", "when": "made-burnt" },
-    { "id": "soup",        "icon": "🥣", "when": "made:soup" },
-    { "id": "baker",       "icon": "🍞", "when": "made:bread|cake|pie|cookies|muffins|tart" },
-    { "id": "breakfast",   "icon": "🍳", "when": "made:friedEgg|omelette|pancakes" },
-    { "id": "pasta",       "icon": "🍝", "when": "made:cookedPasta|pastaDish" },
-    { "id": "drinks",      "icon": "🥤", "when": "made:juice|smoothie|milkshake|tea|hotMilk" },
-    { "id": "frozen",      "icon": "🧊", "when": "op:freeze" },
-    { "id": "pickled",     "icon": "🫙", "when": "op:marinate" },
-    { "id": "patient",     "icon": "⏳", "when": "op:age" },
-    { "id": "explorer",    "icon": "🧭", "when": "creations>=25" },
-    { "id": "inventor",    "icon": "💡", "when": "creations>=100" },
-    { "id": "classics",    "icon": "📜", "when": "signatures>=10" },
-    { "id": "darling",     "icon": "💖", "when": "good-serves>=10" }
-  ]
+  "pantry": [
+    { "id": "veg",    "cats": ["veg"] },
+    { "id": "fruit",  "cats": ["fruit"] },
+    { "id": "dairy",  "cats": ["dairy", "egg"] },
+    { "id": "grains", "cats": ["grain"] },
+    { "id": "meat",   "cats": ["protein"] },
+    { "id": "herbs",  "cats": ["herb", "spice", "seasoning"] },
+    { "id": "liquid", "cats": ["liquid", "fat", "condiment"] },
+    { "id": "sweet",  "cats": ["sweet", "nut"] }
+  ],
+  "stackLimit": 6
 }

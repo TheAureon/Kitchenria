@@ -663,3 +663,56 @@ TOPPINGS.frost = (k, [x, y, w]) => {
   }
   return s;
 };
+
+// ---------------- hand tools (hang on the wall rail) ----------------
+Object.assign(SHAPES, {
+  hand(k, o) {
+    // a friendly open hand, palm forward
+    const fingers = [[30, 40, 26], [42, 34, 18], [54, 33, 17], [65, 38, 22]];
+    let s = '';
+    for (const [x, y, len] of fingers) s += k.shape(k.rectPts(x - 5, y - len + 12, 10, len + 8, 5), o.c, { wob: 0.6, sw: 2.6, sketch: false });
+    s += k.shape([[22, 46], [74, 44], [80, 62], [70, 84], [46, 90], [28, 82], [20, 64]], o.c, { wob: 1 });
+    s += k.shape([[74, 58], [88, 46], [94, 52], [82, 70]], o.c, { wob: 0.8, sw: 2.6, sketch: false });
+    s += k.line([[36, 70], [50, 74], [62, 68]], { color: o.a, sw: 1.8, opacity: 0.8 });
+    return { body: s, face: null, top: [50, 30, 40] };
+  },
+  knife(k, o) {
+    let s = k.shape([[16, 70], [64, 22], [74, 18], [72, 30], [26, 78]], o.c, { wob: 0.6, tension: 0.5 });
+    s += k.line([[24, 70], [64, 30]], { color: '#fff', sw: 2.4, opacity: 0.7 });
+    s += k.shape([[12, 74], [24, 80], [14, 92], [4, 86]].map(([x, y]) => [x + 2, y - 2]), o.a, { wob: 0.5, sw: 2.6, tension: 0.6 });
+    s += `<circle cx="12" cy="82" r="1.6" fill="#fff8ec"/>`;
+    return { body: s, face: null, top: [50, 40, 40] };
+  },
+  whisk(k, o) {
+    let s = k.shape(k.rectPts(44, 62, 12, 32, 5), o.a, { wob: 0.5, sw: 2.6 });
+    for (const w of [8, 15, 22]) s += k.line([[47, 62], [50 - w, 34], [50, 8], [50 + w, 34], [53, 62]], { color: '#4a3426', sw: 4.2, wob: 0.4 }) + k.line([[47, 62], [50 - w, 34], [50, 8], [50 + w, 34], [53, 62]], { color: o.c, sw: 2, wob: 0 });
+    return { body: s, face: null, top: [50, 30, 30] };
+  },
+  spoon(k, o) {
+    let s = k.shape(k.rectPts(45, 42, 10, 52, 5), o.c, { wob: 0.6, sw: 2.6 });
+    s += k.shape(lobe(50, 26, 15, 20, 12), o.c, { wob: 0.8 });
+    s += k.fill(lobe(50, 27, 9, 13, 10), o.a, { opacity: 0.55 });
+    return { body: s, face: null, top: [50, 26, 30] };
+  },
+  rollingPin(k, o) {
+    let s = `<g transform="rotate(-30 50 50)">`;
+    s += k.shape(k.rectPts(4, 44, 16, 12, 5), o.a, { wob: 0.4, sw: 2.6 }) + k.shape(k.rectPts(80, 44, 16, 12, 5), o.a, { wob: 0.4, sw: 2.6 });
+    s += k.shape(k.rectPts(18, 36, 64, 28, 10), o.c, { wob: 0.8 });
+    s += k.line([[24, 42], [76, 42]], { color: '#fff', sw: 2.4, opacity: 0.6 }) + '</g>';
+    return { body: s, face: null, top: [50, 40, 40] };
+  },
+  masher(k, o) {
+    let s = k.shape(k.rectPts(44, 8, 12, 40, 5), o.a, { wob: 0.5, sw: 2.6 });
+    s += k.line([[50, 46], [50, 64]], { color: '#4a3426', sw: 6 }) + k.line([[50, 46], [50, 64]], { color: o.c, sw: 2.6 });
+    s += k.line([[22, 66], [36, 82], [50, 68], [64, 82], [78, 66]], { color: '#4a3426', sw: 6.5, wob: 0.4 }) + k.line([[22, 66], [36, 82], [50, 68], [64, 82], [78, 66]], { color: o.c, sw: 3, wob: 0 });
+    s += k.line([[22, 64], [78, 64]], { color: '#4a3426', sw: 6 }) + k.line([[22, 64], [78, 64]], { color: o.c, sw: 2.6 });
+    return { body: s, face: null, top: [50, 30, 30] };
+  },
+  grater(k, o) {
+    let s = k.shape(k.rectPts(40, 6, 20, 14, 6), o.a, { wob: 0.4, sw: 2.6 });
+    s += k.shape([[30, 20], [70, 20], [80, 92], [20, 92]], o.c, { wob: 0.7, tension: 0.4 });
+    for (let y = 30; y < 86; y += 10) for (let x = 34 + (y % 20 ? 4 : 0); x < 68; x += 9) s += `<path d="M${x} ${y} q3 -3 6 0" fill="none" stroke="#4a3426" stroke-width="1.5" stroke-linecap="round"/>`;
+    s += k.line([[34, 26], [28, 86]], { color: '#fff', sw: 2.4, opacity: 0.6 });
+    return { body: s, face: null, top: [50, 30, 30] };
+  },
+});

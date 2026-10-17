@@ -1,45 +1,24 @@
 {
   "_help": "All on-screen text lives here. To translate, copy this file (e.g. to fr.json) and translate the right-hand side only. {curly} words are filled in by the game. A [list] means the game picks one of the lines, so results feel varied.",
-
   "app.title": "Kitchenria",
-  "app.tagline": "a cosy kitchen of endless recipes",
-
-  "top.creations": "{n} creations",
-  "top.points": "{p} / {next} chef points",
-  "top.pointsMax": "{p} chef points",
+  "app.tagline": "a cosy kitchen where you cook anything",
   "top.clear": "Tidy counter",
   "top.clearHint": "Put everything on the counter back in the pantry",
   "top.sound": "Sound on",
   "top.muted": "Sound off",
-  "top.book": "Cookbook",
-
+  "top.book": "Recipe Book",
   "shelf.title": "Pantry",
   "shelf.toggle": "Pantry",
   "shelf.search": "Search…",
-  "shelf.sort": "Sort",
-  "shelf.sort.found": "Newest first",
-  "shelf.sort.oldest": "Oldest first",
-  "shelf.sort.az": "A to Z",
-  "shelf.sort.type": "By kind",
-  "shelf.filter": "Show",
-  "shelf.filter.all": "All",
-  "shelf.filter.ingredient": "Ingredients",
-  "shelf.filter.creation": "Creations",
-  "shelf.filter.signature": "Classics",
+  "shelf.filter": "Pantry sections",
   "shelf.empty": "Nothing here matches “{q}”.",
-  "shelf.new": "New!",
-  "shelf.locked": "More ingredients unlock as you rank up.",
-
   "table.label": "Kitchen counter",
   "table.empty": "Welcome to your kitchen ✿",
-  "table.hint": "Drag ingredients from the pantry into a tool: the knife chops straight away, the others cook when you press their button. Put food on the plate and press Serve to hear what the critic thinks!",
-
-  "stations.label": "Cooking tools",
+  "table.hint": "Drag ingredients from the pantry onto the counter. Drop food onto food to stack it. Then grab a hand tool from the wall (hands knead, the whisk whisks…) and drop it on your stack, or put the food in the pot, pan or oven. When it looks delicious, put it on the plate and press Serve!",
   "tool.knife": "Knife",
   "tool.pot": "Pot",
   "tool.pan": "Pan",
   "tool.oven": "Oven",
-  "tool.bowl": "Bowl",
   "tool.plate": "Plate",
   "tool.blender": "Blender",
   "tool.mortar": "Mortar",
@@ -52,7 +31,7 @@
   "verb.boil": "Boil",
   "verb.fry": "Fry",
   "verb.bake": "Bake",
-  "verb.mix": "Mix",
+  "verb.mix": "Stir",
   "verb.plate": "Serve",
   "verb.blend": "Blend",
   "verb.grind": "Grind",
@@ -61,25 +40,10 @@
   "verb.marinate": "Marinate",
   "verb.steam": "Steam",
   "verb.age": "Age",
-  "tool.label": "{tool}, holding {n} of {max}. Drop food here, or pick food up and press Enter here.",
-  "tool.empty": "Drop food here",
-  "tool.locked": "Unlocks at rank {n}",
-  "tool.full": "The {tool} is full.",
   "tool.slotLabel": "{name} in the {tool}. Press to take it back out.",
-  "tool.nothing": "Put something in the {tool} first.",
-
-  "toast.new": "New creation!",
-  "toast.newSig": "Classic dish discovered!",
-  "toast.selected": "{name} picked up. Choose a tool, or something to mix it with.",
   "toast.cleared": "All tidy!",
-  "toast.points": "+{p} chef points",
-  "toast.rankUp": "You are now a {rank}!",
-  "toast.unlocked": "Unlocked: {list}",
-  "toast.badge": "Badge earned: {name}",
-
   "chip.label": "{name} on the counter. Press Enter to pick it up, Delete to put it away.",
   "tile.label": "{name}. Press Enter to put it on the counter.",
-
   "review.title": "The critic's verdict",
   "review.critic": "Madame Purrline",
   "review.criticRole": "Food critic, Kitchenria Gazette",
@@ -87,66 +51,34 @@
   "review.stars": "{s} out of 5 stars",
   "review.keep": "Keep cooking",
   "review.again": "You've served this before. The critic remembers it fondly.",
-
-  "book.title": "Cookbook",
-  "book.dishes": "Served dishes",
+  "book.title": "Recipe Book",
+  "book.dishes": "My dishes",
   "book.classics": "Classics",
-  "book.ranks": "Rank & badges",
-  "book.empty": "No dishes served yet. Put something on the plate and press Serve!",
+  "book.empty": "No dishes yet. Cook something, put it on the plate and press Serve!",
   "book.classicsCount": "{n} of {total} classic dishes discovered ({pct}%)",
   "book.hidden": "???",
   "book.close": "Close",
   "book.madeWith": "Made with: {list}",
-  "book.rankNow": "Current rank",
-  "book.nextRank": "Next: {rank} at {p} points",
-  "book.badgesCount": "{n} of {total} badges",
-
-  "rank.1": "Kitchen Helper",
-  "rank.2": "Prep Cook",
-  "rank.3": "Line Cook",
-  "rank.4": "Pastry Cook",
-  "rank.5": "Grill Cook",
-  "rank.6": "Sous Chef",
-  "rank.7": "Chef de Partie",
-  "rank.8": "Head Chef",
-  "rank.9": "Master Chef",
-  "rank.10": "Legendary Chef",
-
-  "pack.starter": "Basic pantry",
-  "pack.garden": "Garden basket",
-  "pack.spice": "Spice shelf",
-  "pack.bakery": "Bakery pantry",
-  "pack.market": "Market stall",
-  "pack.world": "World pantry",
-  "pack.orchard": "Orchard & tea",
-
-  "badge.first_serve": "First Plate",        "badge.first_serve.desc": "Serve your first dish to the critic.",
-  "badge.five_dishes": "Regular",            "badge.five_dishes.desc": "Serve five different dishes.",
-  "badge.great_dish": "Rising Star",         "badge.great_dish.desc": "Earn 4 stars or more.",
-  "badge.perfect": "Perfection",             "badge.perfect.desc": "Earn 4.8 stars or more.",
-  "badge.lonely": "Minimalist",              "badge.lonely.desc": "Serve a single raw ingredient. Bold.",
-  "badge.burnt": "Oops!",                    "badge.burnt.desc": "Burn something. It happens to the best of us.",
-  "badge.soup": "Soup Season",               "badge.soup.desc": "Make a soup.",
-  "badge.baker": "Baker",                    "badge.baker.desc": "Bake a bread, cake, pie or cookies.",
-  "badge.breakfast": "Good Morning",         "badge.breakfast.desc": "Make a fried egg, an omelette or pancakes.",
-  "badge.pasta": "Pasta Lover",              "badge.pasta.desc": "Cook some pasta.",
-  "badge.drinks": "Barista",                 "badge.drinks.desc": "Make a drink.",
-  "badge.frozen": "Brrr!",                   "badge.frozen.desc": "Freeze something.",
-  "badge.pickled": "In a Pickle",            "badge.pickled.desc": "Marinate something.",
-  "badge.patient": "Patience",               "badge.patient.desc": "Age something in the cellar.",
-  "badge.explorer": "Explorer",              "badge.explorer.desc": "Make 25 different creations.",
-  "badge.inventor": "Inventor",              "badge.inventor.desc": "Make 100 different creations.",
-  "badge.classics": "Classicist",            "badge.classics.desc": "Discover 10 classic dishes.",
-  "badge.darling": "Critic's Darling",       "badge.darling.desc": "Serve 10 dishes with 4 stars or more.",
-
   "a11y.skip": "Skip to the counter",
-
   "food.and": "{a} & {b}",
   "food.eggs": "Eggs",
   "food.withMilk": "Milky",
   "food.pasta": "Pasta",
   "food.onions": "Onions",
-
+  "food.kneaded": "Well-Kneaded {x}",
+  "food.riceBall": "{x} Rice Ball",
+  "food.patty": "{x} Patty",
+  "food.squished": "Squished {x}",
+  "food.whiskedThing": "Whisked {x}",
+  "food.pastaSheets": "Pasta Sheets",
+  "food.pieCrust": "Pie Crust",
+  "food.rolledCookies": "Rolled Cookie Dough",
+  "food.gnocchiRope": "Gnocchi Rope",
+  "food.pizzaBase": "Pizza Base",
+  "food.flattened": "Flattened {x}",
+  "food.zest": "{x} Zest",
+  "food.shavings": "{x} Shavings",
+  "food.hashBrowns": "Hash Browns",
   "food.chop": "Chopped {x}",
   "food.chopFine": "Finely Chopped {x}",
   "food.minced": "Minced {x}",
@@ -164,7 +96,6 @@
   "food.noodles": "Fresh Noodles",
   "food.flavNoodles": "{x} Noodles",
   "food.chopLiquid": "Chopped {x}",
-
   "food.pesto": "{x} Pesto",
   "food.herbSalt": "{x} Salt",
   "food.powdered": "Powdered {x}",
@@ -174,7 +105,6 @@
   "food.ground": "Ground {x}",
   "food.mash": "{x} Mash",
   "food.paste": "{x} Paste",
-
   "food.mayo": "Mayonnaise",
   "food.whisked": "Whisked {x}",
   "food.whipped": "Whipped {x}",
@@ -186,7 +116,6 @@
   "food.coldSoup": "Chilled {x} Soup",
   "food.frothy": "Frothy {x}",
   "food.blended": "Blended {x}",
-
   "food.stirred": "Stirred {x}",
   "food.gnocchiDough": "Gnocchi Dough",
   "food.pancakeBatter": "Pancake Batter",
@@ -222,7 +151,6 @@
   "food.fruitSalad": "{x} Fruit Salad",
   "food.salad": "{x} Salad",
   "food.with": "{x} with {y}",
-
   "food.boilingWater": "Boiling Water",
   "food.coffee": "{x} Coffee",
   "food.cupOfTea": "Cup of Tea",
@@ -255,7 +183,6 @@
   "food.stew": "{x} Stew",
   "food.creamySoup": "Creamy {x} Soup",
   "food.soup": "{x} Soup",
-
   "food.friedEgg": "Fried Egg",
   "food.frenchToast": "French Toast",
   "food.grilledCheese": "Grilled Cheese",
@@ -283,7 +210,6 @@
   "food.panFried": "Pan-Fried {x}",
   "food.sauteed": "Sautéed {x}",
   "food.fried": "Fried {x}",
-
   "food.flavCookies": "{x} Cookies",
   "food.cookies": "Butter Cookies",
   "food.crackers": "Crackers",
@@ -307,7 +233,6 @@
   "food.baked": "Baked {x}",
   "food.roastVeg": "Roast Vegetables",
   "food.roasted": "Roasted {x}",
-
   "food.cornCob": "Corn on the Cob",
   "food.skewers": "{x} Skewers",
   "food.grilled": "Grilled {x}",
@@ -315,7 +240,6 @@
   "food.buns": "Steamed Buns",
   "food.steamedDumplings": "Steamed Dumplings",
   "food.steamed": "Steamed {x}",
-
   "food.deepFrozen": "Very Frozen {x}",
   "food.ice": "Ice Cubes",
   "food.iceCream": "{x} Ice Cream",
@@ -323,12 +247,10 @@
   "food.icePop": "{x} Ice Pop",
   "food.sorbet": "{x} Sorbet",
   "food.frozen": "Frozen {x}",
-
   "food.ceviche": "Ceviche",
   "food.marinated": "Marinated {x}",
   "food.macerated": "Macerated {x}",
   "food.pickled": "Pickled {x}",
-
   "food.vintage": "Vintage {x}",
   "food.cheeseMade": "Farmhouse Cheese",
   "food.crème": "Crème Fraîche",
@@ -339,248 +261,833 @@
   "food.fermented": "Fermented {x}",
   "food.overripe": "Overripe {x}",
   "food.aged": "Aged {x}",
-
   "food.burnt": "Burnt {x}",
   "food.stillCharcoal": "Still Charcoal",
   "food.crispy": "Extra-Crispy {x}",
   "food.sweetMilk": "Sweet Milk",
   "food.charcoal": "A Lump of Charcoal",
-
   "food.lonely": "A Lonely {x}",
   "food.plateOne": "{x}",
   "food.plateBurnt": "{x}, Served Bravely",
   "food.plateWith": "{x} with {y}",
   "food.plateWith2": "{x} with {y} & {z}",
   "food.plateFeast": "{x} Feast",
-
-  "desc.chop": ["Neatly chopped and ready for anything.", "Little pieces, big plans.", "Chop chop! Smaller and happier."],
-  "desc.chopFine": ["Chopped again, extra tiny.", "So small, so neat."],
-  "desc.minced": ["Chopped into tiny confetti.", "Practically dust. Very fancy dust."],
-  "desc.sliced": ["Crunchy little smiles.", "Sliced into perfect wedges."],
-  "desc.slices": ["Soft slices, waiting for their destiny."],
-  "desc.bites": ["Little bite-sized pieces, perfect for sharing."],
-  "desc.sliceOf": ["One generous slice, just for you."],
-  "desc.crumbs": ["Tiny golden crumbs, great for coating."],
-  "desc.cracked": ["The shell is gone. No going back now."],
-  "desc.grated": ["A fluffy snowdrift of {x}."],
-  "desc.freshPasta": ["Silky ribbons of fresh pasta."],
-  "desc.gnocchi": ["Tiny potato pillows. Nap-sized."],
-  "desc.noodles": ["A wiggly nest of fresh ribbons."],
-  "desc.flavNoodles": ["Wiggly noodles with a hint of {x}."],
-  "desc.chopLiquid": ["Somehow, you chopped it. Physics is impressed.", "The knife went straight through. Nothing changed. Mostly."],
-  "desc.pesto": ["Green, glossy and full of summer."],
-  "desc.herbSalt": ["Salt with a sprinkle of green magic."],
-  "desc.powdered": ["So soft it is basically snow."],
-  "desc.flourOf": ["Freshly ground, soft as a cloud."],
-  "desc.ground": ["Ground into fragrant dust."],
-  "desc.mash": ["Smooshed into a soft, comforting heap.", "Mashed with gentle thumps."],
-  "desc.paste": ["Pounded into a thick, flavourful paste."],
-  "desc.mayo": ["Creamy, wobbly and great with fries."],
-  "desc.whisked": ["Spun into a sunny, frothy swirl."],
-  "desc.whipped": ["Fluffy peaks of cloud-like cream."],
-  "desc.bubbly": ["So many bubbles. So little reason."],
-  "desc.milkshake": ["Thick, frosty and fun to slurp."],
-  "desc.smoothie": ["Blended into a fruity, velvety drink.", "A whirl of {x}, smooth as a lullaby."],
-  "desc.juice": ["Sunshine in a glass.", "Freshly squeezed and very perky."],
-  "desc.puree": ["Silky smooth, no lumps allowed."],
-  "desc.coldSoup": ["A cool, refreshing soup for warm days."],
-  "desc.frothy": ["Whirred into a frothy cloud."],
-  "desc.blended": ["Whirr! Now it's all one smooth thing."],
-  "desc.stirred": ["Stirred gently, with love."],
-  "desc.gnocchiDough": ["Potato and flour, snuggled together."],
-  "desc.pancakeBatter": ["Pourable fluffiness, ready to flip."],
-  "desc.cakeBatter": ["Please don't lick the spoon. Okay, just once."],
-  "desc.batter": ["Smooth and pourable, waiting for heat."],
-  "desc.flavBatter": ["A batter with a hint of {x}."],
-  "desc.crumble": ["Buttery crumbs for the top of something lovely."],
-  "desc.pastryDough": ["Buttery, flaky and full of promise."],
-  "desc.breadDough": ["Squishy, stretchy and slowly puffing up."],
-  "desc.flavBreadDough": ["A bread dough with {x} kneaded in."],
-  "desc.pastaDough": ["A sunny yellow ball with noodle dreams."],
-  "desc.cookieDough": ["Do not eat it all before baking!"],
-  "desc.flavDough": ["A soft dough with {x} folded in."],
-  "desc.dough": ["Squishy, stretchy and very huggable."],
-  "desc.rawPie": ["Almost there! It just needs a warm oven."],
-  "desc.rawPizza": ["A pizza-to-be. The oven is calling!"],
-  "desc.custardBase": ["Egg and milk, whisked into a sunny swirl."],
-  "desc.omeletteMix": ["Whisked eggs with {x}, ready for the pan."],
-  "desc.compoundButter": ["Soft butter swirled with {x}. Spread it on everything."],
-  "desc.dressing": ["Zingy and glossy, made for leaves."],
-  "desc.syrup": ["Sweet, clear and sticky."],
-  "desc.flavMilk": ["Milk with a splash of {x}. Yum!"],
-  "desc.cooler": ["A refreshing mix for a sunny afternoon."],
-  "desc.ade": ["Sour, sweet and fizzy with joy."],
-  "desc.onToast": ["{x} piled high on crunchy toast."],
-  "desc.sandwich": ["Two slices hugging some {x}.", "A sandwich worthy of a picnic."],
-  "desc.wrap": ["A soft flatbread rolled around {x}."],
-  "desc.pastaDish": ["Slurpy pasta tossed with {x}."],
-  "desc.riceBowl": ["A comforting bowl of rice topped with {x}."],
-  "desc.parfait": ["Layers of creamy yogurt and fruit."],
-  "desc.sugared": ["Wearing a sparkly sugar coat."],
-  "desc.fruitSalad": ["A colourful bowl of fresh fruit."],
-  "desc.salad": ["Crunchy, fresh and full of colour.", "A garden in a bowl."],
-  "desc.with": ["{x}, with a little {y} on the side."],
-  "desc.boilingWater": ["Bubbly, steamy and full of energy."],
-  "desc.coffee": ["A strong little cup to wake you up."],
-  "desc.cupOfTea": ["A proper cup of tea. Everything is better now."],
-  "desc.tea": ["Steeped leaves and a quiet moment."],
-  "desc.caramel": ["Melted sugar turned golden and gooey."],
-  "desc.melted": ["Melted into a glossy puddle."],
-  "desc.roux": ["Butter and flour, best friends forever."],
-  "desc.jam": ["Sticky, sweet and perfect on toast."],
-  "desc.compote": ["Soft stewed fruit, gentle as a lullaby."],
-  "desc.sauce": ["Thick, glossy and full of flavour.", "A sauce that wants to be on everything."],
-  "desc.stewed": ["Slowly stewed until soft."],
-  "desc.scorched": ["A pot with no water? Bold move.", "It stuck to the bottom. It's fine. It's fine."],
-  "desc.bechamel": ["A silky white sauce with French manners."],
-  "desc.hotMilk": ["A mug of sleepy-time snuggles."],
-  "desc.warmDrink": ["Warmed up for a chilly evening."],
-  "desc.simmered": ["Simmered a little longer, a little deeper."],
-  "desc.cookedGnocchi": ["Soft little pillows bobbing in a bowl."],
-  "desc.cookedPasta": ["Boiled to a perfect bite."],
-  "desc.noodleSoup": ["Slurpable noodles in a warm broth."],
-  "desc.ricePudding": ["Creamy, sweet rice. Pure comfort."],
-  "desc.rice": ["Every grain fluffy and happy."],
-  "desc.risotto": ["Creamy rice, stirred with patience."],
-  "desc.porridge": ["A warm bowl for slow mornings."],
-  "desc.boiledEgg": ["Snug in its shell, a sunny secret inside."],
-  "desc.dumplings": ["Soft little dumplings bobbing about."],
-  "desc.custard": ["Silky, sweet and spoonable."],
-  "desc.curry": ["Fragrant, golden and gently spicy."],
-  "desc.boiled": ["Soft, steamy and very relaxed."],
-  "desc.stew": ["A hearty pot that bubbled for ages."],
-  "desc.creamySoup": ["Velvety, creamy and very cosy."],
-  "desc.soup": ["A warm bowl of {x}, slurped with love.", "Steamy, soothing and full of {x}."],
-  "desc.friedEgg": ["Sunny side up, just like your mood."],
-  "desc.toast": ["Crunchy on the outside, cosy on the inside."],
-  "desc.omelette": ["Fluffy, folded and golden."],
-  "desc.flavOmelette": ["A fluffy omelette filled with {x}."],
-  "desc.pancakes": ["A tall, fluffy stack of Sunday morning."],
-  "desc.flavPancakes": ["Fluffy pancakes with {x}."],
-  "desc.fritters": ["Crispy little bites, fried golden."],
-  "desc.doughnuts": ["Fried rings of sugary joy."],
-  "desc.flatbread": ["Thin, soft and great at hugging fillings."],
-  "desc.flavFlatbread": ["A soft flatbread with {x}."],
-  "desc.friedRice": ["Wok-tossed rice, every grain shining."],
-  "desc.friedNoodles": ["Noodles tossed in a hot pan."],
-  "desc.brownButter": ["Nutty, toasty, golden-brown butter."],
-  "desc.steamPuff": ["The water said goodbye. Only a puff remains."],
-  "desc.fries": ["Golden, crispy and impossible to share."],
-  "desc.flavFries": ["Crispy sticks of fried {x}."],
-  "desc.twice": ["Cooked once, then cooked again for luck."],
-  "desc.stirfry": ["Tossed fast in a sizzling pan."],
-  "desc.caramelized": ["Sweet, sticky and deeply golden."],
-  "desc.friedCheese": ["Crispy outside, gooey inside."],
-  "desc.panFried": ["Sizzled until golden and crisp."],
-  "desc.sauteed": ["Tossed in a hot pan with a happy sizzle."],
-  "desc.cookies": ["Golden little circles of crumbly joy."],
-  "desc.flavCookies": ["Crumbly cookies studded with {x}."],
-  "desc.crackers": ["Crunchy, crisp and great with cheese."],
-  "desc.biscuits": ["Buttery, crumbly and very British."],
-  "desc.bread": ["A golden loaf that makes the kitchen smile."],
-  "desc.flavBread": ["A warm loaf with {x} baked right in."],
-  "desc.pie": ["A golden pie filled with {x}."],
-  "desc.pizza": ["Crispy crust topped with {x}."],
-  "desc.cake": ["Light, golden and ready for candles."],
-  "desc.flavCake": ["A soft cake full of {x}."],
-  "desc.muffins": ["Domed little cakes, perfect for pockets."],
-  "desc.bakedCustard": ["Wobbly, golden and proud of it."],
-  "desc.frittata": ["A thick, baked omelette with {x}."],
-  "desc.pastaBake": ["Bubbling, golden and very comforting."],
-  "desc.croutons": ["Crunchy little cubes for soups and salads."],
-  "desc.toasted": ["Toasted until golden."],
-  "desc.granola": ["Crunchy toasted oats."],
-  "desc.hotAir": ["You baked... nothing. It's warm, at least."],
-  "desc.bakedPotato": ["Toasty skin, fluffy heart."],
-  "desc.roast": ["Roasted until golden and juicy."],
-  "desc.baked": ["Baked soft and sweet."],
-  "desc.roastVeg": ["A colourful tray of caramelised veg."],
-  "desc.roasted": ["Roasted until sweet and golden at the edges."],
-  "desc.cornCob": ["Charred, buttery and fun to nibble."],
-  "desc.skewers": ["Threaded on sticks and kissed by flames."],
-  "desc.grilled": ["Striped with smoky grill marks."],
-  "desc.buns": ["Soft, white and pillowy."],
-  "desc.steamedDumplings": ["Tender dumplings from the steamer."],
-  "desc.steamed": ["Gently steamed, soft and bright."],
-  "desc.deepFrozen": ["Frozen again. Extremely frozen."],
-  "desc.ice": ["Little frozen cubes that go clink."],
-  "desc.iceCream": ["Creamy, cold and made for sunny days."],
-  "desc.frozenYogurt": ["Tangy, frosty and a bit fancy."],
-  "desc.icePop": ["A frosty treat on a stick."],
-  "desc.sorbet": ["Icy, fruity and refreshing."],
-  "desc.frozen": ["Frozen solid. Brrr."],
-  "desc.ceviche": ["Fresh fish 'cooked' in zingy citrus juice."],
-  "desc.marinated": ["Soaked in flavour, nice and slow."],
-  "desc.macerated": ["Soaked in sugar until juicy."],
-  "desc.pickled": ["Tangy, crunchy and pleasantly sour."],
-  "desc.vintage": ["Aged twice. Wise beyond its years."],
-  "desc.cheeseMade": ["You made cheese! The cellar is very proud."],
-  "desc.vinegarOf": ["Time turned it sharp and tangy."],
-  "desc.stale": ["A bit hard now. Good for crumbs."],
-  "desc.sourdough": ["A bubbly little pet for bakers."],
-  "desc.cured": ["Salted and aged the old-fashioned way."],
-  "desc.fermented": ["Funky, tangy and alive."],
-  "desc.overripe": ["Soft, spotty and extra sweet."],
-  "desc.aged": ["Left to rest in the cellar for a while."],
-  "desc.burnt": ["Oops. A little too long on the heat.", "Crunchy. Very, very crunchy.", "It's black now. Let's call it 'rustic'."],
-  "desc.stillCharcoal": ["Whatever you do, it stays charcoal.", "Charcoal is very committed to being charcoal."],
-  "desc.crispy": ["Fried again for maximum crunch."],
-  "desc.sweetMilk": ["Milk with a spoonful of sweetness."],
-  "desc.charcoal": ["This used to be food. Now it's art.", "Great for drawing with, not for eating."],
-  "desc.lonely": ["Just a {x}, on a big plate, all alone."],
-  "desc.plateOne": ["{x}, beautifully plated."],
-  "desc.plateBurnt": ["You plated it anyway. Respect."],
-  "desc.plateWith": ["{x} served with {y}.", "A plate of {x}, with {y} keeping it company."],
-
-  "desc.op.chop": ["Chopped up neatly."],
-  "desc.op.boil": ["Bubbled in the pot until tender."],
-  "desc.op.fry": ["Sizzled in the pan until it sang."],
-  "desc.op.bake": ["Baked golden in a warm oven."],
-  "desc.op.mix": ["Stirred together in a big bowl."],
-  "desc.op.blend": ["Whirred smooth in the blender."],
-  "desc.op.grind": ["Ground down in the mortar."],
-  "desc.op.freeze": ["Chilled until frosty."],
-  "desc.op.grill": ["Grilled over gentle flames."],
-  "desc.op.marinate": ["Soaked in flavour."],
-  "desc.op.steam": ["Steamed soft and tender."],
-  "desc.op.age": ["Rested in the cellar."],
-
-  "critic.open.5": ["Magnifique!", "I am speechless. Almost.", "Pure poetry on a plate."],
-  "critic.open.4": ["Ooh, now THIS is cooking.", "A lovely plate.", "I'm impressed, little chef."],
-  "critic.open.3": ["Not bad at all.", "A pleasant little plate.", "I see what you're going for."],
-  "critic.open.2": ["Hmm. Interesting.", "Well... it's certainly food.", "A brave attempt."],
-  "critic.open.1": ["Oh dear.", "My whiskers are trembling.", "I... see."],
-  "critic.open.0": ["Mon dieu.", "I need a moment.", "Is this a prank?"],
-
-  "critic.good.signature": ["A true classic, made with respect.", "{name}! Exactly as it should be."],
-  "critic.good.balance": ["The flavours are beautifully balanced.", "Everything is in perfect harmony."],
-  "critic.good.pairing": ["{a} and {b} are such good friends.", "Pairing {a} with {b}? Inspired."],
-  "critic.good.technique": ["You clearly know your way around a kitchen.", "So many techniques, all used well."],
-  "critic.good.complex": ["Layers of flavour, one after another.", "Every bite reveals something new."],
-  "critic.good.warm": ["Served warm, the way comfort food should be.", "Steaming and cosy. Lovely."],
-  "critic.good.sweetSalty": ["That sweet and salty dance? Delightful.", "Sweet meets salty. Perfection."],
-  "critic.good.fresh": ["So fresh and bright!", "It tastes like a sunny garden."],
-  "critic.good.rich": ["Rich, deep and satisfying.", "Indulgent in the best way."],
-  "critic.good.sweet": ["A sweet treat to make anyone smile.", "Dessert, done right."],
-  "critic.good.plated": ["Well composed, with a thoughtful side.", "The plate tells a little story."],
-  "critic.good.cool": ["Refreshingly cold. Just what I needed."],
-
-  "critic.bad.raw": ["Some of this needed cooking. My tummy is worried.", "Raw {a}? Really?"],
-  "critic.bad.burnt": ["It is... very well done.", "I can taste the smoke alarm.", "The burnt bits have their own burnt bits."],
-  "critic.bad.salty": ["Too salty! I need a glass of water.", "Did the salt shaker fall in?"],
-  "critic.bad.bitter": ["Quite bitter, I'm afraid.", "My tongue is frowning."],
-  "critic.bad.bland": ["A little plain. It needs some personality.", "Polite, but a bit shy on flavour."],
-  "critic.bad.busy": ["So many things at once! My poor taste buds.", "Too many cooks, too many ingredients."],
-  "critic.bad.clash": ["{a} and {b}? They are not friends.", "These flavours are arguing."],
-  "critic.bad.lonely": ["Just one raw ingredient on a plate. Very... minimalist.", "Did you forget to cook?"],
-  "critic.bad.sour": ["Very sour! My whiskers curled.", "Pucker up!"],
-  "critic.bad.spicy": ["SPICY! Water, please!", "My ears are steaming."],
-  "critic.bad.weird": ["I have never seen anything like it. That's not a compliment.", "This is... a choice."],
-
-  "critic.verdict.5": ["Five stars, without hesitation.", "I'll be dreaming about this."],
-  "critic.verdict.4": ["Highly recommended.", "I would happily order this again."],
-  "critic.verdict.3": ["Solid. Keep going, little chef.", "Good, with room to grow."],
-  "critic.verdict.2": ["Keep practising, I believe in you.", "Next time will be better!"],
-  "critic.verdict.1": ["I'll stick to tea, thank you.", "Let's pretend this never happened."],
-  "critic.verdict.0": ["Please, never again.", "I'm going to need a nap."]
+  "desc.kneaded": [
+    "Kneaded until smooth and springy."
+  ],
+  "desc.riceBall": [
+    "Squeezed into a neat little ball."
+  ],
+  "desc.patty": [
+    "Pressed into a round, juicy patty."
+  ],
+  "desc.squished": [
+    "Squeezed between your hands. Very satisfying.",
+    "Squish! Now it's a soft little lump."
+  ],
+  "desc.whiskedThing": [
+    "Whisked with great enthusiasm."
+  ],
+  "desc.pastaSheets": [
+    "Thin golden sheets, ready to cut or layer."
+  ],
+  "desc.pieCrust": [
+    "A buttery round, waiting for a filling."
+  ],
+  "desc.rolledCookies": [
+    "Rolled flat and ready for the oven."
+  ],
+  "desc.gnocchiRope": [
+    "A long potato rope. Cut it into pillows!"
+  ],
+  "desc.pizzaBase": [
+    "A round, stretchy base. Toppings, please!"
+  ],
+  "desc.flattened": [
+    "Rolled flat as a pancake."
+  ],
+  "desc.zest": [
+    "Fragrant little curls of peel."
+  ],
+  "desc.shavings": [
+    "Delicate curls, perfect for sprinkling."
+  ],
+  "desc.hashBrowns": [
+    "Crispy golden potato nests."
+  ],
+  "desc.chop": [
+    "Neatly chopped and ready for anything.",
+    "Little pieces, big plans.",
+    "Chop chop! Smaller and happier."
+  ],
+  "desc.chopFine": [
+    "Chopped again, extra tiny.",
+    "So small, so neat."
+  ],
+  "desc.minced": [
+    "Chopped into tiny confetti.",
+    "Practically dust. Very fancy dust."
+  ],
+  "desc.sliced": [
+    "Crunchy little smiles.",
+    "Sliced into perfect wedges."
+  ],
+  "desc.slices": [
+    "Soft slices, waiting for their destiny."
+  ],
+  "desc.bites": [
+    "Little bite-sized pieces, perfect for sharing."
+  ],
+  "desc.sliceOf": [
+    "One generous slice, just for you."
+  ],
+  "desc.crumbs": [
+    "Tiny golden crumbs, great for coating."
+  ],
+  "desc.cracked": [
+    "The shell is gone. No going back now."
+  ],
+  "desc.grated": [
+    "A fluffy snowdrift of {x}."
+  ],
+  "desc.freshPasta": [
+    "Silky ribbons of fresh pasta."
+  ],
+  "desc.gnocchi": [
+    "Tiny potato pillows. Nap-sized."
+  ],
+  "desc.noodles": [
+    "A wiggly nest of fresh ribbons."
+  ],
+  "desc.flavNoodles": [
+    "Wiggly noodles with a hint of {x}."
+  ],
+  "desc.chopLiquid": [
+    "Somehow, you chopped it. Physics is impressed.",
+    "The knife went straight through. Nothing changed. Mostly."
+  ],
+  "desc.pesto": [
+    "Green, glossy and full of summer."
+  ],
+  "desc.herbSalt": [
+    "Salt with a sprinkle of green magic."
+  ],
+  "desc.powdered": [
+    "So soft it is basically snow."
+  ],
+  "desc.flourOf": [
+    "Freshly ground, soft as a cloud."
+  ],
+  "desc.ground": [
+    "Ground into fragrant dust."
+  ],
+  "desc.mash": [
+    "Smooshed into a soft, comforting heap.",
+    "Mashed with gentle thumps."
+  ],
+  "desc.paste": [
+    "Pounded into a thick, flavourful paste."
+  ],
+  "desc.mayo": [
+    "Creamy, wobbly and great with fries."
+  ],
+  "desc.whisked": [
+    "Spun into a sunny, frothy swirl."
+  ],
+  "desc.whipped": [
+    "Fluffy peaks of cloud-like cream."
+  ],
+  "desc.bubbly": [
+    "So many bubbles. So little reason."
+  ],
+  "desc.milkshake": [
+    "Thick, frosty and fun to slurp."
+  ],
+  "desc.smoothie": [
+    "Blended into a fruity, velvety drink.",
+    "A whirl of {x}, smooth as a lullaby."
+  ],
+  "desc.juice": [
+    "Sunshine in a glass.",
+    "Freshly squeezed and very perky."
+  ],
+  "desc.puree": [
+    "Silky smooth, no lumps allowed."
+  ],
+  "desc.coldSoup": [
+    "A cool, refreshing soup for warm days."
+  ],
+  "desc.frothy": [
+    "Whirred into a frothy cloud."
+  ],
+  "desc.blended": [
+    "Whirr! Now it's all one smooth thing."
+  ],
+  "desc.stirred": [
+    "Stirred gently, with love."
+  ],
+  "desc.gnocchiDough": [
+    "Potato and flour, snuggled together."
+  ],
+  "desc.pancakeBatter": [
+    "Pourable fluffiness, ready to flip."
+  ],
+  "desc.cakeBatter": [
+    "Please don't lick the spoon. Okay, just once."
+  ],
+  "desc.batter": [
+    "Smooth and pourable, waiting for heat."
+  ],
+  "desc.flavBatter": [
+    "A batter with a hint of {x}."
+  ],
+  "desc.crumble": [
+    "Buttery crumbs for the top of something lovely."
+  ],
+  "desc.pastryDough": [
+    "Buttery, flaky and full of promise."
+  ],
+  "desc.breadDough": [
+    "Squishy, stretchy and slowly puffing up."
+  ],
+  "desc.flavBreadDough": [
+    "A bread dough with {x} kneaded in."
+  ],
+  "desc.pastaDough": [
+    "A sunny yellow ball with noodle dreams."
+  ],
+  "desc.cookieDough": [
+    "Do not eat it all before baking!"
+  ],
+  "desc.flavDough": [
+    "A soft dough with {x} folded in."
+  ],
+  "desc.dough": [
+    "Squishy, stretchy and very huggable."
+  ],
+  "desc.rawPie": [
+    "Almost there! It just needs a warm oven."
+  ],
+  "desc.rawPizza": [
+    "A pizza-to-be. The oven is calling!"
+  ],
+  "desc.custardBase": [
+    "Egg and milk, whisked into a sunny swirl."
+  ],
+  "desc.omeletteMix": [
+    "Whisked eggs with {x}, ready for the pan."
+  ],
+  "desc.compoundButter": [
+    "Soft butter swirled with {x}. Spread it on everything."
+  ],
+  "desc.dressing": [
+    "Zingy and glossy, made for leaves."
+  ],
+  "desc.syrup": [
+    "Sweet, clear and sticky."
+  ],
+  "desc.flavMilk": [
+    "Milk with a splash of {x}. Yum!"
+  ],
+  "desc.cooler": [
+    "A refreshing mix for a sunny afternoon."
+  ],
+  "desc.ade": [
+    "Sour, sweet and fizzy with joy."
+  ],
+  "desc.onToast": [
+    "{x} piled high on crunchy toast."
+  ],
+  "desc.sandwich": [
+    "Two slices hugging some {x}.",
+    "A sandwich worthy of a picnic."
+  ],
+  "desc.wrap": [
+    "A soft flatbread rolled around {x}."
+  ],
+  "desc.pastaDish": [
+    "Slurpy pasta tossed with {x}."
+  ],
+  "desc.riceBowl": [
+    "A comforting bowl of rice topped with {x}."
+  ],
+  "desc.parfait": [
+    "Layers of creamy yogurt and fruit."
+  ],
+  "desc.sugared": [
+    "Wearing a sparkly sugar coat."
+  ],
+  "desc.fruitSalad": [
+    "A colourful bowl of fresh fruit."
+  ],
+  "desc.salad": [
+    "Crunchy, fresh and full of colour.",
+    "A garden in a bowl."
+  ],
+  "desc.with": [
+    "{x}, with a little {y} on the side."
+  ],
+  "desc.boilingWater": [
+    "Bubbly, steamy and full of energy."
+  ],
+  "desc.coffee": [
+    "A strong little cup to wake you up."
+  ],
+  "desc.cupOfTea": [
+    "A proper cup of tea. Everything is better now."
+  ],
+  "desc.tea": [
+    "Steeped leaves and a quiet moment."
+  ],
+  "desc.caramel": [
+    "Melted sugar turned golden and gooey."
+  ],
+  "desc.melted": [
+    "Melted into a glossy puddle."
+  ],
+  "desc.roux": [
+    "Butter and flour, best friends forever."
+  ],
+  "desc.jam": [
+    "Sticky, sweet and perfect on toast."
+  ],
+  "desc.compote": [
+    "Soft stewed fruit, gentle as a lullaby."
+  ],
+  "desc.sauce": [
+    "Thick, glossy and full of flavour.",
+    "A sauce that wants to be on everything."
+  ],
+  "desc.stewed": [
+    "Slowly stewed until soft."
+  ],
+  "desc.scorched": [
+    "A pot with no water? Bold move.",
+    "It stuck to the bottom. It's fine. It's fine."
+  ],
+  "desc.bechamel": [
+    "A silky white sauce with French manners."
+  ],
+  "desc.hotMilk": [
+    "A mug of sleepy-time snuggles."
+  ],
+  "desc.warmDrink": [
+    "Warmed up for a chilly evening."
+  ],
+  "desc.simmered": [
+    "Simmered a little longer, a little deeper."
+  ],
+  "desc.cookedGnocchi": [
+    "Soft little pillows bobbing in a bowl."
+  ],
+  "desc.cookedPasta": [
+    "Boiled to a perfect bite."
+  ],
+  "desc.noodleSoup": [
+    "Slurpable noodles in a warm broth."
+  ],
+  "desc.ricePudding": [
+    "Creamy, sweet rice. Pure comfort."
+  ],
+  "desc.rice": [
+    "Every grain fluffy and happy."
+  ],
+  "desc.risotto": [
+    "Creamy rice, stirred with patience."
+  ],
+  "desc.porridge": [
+    "A warm bowl for slow mornings."
+  ],
+  "desc.boiledEgg": [
+    "Snug in its shell, a sunny secret inside."
+  ],
+  "desc.dumplings": [
+    "Soft little dumplings bobbing about."
+  ],
+  "desc.custard": [
+    "Silky, sweet and spoonable."
+  ],
+  "desc.curry": [
+    "Fragrant, golden and gently spicy."
+  ],
+  "desc.boiled": [
+    "Soft, steamy and very relaxed."
+  ],
+  "desc.stew": [
+    "A hearty pot that bubbled for ages."
+  ],
+  "desc.creamySoup": [
+    "Velvety, creamy and very cosy."
+  ],
+  "desc.soup": [
+    "A warm bowl of {x}, slurped with love.",
+    "Steamy, soothing and full of {x}."
+  ],
+  "desc.friedEgg": [
+    "Sunny side up, just like your mood."
+  ],
+  "desc.toast": [
+    "Crunchy on the outside, cosy on the inside."
+  ],
+  "desc.omelette": [
+    "Fluffy, folded and golden."
+  ],
+  "desc.flavOmelette": [
+    "A fluffy omelette filled with {x}."
+  ],
+  "desc.pancakes": [
+    "A tall, fluffy stack of Sunday morning."
+  ],
+  "desc.flavPancakes": [
+    "Fluffy pancakes with {x}."
+  ],
+  "desc.fritters": [
+    "Crispy little bites, fried golden."
+  ],
+  "desc.doughnuts": [
+    "Fried rings of sugary joy."
+  ],
+  "desc.flatbread": [
+    "Thin, soft and great at hugging fillings."
+  ],
+  "desc.flavFlatbread": [
+    "A soft flatbread with {x}."
+  ],
+  "desc.friedRice": [
+    "Wok-tossed rice, every grain shining."
+  ],
+  "desc.friedNoodles": [
+    "Noodles tossed in a hot pan."
+  ],
+  "desc.brownButter": [
+    "Nutty, toasty, golden-brown butter."
+  ],
+  "desc.steamPuff": [
+    "The water said goodbye. Only a puff remains."
+  ],
+  "desc.fries": [
+    "Golden, crispy and impossible to share."
+  ],
+  "desc.flavFries": [
+    "Crispy sticks of fried {x}."
+  ],
+  "desc.twice": [
+    "Cooked once, then cooked again for luck."
+  ],
+  "desc.stirfry": [
+    "Tossed fast in a sizzling pan."
+  ],
+  "desc.caramelized": [
+    "Sweet, sticky and deeply golden."
+  ],
+  "desc.friedCheese": [
+    "Crispy outside, gooey inside."
+  ],
+  "desc.panFried": [
+    "Sizzled until golden and crisp."
+  ],
+  "desc.sauteed": [
+    "Tossed in a hot pan with a happy sizzle."
+  ],
+  "desc.cookies": [
+    "Golden little circles of crumbly joy."
+  ],
+  "desc.flavCookies": [
+    "Crumbly cookies studded with {x}."
+  ],
+  "desc.crackers": [
+    "Crunchy, crisp and great with cheese."
+  ],
+  "desc.biscuits": [
+    "Buttery, crumbly and very British."
+  ],
+  "desc.bread": [
+    "A golden loaf that makes the kitchen smile."
+  ],
+  "desc.flavBread": [
+    "A warm loaf with {x} baked right in."
+  ],
+  "desc.pie": [
+    "A golden pie filled with {x}."
+  ],
+  "desc.pizza": [
+    "Crispy crust topped with {x}."
+  ],
+  "desc.cake": [
+    "Light, golden and ready for candles."
+  ],
+  "desc.flavCake": [
+    "A soft cake full of {x}."
+  ],
+  "desc.muffins": [
+    "Domed little cakes, perfect for pockets."
+  ],
+  "desc.bakedCustard": [
+    "Wobbly, golden and proud of it."
+  ],
+  "desc.frittata": [
+    "A thick, baked omelette with {x}."
+  ],
+  "desc.pastaBake": [
+    "Bubbling, golden and very comforting."
+  ],
+  "desc.croutons": [
+    "Crunchy little cubes for soups and salads."
+  ],
+  "desc.toasted": [
+    "Toasted until golden."
+  ],
+  "desc.granola": [
+    "Crunchy toasted oats."
+  ],
+  "desc.hotAir": [
+    "You baked... nothing. It's warm, at least."
+  ],
+  "desc.bakedPotato": [
+    "Toasty skin, fluffy heart."
+  ],
+  "desc.roast": [
+    "Roasted until golden and juicy."
+  ],
+  "desc.baked": [
+    "Baked soft and sweet."
+  ],
+  "desc.roastVeg": [
+    "A colourful tray of caramelised veg."
+  ],
+  "desc.roasted": [
+    "Roasted until sweet and golden at the edges."
+  ],
+  "desc.cornCob": [
+    "Charred, buttery and fun to nibble."
+  ],
+  "desc.skewers": [
+    "Threaded on sticks and kissed by flames."
+  ],
+  "desc.grilled": [
+    "Striped with smoky grill marks."
+  ],
+  "desc.buns": [
+    "Soft, white and pillowy."
+  ],
+  "desc.steamedDumplings": [
+    "Tender dumplings from the steamer."
+  ],
+  "desc.steamed": [
+    "Gently steamed, soft and bright."
+  ],
+  "desc.deepFrozen": [
+    "Frozen again. Extremely frozen."
+  ],
+  "desc.ice": [
+    "Little frozen cubes that go clink."
+  ],
+  "desc.iceCream": [
+    "Creamy, cold and made for sunny days."
+  ],
+  "desc.frozenYogurt": [
+    "Tangy, frosty and a bit fancy."
+  ],
+  "desc.icePop": [
+    "A frosty treat on a stick."
+  ],
+  "desc.sorbet": [
+    "Icy, fruity and refreshing."
+  ],
+  "desc.frozen": [
+    "Frozen solid. Brrr."
+  ],
+  "desc.ceviche": [
+    "Fresh fish 'cooked' in zingy citrus juice."
+  ],
+  "desc.marinated": [
+    "Soaked in flavour, nice and slow."
+  ],
+  "desc.macerated": [
+    "Soaked in sugar until juicy."
+  ],
+  "desc.pickled": [
+    "Tangy, crunchy and pleasantly sour."
+  ],
+  "desc.vintage": [
+    "Aged twice. Wise beyond its years."
+  ],
+  "desc.cheeseMade": [
+    "You made cheese! The cellar is very proud."
+  ],
+  "desc.vinegarOf": [
+    "Time turned it sharp and tangy."
+  ],
+  "desc.stale": [
+    "A bit hard now. Good for crumbs."
+  ],
+  "desc.sourdough": [
+    "A bubbly little pet for bakers."
+  ],
+  "desc.cured": [
+    "Salted and aged the old-fashioned way."
+  ],
+  "desc.fermented": [
+    "Funky, tangy and alive."
+  ],
+  "desc.overripe": [
+    "Soft, spotty and extra sweet."
+  ],
+  "desc.aged": [
+    "Left to rest in the cellar for a while."
+  ],
+  "desc.burnt": [
+    "Oops. A little too long on the heat.",
+    "Crunchy. Very, very crunchy.",
+    "It's black now. Let's call it 'rustic'."
+  ],
+  "desc.stillCharcoal": [
+    "Whatever you do, it stays charcoal.",
+    "Charcoal is very committed to being charcoal."
+  ],
+  "desc.crispy": [
+    "Fried again for maximum crunch."
+  ],
+  "desc.sweetMilk": [
+    "Milk with a spoonful of sweetness."
+  ],
+  "desc.charcoal": [
+    "This used to be food. Now it's art.",
+    "Great for drawing with, not for eating."
+  ],
+  "desc.lonely": [
+    "Just a {x}, on a big plate, all alone."
+  ],
+  "desc.plateOne": [
+    "{x}, beautifully plated."
+  ],
+  "desc.plateBurnt": [
+    "You plated it anyway. Respect."
+  ],
+  "desc.plateWith": [
+    "{x} served with {y}.",
+    "A plate of {x}, with {y} keeping it company."
+  ],
+  "desc.op.chop": [
+    "Chopped up neatly."
+  ],
+  "desc.op.boil": [
+    "Bubbled in the pot until tender."
+  ],
+  "desc.op.fry": [
+    "Sizzled in the pan until it sang."
+  ],
+  "desc.op.bake": [
+    "Baked golden in a warm oven."
+  ],
+  "desc.op.mix": [
+    "Stirred together in a big bowl."
+  ],
+  "desc.op.blend": [
+    "Whirred smooth in the blender."
+  ],
+  "desc.op.grind": [
+    "Ground down in the mortar."
+  ],
+  "desc.op.freeze": [
+    "Chilled until frosty."
+  ],
+  "desc.op.grill": [
+    "Grilled over gentle flames."
+  ],
+  "desc.op.marinate": [
+    "Soaked in flavour."
+  ],
+  "desc.op.steam": [
+    "Steamed soft and tender."
+  ],
+  "desc.op.age": [
+    "Rested in the cellar."
+  ],
+  "critic.open.5": [
+    "Magnifique!",
+    "I am speechless. Almost.",
+    "Pure poetry on a plate."
+  ],
+  "critic.open.4": [
+    "Ooh, now THIS is cooking.",
+    "A lovely plate.",
+    "I'm impressed, little chef."
+  ],
+  "critic.open.3": [
+    "Not bad at all.",
+    "A pleasant little plate.",
+    "I see what you're going for."
+  ],
+  "critic.open.2": [
+    "Hmm. Interesting.",
+    "Well... it's certainly food.",
+    "A brave attempt."
+  ],
+  "critic.open.1": [
+    "Oh dear.",
+    "My whiskers are trembling.",
+    "I... see."
+  ],
+  "critic.open.0": [
+    "Mon dieu.",
+    "I need a moment.",
+    "Is this a prank?"
+  ],
+  "critic.good.signature": [
+    "A true classic, made with respect.",
+    "{name}! Exactly as it should be."
+  ],
+  "critic.good.balance": [
+    "The flavours are beautifully balanced.",
+    "Everything is in perfect harmony."
+  ],
+  "critic.good.pairing": [
+    "{a} and {b} are such good friends.",
+    "Pairing {a} with {b}? Inspired."
+  ],
+  "critic.good.technique": [
+    "You clearly know your way around a kitchen.",
+    "So many techniques, all used well."
+  ],
+  "critic.good.complex": [
+    "Layers of flavour, one after another.",
+    "Every bite reveals something new."
+  ],
+  "critic.good.warm": [
+    "Served warm, the way comfort food should be.",
+    "Steaming and cosy. Lovely."
+  ],
+  "critic.good.sweetSalty": [
+    "That sweet and salty dance? Delightful.",
+    "Sweet meets salty. Perfection."
+  ],
+  "critic.good.fresh": [
+    "So fresh and bright!",
+    "It tastes like a sunny garden."
+  ],
+  "critic.good.rich": [
+    "Rich, deep and satisfying.",
+    "Indulgent in the best way."
+  ],
+  "critic.good.sweet": [
+    "A sweet treat to make anyone smile.",
+    "Dessert, done right."
+  ],
+  "critic.good.plated": [
+    "Well composed, with a thoughtful side.",
+    "The plate tells a little story."
+  ],
+  "critic.good.cool": [
+    "Refreshingly cold. Just what I needed."
+  ],
+  "critic.bad.raw": [
+    "Some of this needed cooking. My tummy is worried.",
+    "Raw {a}? Really?"
+  ],
+  "critic.bad.burnt": [
+    "It is... very well done.",
+    "I can taste the smoke alarm.",
+    "The burnt bits have their own burnt bits."
+  ],
+  "critic.bad.salty": [
+    "Too salty! I need a glass of water.",
+    "Did the salt shaker fall in?"
+  ],
+  "critic.bad.bitter": [
+    "Quite bitter, I'm afraid.",
+    "My tongue is frowning."
+  ],
+  "critic.bad.bland": [
+    "A little plain. It needs some personality.",
+    "Polite, but a bit shy on flavour."
+  ],
+  "critic.bad.busy": [
+    "So many things at once! My poor taste buds.",
+    "Too many cooks, too many ingredients."
+  ],
+  "critic.bad.clash": [
+    "{a} and {b}? They are not friends.",
+    "These flavours are arguing."
+  ],
+  "critic.bad.lonely": [
+    "Just one raw ingredient on a plate. Very... minimalist.",
+    "Did you forget to cook?"
+  ],
+  "critic.bad.sour": [
+    "Very sour! My whiskers curled.",
+    "Pucker up!"
+  ],
+  "critic.bad.spicy": [
+    "SPICY! Water, please!",
+    "My ears are steaming."
+  ],
+  "critic.bad.weird": [
+    "I have never seen anything like it. That's not a compliment.",
+    "This is... a choice."
+  ],
+  "critic.verdict.5": [
+    "Five stars, without hesitation.",
+    "I'll be dreaming about this."
+  ],
+  "critic.verdict.4": [
+    "Highly recommended.",
+    "I would happily order this again."
+  ],
+  "critic.verdict.3": [
+    "Solid. Keep going, little chef.",
+    "Good, with room to grow."
+  ],
+  "critic.verdict.2": [
+    "Keep practising, I believe in you.",
+    "Next time will be better!"
+  ],
+  "critic.verdict.1": [
+    "I'll stick to tea, thank you.",
+    "Let's pretend this never happened."
+  ],
+  "critic.verdict.0": [
+    "Please, never again.",
+    "I'm going to need a nap."
+  ],
+  "top.summary": "{n} dishes · ★ {avg} average",
+  "top.noDishes": "No dishes served yet",
+  "rack.label": "Hand tools",
+  "appliances.label": "Appliances",
+  "pantry.all": "All",
+  "pantry.veg": "Vegetables",
+  "pantry.fruit": "Fruit",
+  "pantry.dairy": "Dairy & Eggs",
+  "pantry.grains": "Grains & Baking",
+  "pantry.meat": "Meat & Fish",
+  "pantry.herbs": "Herbs, Spices & Tea",
+  "pantry.liquid": "Oils, Sauces & Water",
+  "pantry.sweet": "Sweets & Nuts",
+  "tool.hands": "Hands",
+  "tool.whisk": "Whisk",
+  "tool.spoon": "Spoon",
+  "tool.pin": "Rolling Pin",
+  "tool.masher": "Masher",
+  "tool.grater": "Grater",
+  "verb.knead": "Knead",
+  "verb.whisk": "Whisk",
+  "verb.roll": "Roll",
+  "verb.mash": "Mash",
+  "verb.grate": "Grate",
+  "handtool.label": "{tool}: {verb}. Drag it onto food, or pick food up first and press here.",
+  "handtool.hint": "Drag the {tool} onto some food, or tap the food first and then the {tool}.",
+  "appliance.label": "{tool}: {verb}. Drop food here, or pick food up first and press here.",
+  "appliance.hint": "Drop food into the {tool}, or tap the food first and then the {tool}.",
+  "plate.label": "Plate, holding {n} of {max}. Drop food here, then press Serve.",
+  "plate.full": "The plate is full! Serve it, or tap something on it to take it back.",
+  "chip.stackLabel": "A stack of {name}. Press Enter to pick it up, Delete to put it away.",
+  "chip.stackName": "Stack of {n}",
+  "toast.stackFull": "That stack is tall enough! Use a tool on it first ({n} things at most).",
+  "toast.newSig": "A classic dish!",
+  "review.saved": "Saved in your Recipe Book",
+  "book.summary": "{n} dishes served · ★ {avg} average",
+  "book.sort.newest": "Newest",
+  "book.sort.best": "Best",
+  "top.summaryOne": "1 dish · ★ {avg}",
+  "book.summaryOne": "1 dish served · ★ {avg}"
 }

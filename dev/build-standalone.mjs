@@ -63,7 +63,8 @@ const embedImages = (list) => {
 const ingredients = JSON.parse(read('data/ingredients.json'));
 const kitchen = JSON.parse(read('data/kitchen.json'));
 embedImages(ingredients.ingredients);
-embedImages(kitchen.tools);
+embedImages(kitchen.handTools);
+embedImages(kitchen.appliances);
 const packed = {
   'data/ingredients.json': ingredients,
   'data/kitchen.json': kitchen,

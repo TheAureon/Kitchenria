@@ -10,7 +10,7 @@ let failures = 0;
 const check = (ok, msg) => { console.log(`${ok ? '  ✓' : '  ✗'} ${msg}`); if (!ok) failures++; };
 
 async function center(page, sel) {
-  const loc = page.locator(sel).first();
+  const loc = typeof sel === 'string' ? page.locator(sel).first() : sel;
   await loc.scrollIntoViewIfNeeded().catch(() => {});
   const b = await loc.boundingBox();
   if (!b) throw new Error('Not found: ' + sel);
@@ -24,10 +24,10 @@ async function mouseDrag(page, from, to) {
   await page.waitForTimeout(350);
 }
 const tile = (id) => `.tile[data-id="${id}"]`;
-const station = (id) => `.station[data-tool="${id}"] .station-drop`;
-const go = (id) => `.station[data-tool="${id}"] .station-go`;
-const chipNamed = (page, name) => page.locator('#table .chip:not(.vanish)', { has: page.locator('.chip-name', { hasText: new RegExp(`^${name}$`) }) });
-const toStation = async (page, from, tool) => mouseDrag(page, await center(page, from), await center(page, station(tool)));
+const tool = (id) => `.hand-tool[data-tool="${id}"]`;
+const appliance = (id) => `.appliance[data-tool="${id}"] .appliance-drop`;
+const chip = (page, name) => page.locator('#table .chip:not(.vanish)', { has: page.locator('.chip-name', { hasText: new RegExp(`^${name}$`) }) });
+const chipAt = async (page, name) => center(page, chip(page, name).first());
 
 (async () => {
   const browser = await chromium.launch();
@@ -46,138 +46,135 @@ const toStation = async (page, from, tool) => mouseDrag(page, await center(page,
   await page.waitForSelector('body.ready');
   await page.screenshot({ path: SHOTS + 'desktop-empty.png' });
 
-  check(await page.locator('.tile').count() === 16, '16 starter ingredients in the pantry');
-  check(await page.locator('.station:not(.locked)').count() === 6, '6 tools ready (knife, pot, pan, oven, bowl, plate)');
-  check(await page.locator('.station.locked').count() === 7, '7 tools locked until later ranks');
+  check(await page.locator('.tile').count() === 52, 'all 52 ingredients are in the pantry from the start (no unlocks)');
+  check(await page.locator('.shelf-section').count() === 8, 'the pantry is sorted into 8 sections');
+  check(await page.locator('.hand-tool').count() === 8, '8 hand tools hang on the wall rail');
+  check(await page.locator('.appliance').count() === 10, '10 appliances on the counter (with the plate first)');
 
-  // knife works instantly
-  await toStation(page, tile('tomato'), 'knife');
-  await page.waitForTimeout(500);
-  check(await chipNamed(page, 'Chopped Tomato').count() === 1, 'tomato into the knife → Chopped Tomato on the counter');
-  check(await page.locator('.toast-new').count() >= 1, 'new creation message shown');
-  check(await page.locator(tile(await chipNamed(page, 'Chopped Tomato').getAttribute('data-id'))).count() === 1, 'Chopped Tomato added to the pantry');
+  // stacking: food on food makes a stack, nothing is combined yet
+  await mouseDrag(page, await center(page, tile('flour')), [320, 560]);
+  await mouseDrag(page, await center(page, tile('water')), [322, 560]);
+  check(await chip(page, 'Stack of 2').count() === 1, 'water dropped on flour makes a stack (nothing combined yet)');
+  await mouseDrag(page, await center(page, tile('salt')), [324, 556]);
+  check(await chip(page, 'Stack of 3').count() === 1, 'adding salt makes a stack of 3');
+  check((await page.locator('#table .chip.is-stack .stack-list span').allTextContents()).join(',') === 'Flour,Water,Salt', 'the stack remembers what is in it');
 
-  // pot collects things, Boil! cooks them
-  await toStation(page, tile('potato'), 'pot');
-  await toStation(page, tile('water'), 'pot');
-  check(await page.locator('.station[data-tool="pot"] .slot.full').count() === 2, 'pot holds potato + water');
-  await page.click(go('pot'));
+  // hand tools
+  await mouseDrag(page, await center(page, tool('hands')), await chipAt(page, 'Stack of 3'));
+  check(await chip(page, 'Dough').count() === 1, 'hands knead the stack → Dough');
+  await mouseDrag(page, await center(page, tool('pin')), await chipAt(page, 'Dough'));
+  check(await chip(page, 'Pizza Base').count() === 1, 'rolling pin on dough → Pizza Base');
+  await page.screenshot({ path: SHOTS + 'desktop-kneading.png' });
+
+  await mouseDrag(page, await center(page, tile('tomato')), [600, 560]);
+  await mouseDrag(page, await center(page, tool('knife')), await chipAt(page, 'Tomato'));
+  check(await chip(page, 'Chopped Tomato').count() === 1, 'knife on tomato → Chopped Tomato');
+
+  // appliances cook straight away
+  await mouseDrag(page, await chipAt(page, 'Chopped Tomato'), await center(page, appliance('pot')));
   await page.waitForTimeout(1100);
-  check(await chipNamed(page, 'Boiled Potato').count() === 1, 'Boil! → Boiled Potato');
-  check(await page.locator('.station[data-tool="pot"] .slot.full').count() === 0, 'pot is empty again');
+  check(await chip(page, 'Tomato Sauce').count() === 1, `chopped tomato into the pot → Tomato Sauce (${(await page.locator('#table .chip-name').allTextContents()).join(', ')})`);
 
-  // mixing two things on the counter
-  await mouseDrag(page, await center(page, tile('flour')), [300, 560]);
-  await mouseDrag(page, await center(page, tile('water')), [304, 562]);
-  check(await chipNamed(page, 'Dough').count() === 1, 'water dropped on flour → Dough');
+  await mouseDrag(page, await center(page, tile('cheese')), [800, 600]);
+  await mouseDrag(page, await center(page, tool('grater')), await chipAt(page, 'Cheese'));
+  check(await chip(page, 'Grated Cheese').count() === 1, 'grater on cheese → Grated Cheese');
 
-  // dough into the oven
-  await mouseDrag(page, await center(page, '#table .chip[data-id] >> text=Dough'), await center(page, station('oven')));
-  await page.click(go('oven'));
+  // pizza: stack base + sauce + cheese, into the oven
+  const base = await chipAt(page, 'Pizza Base');
+  await mouseDrag(page, await chipAt(page, 'Tomato Sauce'), base);
+  await mouseDrag(page, await chipAt(page, 'Grated Cheese'), base);
+  check(await chip(page, 'Stack of 3').count() === 1, 'pizza base + sauce + cheese stacked');
+  await mouseDrag(page, await chipAt(page, 'Stack of 3'), await center(page, appliance('oven')));
   await page.waitForTimeout(1100);
-  check(await chipNamed(page, 'Bread').count() === 1, 'Bake! → Bread');
-  await page.screenshot({ path: SHOTS + 'desktop-cooking.png' });
+  check(await chip(page, 'Cheese Pizza').count() === 1, 'the stack into the oven → Cheese Pizza');
+  check(await page.locator('.toast-sig').count() >= 1, 'a classic dish is celebrated');
+  await page.screenshot({ path: SHOTS + 'desktop-pizza.png' });
 
-  // tap to pick up, tap a tool: fried egg
+  // tapping instead of dragging: tap egg, tap whisk; tap result, tap pan
   await page.click(tile('egg'));
   await page.waitForTimeout(300);
-  await chipNamed(page, 'Egg').click();
+  await chip(page, 'Egg').click();
   check(await page.locator('#table .chip.selected').count() === 1, 'tapping food picks it up');
-  await page.click(station('pan'));
-  await page.click(go('pan'));
-  await page.waitForTimeout(1100);
-  check(await chipNamed(page, 'Fried Egg').count() === 1, 'tap egg, tap pan, Fry! → Fried Egg');
-
-  // keyboard: Enter on a chip, Enter on a tool
-  await page.click(tile('apple'));
+  await page.click(tool('whisk'));
   await page.waitForTimeout(300);
-  await chipNamed(page, 'Apple').focus(); await page.keyboard.press('Enter');
-  await page.focus(station('knife')); await page.keyboard.press('Enter');
-  await page.waitForTimeout(700);
-  check(await chipNamed(page, 'Sliced Apple').count() === 1, 'keyboard: apple + knife → Sliced Apple');
+  check(await chip(page, 'Whisked Eggs').count() === 1, 'tap egg, tap whisk → Whisked Eggs');
+  await chip(page, 'Whisked Eggs').click();
+  await page.click(appliance('pan'));
+  await page.waitForTimeout(1100);
+  check(await chip(page, 'Omelette').count() === 1, 'tap whisked eggs, tap pan → Omelette');
 
-  // taking something back out of a tool
-  await toStation(page, tile('salt'), 'pan');
-  await page.click('.station[data-tool="pan"] .slot.full');
+  // keyboard: Enter on food, Enter on a hand tool
+  await page.click(tile('potato'));
+  await page.waitForTimeout(300);
+  await chip(page, 'Potato').focus(); await page.keyboard.press('Enter');
+  await page.focus(tool('grater')); await page.keyboard.press('Enter');
+  await page.waitForTimeout(300);
+  check(await chip(page, 'Grated Potato').count() === 1, `keyboard: potato + grater → Grated Potato (${(await page.locator('#table .chip-name').allTextContents()).join(', ')} | selected: ${await page.locator('#table .chip.selected').count()})`);
+  await chip(page, 'Grated Potato').focus(); await page.keyboard.press('Enter');
+  await page.focus(appliance('pan')); await page.keyboard.press('Enter');
+  await page.waitForTimeout(1100);
+  check(await chip(page, 'Hash Browns').count() === 1, 'keyboard: grated potato into the pan → Hash Browns');
+
+  // double-click a stack to spread it out
+  await mouseDrag(page, await center(page, tile('apple')), [200, 650]);
+  await mouseDrag(page, await center(page, tile('banana')), [202, 650]);
+  await chip(page, 'Stack of 2').dblclick();
   await page.waitForTimeout(400);
-  check(await page.locator('.station[data-tool="pan"] .slot.full').count() === 0 && await chipNamed(page, 'Salt').count() === 1, 'tapping a filled slot puts it back on the counter');
+  check(await chip(page, 'Apple').count() === 1 && await chip(page, 'Banana').count() === 1, 'double-clicking a stack spreads it out');
 
-  // a full tool says no
-  for (const id of ['sugar', 'sugar', 'sugar', 'sugar', 'sugar']) await toStation(page, tile(id), 'bowl');
-  check(await page.locator('.station[data-tool="bowl"] .slot.full').count() === 4, 'the bowl holds at most 4 things');
-  for (let i = 0; i < 4; i++) { await page.click('.station[data-tool="bowl"] .slot.full'); await page.waitForTimeout(150); }
+  // stack limit
+  for (let i = 0; i < 7; i++) await mouseDrag(page, await center(page, tile('sugar')), [120, 420]);
+  check(await chip(page, 'Stack of 6').count() === 1, 'a stack holds at most 6 things');
 
-  // serve to the critic
-  await mouseDrag(page, await center(page, '#table .chip >> text=Fried Egg'), await center(page, station('plate')));
-  await mouseDrag(page, await center(page, '#table .chip >> text=Chopped Tomato'), await center(page, station('plate')));
-  await page.click(go('plate'));
+  // plate & serve
+  await mouseDrag(page, await chipAt(page, 'Cheese Pizza'), await center(page, appliance('plate')));
+  await mouseDrag(page, await chipAt(page, 'Banana'), await center(page, appliance('plate')));
+  check(await page.locator('.appliance[data-tool="plate"] .slot.full').count() === 2, 'pizza and banana on the plate');
+  await page.click('.appliance[data-tool="plate"] .slot.full >> nth=1');
+  await page.waitForTimeout(300);
+  check(await page.locator('.appliance[data-tool="plate"] .slot.full').count() === 1 && await chip(page, 'Banana').count() === 1, 'tapping the banana on the plate takes it back');
+  await page.click('.appliance[data-tool="plate"] .serve-btn');
   await page.waitForSelector('#review[open]', { timeout: 3000 });
   await page.waitForTimeout(1800);
-  const dish = await page.textContent('#review .review-dish');
+  const dish = (await page.textContent('#review .review-dish')).trim().replace(/\s+/g, ' ');
   const score = await page.textContent('#review .review-score');
-  check(/Fried Egg/.test(dish), `the critic reviews the plated dish ("${dish.trim().replace(/\s+/g, ' ')}")`);
-  check(/^\d\.\d$/.test(score) && +score >= 0 && +score <= 5, `a star score between 0.0 and 5.0 (${score})`);
+  check(/Cheese Pizza/.test(dish), `the critic reviews the dish ("${dish}")`);
+  check(/^\d\.\d$/.test(score), `a star score between 0.0 and 5.0 (${score})`);
   check((await page.textContent('#review blockquote')).length > 20, 'a written review');
   await page.screenshot({ path: SHOTS + 'desktop-review.png' });
   await page.click('#review .big-btn');
   await page.waitForTimeout(400);
-  check(!(await page.locator('#review[open]').count()), 'the review closes');
+  check(/1 dish /.test(await page.textContent('#book-summary')), `top bar shows the dish (${await page.textContent('#book-summary')})`);
 
-  // cookbook
+  // the recipe book keeps finished dishes only
   await page.click('#btn-book');
-  await page.waitForSelector('#cookbook[open]');
-  check(await page.locator('#cookbook .dish-card').count() === 1, 'the cookbook lists the served dish');
-  await page.click('#cookbook [data-tab="ranks"]');
-  check(await page.locator('#cookbook .rank-row').count() === 10, 'the cookbook shows 10 chef ranks');
-  await page.click('#cookbook [data-tab="classics"]');
-  check(await page.locator('#cookbook .classic').count() > 50, 'the classics collection is listed');
-  await page.screenshot({ path: SHOTS + 'desktop-cookbook.png' });
+  await page.waitForSelector('#book[open]');
+  check(await page.locator('#book .dish-card').count() === 1, 'the Recipe Book has the served dish');
+  await page.click('#book [data-tab="classics"]');
+  check(await page.locator('#book .classic.found').count() >= 1, 'classics collection shows Cheese Pizza');
+  await page.screenshot({ path: SHOTS + 'desktop-book.png' });
   await page.keyboard.press('Escape');
 
-  // rank up after enough points
-  const rank = await page.textContent('#rank-name');
-  check(rank === 'Prep Cook', `ranked up to Prep Cook (${rank}; ${await page.textContent('#rank-points')})`);
-  check(await page.locator('.station[data-tool="blender"]:not(.locked)').count() === 1, 'rank 2 unlocks the blender');
-  check(await page.locator(tile('carrot')).count() === 1, 'rank 2 unlocks the garden basket (carrot)');
-
-  // a classic dish: pasta with tomato sauce
-  const cookTo = async (tool, ids) => {
-    for (const id of ids) await toStation(page, id.startsWith('.') || id.startsWith('#') ? id : tile(id), tool);
-    if (tool !== 'knife') await page.click(go(tool));
-    await page.waitForTimeout(1100);
-  };
-  await page.click('#btn-clear'); await page.waitForTimeout(400);
-  await cookTo('bowl', ['flour', 'egg']);                       // pasta dough
-  await cookTo('knife', ['#table .chip >> text=Pasta Dough']);  // fresh pasta
-  await cookTo('pot', ['#table .chip >> text=Fresh Pasta', 'water']);
-  await cookTo('knife', ['tomato']);
-  await cookTo('pot', ['#table .chip >> text=Chopped Tomato', 'onion']);
-  const sauce = await page.locator('#table .chip-name', { hasText: 'Sauce' }).first().textContent();
-  await mouseDrag(page, await center(page, `#table .chip >> text=${sauce}`), await center(page, '#table .chip >> text=/^Pasta$/'));
-  check(await chipNamed(page, 'Spaghetti Pomodoro').count() === 1, `pasta + ${sauce} → Spaghetti Pomodoro (a classic)`);
-  check(await page.locator('.toast-sig').count() >= 1, 'classic dish celebration shown');
-  await page.screenshot({ path: SHOTS + 'desktop-classic.png' });
-
-  // search
-  await page.fill('#shelf-search', 'toma');
+  // pantry sections and search
+  await page.click('[data-section="fruit"]');
+  check(await page.locator('.tile').count() === 8 && await page.locator('.shelf-section').count() === 1, 'the Fruit tab shows only fruit');
+  await page.click('[data-section="all"]');
+  await page.fill('#shelf-search', 'pep');
   await page.waitForTimeout(100);
   const names = await page.locator('.tile .tile-name').allTextContents();
-  check(names.length >= 2 && names.every((n) => /toma/i.test(n)), `search "toma" (${names.join(', ')})`);
+  check(names.length === 2 && names.every((n) => /pep/i.test(n)), `search "pep" (${names.join(', ')})`);
   await page.fill('#shelf-search', '');
-  await page.click('[data-filter="signature"]');
-  check(await page.locator('.tile').count() >= 1, 'Classics filter shows Spaghetti Pomodoro');
-  await page.click('[data-filter="all"]');
 
   // saving
-  await toStation(page, tile('cheese'), 'oven');
-  const before = await page.textContent('#creations-text');
+  await mouseDrag(page, await chipAt(page, 'Omelette'), await center(page, appliance('plate')));
+  const before = await page.locator('#table .chip').count();
   await page.waitForTimeout(600);
   await page.reload();
   await page.waitForSelector('body.ready');
-  check(await page.textContent('#creations-text') === before, `after reload: same creations count (${before})`);
-  check(await page.textContent('#rank-name') === 'Prep Cook', 'after reload: rank kept');
-  check(await page.locator('.station[data-tool="oven"] .slot.full').count() === 1, 'after reload: the cheese is still in the oven');
-  check(await chipNamed(page, 'Spaghetti Pomodoro').count() === 1, 'after reload: the counter is restored');
+  check(await page.locator('#table .chip').count() === before, `after reload: the counter is the same (${before} things)`);
+  check(await chip(page, 'Stack of 6').count() === 1, 'after reload: the stack is still a stack');
+  check(await page.locator('.appliance[data-tool="plate"] .slot.full').count() === 1, 'after reload: the omelette is still on the plate');
+  check(/1 dish /.test(await page.textContent('#book-summary')), 'after reload: the Recipe Book is kept');
   await page.screenshot({ path: SHOTS + 'desktop-after.png' });
 
   // ---------------- mobile (real touch events) ----------------
@@ -197,25 +194,24 @@ const toStation = async (page, from, tool) => mouseDrag(page, await center(page,
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
     await mp.waitForTimeout(500);
   };
-  check(await mp.locator('.tile').count() === 16, 'pantry at the bottom with 16 ingredients');
-  await touchDrag(await center(mp, tile('potato')), await center(mp, station('knife')));
-  check(await chipNamed(mp, 'Chopped Potato').count() === 1, 'touch: pull potato up into the knife');
-  await touchDrag(await center(mp, '#table .chip >> text=Chopped Potato'), await center(mp, station('pan')));
-  await touchDrag(await center(mp, tile('oil')), await center(mp, station('pan')));
-  await mp.tap(go('pan'));
-  await mp.waitForTimeout(1200);
-  check(await chipNamed(mp, 'Fries').count() === 1, 'touch: chopped potato + oil, Fry! → Fries');
+  check(await mp.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'nothing sticks out sideways on a phone');
+  await touchDrag(await center(mp, tile('potato')), [195, 420]);
+  check(await chip(mp, 'Potato').count() === 1, 'touch: pull a potato up onto the counter');
+  await touchDrag(await center(mp, tool('knife')), await chipAt(mp, 'Potato'));
+  check(await chip(mp, 'Chopped Potato').count() === 1, 'touch: pull the knife down onto it → Chopped Potato');
+  await touchDrag(await chipAt(mp, 'Chopped Potato'), await center(mp, appliance('pan')));
+  await mp.waitForTimeout(1100);
+  check(await chip(mp, 'Fries').count() === 1, 'touch: into the pan → Fries');
   await mp.screenshot({ path: SHOTS + 'phone.png' });
-  const sl0 = await mp.evaluate(() => document.getElementById('shelf-grid').scrollLeft);
   const g = await center(mp, '#shelf-grid');
+  const sl0 = await mp.evaluate(() => document.getElementById('shelf-grid').scrollLeft);
   await touchDrag([g[0] + 120, g[1]], [g[0] - 140, g[1] + 4]);
-  const sl1 = await mp.evaluate(() => document.getElementById('shelf-grid').scrollLeft);
-  check(sl1 > sl0, `touch: sideways swipe scrolls the pantry (${sl0} → ${sl1})`);
-  const st0 = await mp.evaluate(() => document.getElementById('stations').scrollLeft);
-  const sg = await center(mp, '#stations');
-  await touchDrag([sg[0] + 120, sg[1] + 40], [sg[0] - 140, sg[1] + 44]);
-  check(await mp.evaluate(() => document.getElementById('stations').scrollLeft) > st0, 'touch: the row of tools scrolls sideways');
-  check(await mp.locator('#table .chip').count() === 1, 'touch: swiping did not drop anything');
+  check(await mp.evaluate(() => document.getElementById('shelf-grid').scrollLeft) > sl0, 'touch: sideways swipe scrolls the pantry');
+  const r = await center(mp, '#rack');
+  const rl0 = await mp.evaluate(() => document.getElementById('rack').scrollLeft);
+  await touchDrag([r[0] + 120, r[1] + 10], [r[0] - 120, r[1] + 12]);
+  check(await mp.evaluate(() => document.getElementById('rack').scrollLeft) > rl0, 'touch: sideways swipe scrolls the hand tools');
+  check(await mp.locator('#table .chip').count() === 1, 'touch: swiping did not drop or use anything');
 
   // ---------------- one-file version, opened straight from disk ----------------
   console.log('One-file index.html (double-clicked, no server):');
@@ -227,16 +223,16 @@ const toStation = async (page, from, tool) => mouseDrag(page, await center(page,
   watch(fp, 'file');
   await fp.goto('file://' + path.resolve(__dirname, '..', 'index.html'));
   await fp.waitForSelector('body.ready', { timeout: 5000 });
-  check(await fp.locator('.tile').count() === 16, 'opens from disk with 16 ingredients');
+  check(await fp.locator('.tile').count() === 52, 'opens from disk with all 52 ingredients');
   check(await fp.locator('#boot-error').isHidden(), 'no "didn\'t open" message');
-  await toStation(fp, tile('tomato'), 'knife');
-  await fp.waitForTimeout(500);
-  check(await chipNamed(fp, 'Chopped Tomato').count() === 1, 'tomato + knife → Chopped Tomato');
+  await mouseDrag(fp, await center(fp, tile('tomato')), [500, 560]);
+  await mouseDrag(fp, await center(fp, tool('knife')), await chipAt(fp, 'Tomato'));
+  check(await chip(fp, 'Chopped Tomato').count() === 1, 'tomato + knife → Chopped Tomato');
   check(await fp.evaluate(() => document.fonts.check('16px Fredoka')), 'the cosy font is loaded');
   await fp.waitForTimeout(500);
   await fp.reload();
   await fp.waitForSelector('body.ready');
-  check(await fp.textContent('#creations-text') === '1 creations' || /^1 /.test(await fp.textContent('#creations-text')), 'progress is saved between visits');
+  check(await chip(fp, 'Chopped Tomato').count() === 1, 'the counter is saved between visits');
 
   // ---------------- art gallery ----------------
   const gp = await ctx.newPage();

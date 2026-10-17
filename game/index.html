@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Kitchenria</title>
-  <meta name="description" content="A cosy cooking game with endless recipes. Chop, boil, fry and bake anything, then serve it to the critic.">
+  <meta name="description" content="A cosy cooking game. Stack ingredients, knead, chop, whisk, fry and bake them, then serve your dish to the critic.">
   <meta name="theme-color" content="#f6ead6">
   <link rel="stylesheet" href="css/main.css">
   <script type="module" src="js/main.js"></script>
@@ -18,18 +18,11 @@
       <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 18 Q7 33 20 34 Q33 33 33 18 Z" fill="#e8584c" stroke="#4a3426" stroke-width="2.4" stroke-linejoin="round"/><path d="M5 18 H35" stroke="#4a3426" stroke-width="2.6" stroke-linecap="round"/><path d="M15 13 q-2 -4 1 -8 M24 13 q-2 -4 1 -8" fill="none" stroke="#4a3426" stroke-width="2" stroke-linecap="round" opacity=".5"/></svg>
       <span data-i18n="app.title">Kitchenria</span>
     </h1>
-    <button id="btn-rank" class="rank-pill" type="button" aria-live="polite">
-      <span class="rank-hat" aria-hidden="true">
-        <svg viewBox="0 0 40 40"><path d="M10 22 Q4 20 6 13 Q9 7 15 10 Q17 3 23 5 Q29 4 30 11 Q37 10 35 17 Q34 22 30 22 Z" fill="#fffaf2" stroke="#4a3426" stroke-width="2.4" stroke-linejoin="round"/><rect x="11" y="21" width="18" height="9" rx="2" fill="#fffaf2" stroke="#4a3426" stroke-width="2.4"/></svg>
-      </span>
-      <span class="rank-text"><strong id="rank-name">…</strong><span id="rank-points">…</span></span>
-      <span class="rank-track" aria-hidden="true"><span id="rank-bar"></span></span>
-    </button>
-    <span id="creations-text" class="creations"></span>
+    <span id="book-summary" class="book-summary" aria-live="polite"></span>
     <div class="top-actions">
       <button id="btn-book" class="icon-btn" type="button" data-i18n-attr="aria-label:top.book;title:top.book">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5 q4 -2 8 1 q4 -3 8 -1 v13 q-4 -2 -8 1 q-4 -3 -8 -1 z" stroke-width="2"/><path d="M12 6 v13" stroke-width="1.8"/></svg>
-        <span class="btn-label" data-i18n="top.book">Cookbook</span>
+        <span class="btn-label" data-i18n="top.book">Recipe Book</span>
       </button>
       <button id="btn-clear" class="icon-btn" type="button" data-i18n-attr="title:top.clearHint;aria-label:top.clear">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3 L10 11" stroke-width="2.2"/><path d="M6 12 h9 l2 8 h-13 z" stroke-width="2"/><path d="M8 16 v3 M11 16 v3 M14 16 v3" stroke-width="1.6"/></svg>
@@ -43,8 +36,8 @@
   <main class="layout">
     <!-- ===== kitchen scene: back wall + table ===== -->
     <section class="scene" aria-labelledby="table-title">
-      <div class="wall" aria-hidden="true">
-        <svg class="window" viewBox="0 0 160 110">
+      <div class="wall">
+        <svg class="window" aria-hidden="true" viewBox="0 0 160 110">
           <defs>
             <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe3f2"/><stop offset="1" stop-color="#fbe9cf"/></linearGradient>
             <clipPath id="glass"><rect x="8" y="8" width="144" height="94" rx="10"/></clipPath>
@@ -58,7 +51,10 @@
           <path d="M2 100 H158" stroke="#4a3426" stroke-width="6" stroke-linecap="round"/>
           <path d="M3 99 H157" stroke="#d9a66b" stroke-width="3" stroke-linecap="round"/>
         </svg>
-        <svg class="plant" viewBox="0 0 70 110">
+        <div class="rail-wrap">
+          <div id="rack" class="rack" role="group" data-i18n-attr="aria-label:rack.label"></div>
+        </div>
+        <svg class="plant" viewBox="0 0 70 110" aria-hidden="true">
           <path d="M35 0 V22" stroke="#4a3426" stroke-width="2"/>
           <g class="sway">
             <path d="M18 50 Q8 70 14 92 M30 56 Q26 80 34 104 M50 52 Q62 72 56 96" fill="none" stroke="#5f9e45" stroke-width="3" stroke-linecap="round"/>
@@ -73,17 +69,9 @@
             <path d="M14 30 L35 22 L56 30" fill="none" stroke="#4a3426" stroke-width="1.6"/>
           </g>
         </svg>
-        <svg class="jars" viewBox="0 0 150 80">
-          <rect x="22" y="22" width="22" height="32" rx="6" fill="#f6dc9a" stroke="#4a3426" stroke-width="2.4"/><rect x="24" y="15" width="18" height="8" rx="2" fill="#e2884f" stroke="#4a3426" stroke-width="2"/>
-          <rect x="54" y="14" width="26" height="40" rx="7" fill="#cfe8ee" stroke="#4a3426" stroke-width="2.4"/><rect x="57" y="7" width="20" height="8" rx="2" fill="#79b55a" stroke="#4a3426" stroke-width="2"/><circle cx="67" cy="36" r="6" fill="#e8584c" opacity=".8"/>
-          <rect x="90" y="28" width="18" height="26" rx="5" fill="#f2c9d4" stroke="#4a3426" stroke-width="2.4"/><rect x="92" y="22" width="14" height="7" rx="2" fill="#d48a3a" stroke="#4a3426" stroke-width="2"/>
-          <path d="M116 54 q4 -18 12 -22 q2 12 -4 22" fill="#79b55a" stroke="#4a3426" stroke-width="2"/>
-          <path d="M8 56 H142" stroke="#4a3426" stroke-width="6" stroke-linecap="round"/><path d="M9 55 H141" stroke="#d9a66b" stroke-width="3" stroke-linecap="round"/>
-          <path d="M24 58 L30 70 M126 58 L120 70" stroke="#4a3426" stroke-width="3" stroke-linecap="round"/>
-        </svg>
       </div>
 
-      <div id="stations" class="stations" role="group" data-i18n-attr="aria-label:stations.label"></div>
+      <div id="appliances" class="appliances" role="group" data-i18n-attr="aria-label:appliances.label"></div>
       <h2 id="table-title" class="visually-hidden" data-i18n="table.label">Kitchen counter</h2>
       <div id="table" class="table" role="application" data-i18n-attr="aria-label:table.label">
         <p id="table-hint" class="table-hint">
@@ -98,28 +86,17 @@
     <aside id="shelf" class="shelf" aria-labelledby="shelf-title">
       <div class="shelf-head">
         <button id="shelf-toggle" class="shelf-toggle" type="button" aria-expanded="true" aria-controls="shelf-body">
-          <h2 id="shelf-title"><span data-i18n="shelf.title">Pantry</span> <span id="shelf-count" class="count">0</span></h2>
+          <h2 id="shelf-title"><span data-i18n="shelf.title">Pantry</span></h2>
         </button>
         <div class="shelf-tools">
           <label class="search">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6" stroke-width="2.2"/><path d="M15 15 L20 20" stroke-width="2.4"/></svg>
             <input id="shelf-search" type="search" autocomplete="off" data-i18n-attr="placeholder:shelf.search;aria-label:shelf.search">
           </label>
-          <select id="shelf-sort" data-i18n-attr="aria-label:shelf.sort">
-            <option value="found" data-i18n="shelf.sort.found">Newest first</option>
-            <option value="oldest" data-i18n="shelf.sort.oldest">Oldest first</option>
-            <option value="az" data-i18n="shelf.sort.az">A to Z</option>
-            <option value="type" data-i18n="shelf.sort.type">By kind</option>
-          </select>
         </div>
       </div>
       <div id="shelf-body" class="shelf-body">
-        <div class="filters" role="group" data-i18n-attr="aria-label:shelf.filter">
-          <button type="button" data-filter="all" data-i18n="shelf.filter.all">All</button>
-          <button type="button" data-filter="ingredient" data-i18n="shelf.filter.ingredient">Ingredients</button>
-          <button type="button" data-filter="creation" data-i18n="shelf.filter.creation">Creations</button>
-          <button type="button" data-filter="signature" data-i18n="shelf.filter.signature">Classics</button>
-        </div>
+        <div id="shelf-tabs" class="filters" role="group" data-i18n-attr="aria-label:shelf.filter"></div>
         <div id="shelf-grid" class="shelf-grid"></div>
       </div>
     </aside>
@@ -127,7 +104,7 @@
 
   <!-- pop-up windows -->
   <dialog id="review" class="sheet review"></dialog>
-  <dialog id="cookbook" class="sheet cookbook"></dialog>
+  <dialog id="book" class="sheet book-dialog"></dialog>
 
   <!-- floating layers -->
   <div id="drag-layer" class="drag-layer"></div>

@@ -1,24 +1,12 @@
-// kitchen.js — cooking and serving: asks the food engine for a result, remembers it,
-// and hands out points. No drawing happens here; the stations and the counter show the results.
+// kitchen.js — cooking and serving: asks the food engine for a result and remembers it.
+// No drawing happens here; the counter, tools and review card show the results.
 
 import { db, getItem } from './data.js';
-import { state, save, addToPantry } from './state.js';
-import { recordMade, recordServe } from './progress.js';
+import { state, save } from './state.js';
 import { scoreDish } from './critic.js';
 import { t, pick } from './i18n.js';
 
-/** Stores a new result, or finds the same thing you already made (same recipe or same name). */
-function remember(result) {
-  const known = state.keyIndex[result.key] || state.nameIndex[result.name.toLowerCase()];
-  if (known && getItem(known)) {
-    state.keyIndex[result.key] = known;
-    return { item: getItem(known), isNew: false };
-  }
-  state.creations[result.id] = result;
-  state.keyIndex[result.key] = result.id;
-  state.nameIndex[result.name.toLowerCase()] = result.id;
-  return { item: result, isNew: true };
-}
+const seenKeys = new Set(); // recipes made during this visit, for the "New!" sparkle
 
 function noteSignature(sigId) {
   if (!sigId || state.signatures.includes(sigId)) return false;
@@ -27,36 +15,35 @@ function noteSignature(sigId) {
 }
 
 /**
- * Cooks the given item ids with a tool action (chop, boil, mix…).
- * @returns {{ item, isNew, isNewSig, events }}
+ * Uses a tool (knead, chop, boil, fry…) on some food (ids, or the food items themselves).
+ * @returns {{ item, isNew, isNewSig }}
  */
-export function cook(op, ids) {
-  const items = ids.map(getItem).filter(Boolean);
+export function cook(op, foods) {
+  const items = foods.map((f) => (typeof f === 'string' ? getItem(f) : f)).filter(Boolean);
   if (!items.length) return null;
-  const { item, isNew } = remember(db.engine.cook(op, items));
-  if (isNew) addToPantry(item.id);
+  const item = db.engine.cook(op, items);
+  state.creations[item.id] = item;
+  const isNew = !seenKeys.has(item.name);
+  seenKeys.add(item.name);
   const isNewSig = noteSignature(item.sig);
-  const events = recordMade(item, { isNew, isNewSig });
   save();
-  return { item, isNew, isNewSig, events };
+  return { item, isNew, isNewSig };
 }
 
 /**
- * Plates the given items and lets the critic taste them.
- * @returns {{ dish, score, firstTime, isNewSig, earned, events }}
+ * Plates food and lets the critic taste it. The dish goes into the Recipe Book.
+ * @returns {{ dish, score, firstTime, isNewSig }}
  */
 export function serve(ids) {
   const items = ids.map(getItem).filter(Boolean);
   if (!items.length) return null;
-  const { item: dish } = remember(db.engine.plate(items));
+  const dish = db.engine.plate(items);
   const score = scoreDish(dish, { t, pick, ING: db.engine.ING });
-  const firstTime = !state.served[dish.id];
-  const isNewSig = noteSignature(dish.sig);
-  const rec = state.served[dish.id] || { stars: score.stars, review: score.review, times: 0, first: Date.now() };
+  const firstTime = !state.dishes[dish.id];
+  const isNewSig = noteSignature(dish.sig) || noteSignature(dish.mainSig);
+  const rec = state.dishes[dish.id] || { dish, stars: score.stars, review: score.review, times: 0, first: Date.now() };
   rec.times++; rec.last = Date.now();
-  state.served[dish.id] = rec;
-  const { earned, events } = recordServe(dish, score, { firstTime });
-  const sigEvents = isNewSig ? recordMade(dish, { isNew: false, isNewSig }) : [];
+  state.dishes[dish.id] = rec;
   save();
-  return { dish, score, firstTime, isNewSig, earned, events: events.concat(sigEvents) };
+  return { dish, score, firstTime, isNewSig };
 }

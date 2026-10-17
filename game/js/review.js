@@ -58,7 +58,7 @@ export function showReview(r) {
           <blockquote>“${esc(score.review)}”<cite>${esc(t('review.critic'))} · ${esc(t('review.criticRole'))}</cite></blockquote>
         </div>
         ${r.firstTime ? '' : `<p class="review-again">${esc(t('review.again'))}</p>`}
-        <p class="review-points">${esc(t('toast.points', { p: r.earned }))}</p>
+        <p class="review-points">${esc(t('review.saved'))}</p>
         <button class="big-btn" value="close" autofocus>${esc(t('review.keep'))}</button>
       </form>`;
     dlg.setAttribute('aria-labelledby', 'review-dish');

@@ -1,8 +1,8 @@
 # Kitchenria 🍳
 
-A cosy cooking game for your web browser, in the spirit of *Infinite Kitchen*. Put ingredients into kitchen tools (chop, boil, fry, bake, mix, blend…), invent dishes nobody has written down, plate them, and let the food critic Madame Purrline give you 0.0 to 5.0 stars. There are no timers, no ads, no sign-up, no tracking and no server. Everything runs on your own device.
+A cosy cooking game for your web browser. Take ingredients from the pantry, **stack** them on the counter, and use **hand tools** to work them (knead, chop, whisk, roll, mash, grate…) and **appliances** to cook them (boil, fry, bake, blend…). When your dish looks delicious, put it on the plate and serve it to the food critic, Madame Purrline, who gives it 0.0 to 5.0 stars and a written review. There are no timers, no ads, no sign-up, no tracking and no server. Everything runs on your own device.
 
-> **Status: Stage 1 (reworked).** The kitchen with tool stations, the food engine that handles *any* combination, plating and critic reviews, chef ranks with unlocks, badges, the Cookbook, 52 ingredients (16 at the start) and 75 classic dishes to discover all work. See [the plan](#the-plan) for what comes next.
+> **Status: Stage 1 (third version).** Stacking, 8 hand tools, 10 appliances, a food engine that handles any combination, the critic with stars and reviews, the Recipe Book of finished dishes, 52 ingredients (all available from the start) and 75 classic dishes to discover. See [the plan](#the-plan) for what comes next.
 
 ## ▶️ Play it on your Mac
 
@@ -20,17 +20,18 @@ Progress is saved separately for each way of playing (and each website), so the 
 
 ## 🎮 How to play
 
-* **Drag** an ingredient from the **pantry** into a **tool** on the counter.
-  * The **knife** chops straight away.
-  * The **pot, pan, oven, bowl** (and later blender, mortar, freezer, grill, marinade jar, steamer, cellar) hold up to four things. Press their button (**Boil!**, **Fry!**, **Bake!**, **Mix!**…) to cook.
-* Anything can go with anything. Tomato + knife = Chopped Tomato; chopped tomato + onion in the pot = Tomato & Onion Sauce; that sauce mixed with pasta = **Spaghetti Pomodoro**, a classic dish! Cook something too often and it burns. Freeze it, marinate it, age it…
-* You can also drop one thing **onto another** on the counter to mix them quickly.
-* Everything you make goes into the pantry, so you can keep building on it.
-* Put food on the **plate** and press **Serve!** The critic tastes it and writes a review with stars. Cooked, balanced, well-paired, classic dishes score best.
-* Earn **chef points** for new creations, classic dishes and served plates. Ten **chef ranks** unlock new tools and new pantry shelves (garden, spices, bakery, market, world pantry, orchard & tea).
-* The **Cookbook** (top right) keeps every dish you served with its review, your collection of classic dishes, your rank and your badges.
-* **Tap instead of drag:** tap food to pick it up, then tap a tool (or another food to mix). **Keyboard:** Tab to food and press Enter, then Tab to a tool and press Enter. Arrow keys move food, Delete puts it away, Escape lets go.
-* Double-click food to copy it, drag it onto the pantry to put it away, and **Tidy counter** clears everything. Progress saves automatically.
+* **Drag** an ingredient from the **pantry** onto the counter. (Or tap it.)
+* Drop food **onto other food** to **stack** it. Nothing happens to a stack yet: it's just a pile, waiting for a tool. Hover over a stack to see what's in it; double-click it to spread it out again.
+* **Hand tools** hang on the wall rail. Drag one down onto food or a stack:
+  * **Hands**: knead (flour + water + salt → Dough)
+  * **Knife**: chop · **Whisk**: whisk (egg → Whisked Eggs) · **Spoon**: stir
+  * **Rolling pin**: roll (Dough → Pizza Base, Pastry Dough → Pie Crust)
+  * **Masher**: mash · **Grater**: grate (cheese, potato, lemon zest…) · **Mortar**: grind
+* **Appliances** stand along the counter: pot, pan, oven, blender, grill, steamer, freezer, marinade jar and cellar. Drop food or a stack into one and it cooks straight away. Cook something too often and it burns!
+* Example: stack Pizza Base + Tomato Sauce + Grated Cheese, put the stack in the oven, and you get **Cheese Pizza**, a classic dish!
+* Put up to four things on the **plate** and press **Serve!** The critic tastes it and writes a review. Cooked, balanced, well-paired, classic dishes score best. Finished dishes are kept in your **Recipe Book**, along with your collection of classic dishes.
+* **Tap instead of drag:** tap food to pick it up, then tap a hand tool, an appliance, or more food (to stack). **Keyboard:** Tab to food and press Enter, then Tab to a tool and press Enter. Arrow keys move food, Delete puts it away, Escape lets go.
+* Drag food onto the pantry to put it away. **Tidy counter** clears everything. Progress saves automatically.
 
 ## 📁 What's in the folder
 
@@ -45,13 +46,13 @@ Kitchenria/
 │   ├── js/                    ← the code, one small file per job:
 │   │   ├── engine.js          ←   THE FOOD ENGINE: works out what any tool + ingredients make
 │   │   ├── critic.js          ←   Madame Purrline: star scores and written reviews
-│   │   ├── kitchen.js         ←   cooking & serving, remembering what you made
-│   │   ├── progress.js        ←   chef points, ranks, unlocks and badges
-│   │   ├── stations.js        ←   the cooking tools on the counter
-│   │   ├── table.js           ←   the counter: dragging food around
-│   │   ├── shelf.js           ←   the pantry: search, sort and filters
+│   │   ├── kitchen.js         ←   cooking & serving
+│   │   ├── table.js           ←   the counter: dragging, stacking, using hand tools on food
+│   │   ├── rack.js            ←   the hand tools on the wall rail
+│   │   ├── appliances.js      ←   the pot, pan, oven… and the serving plate
+│   │   ├── shelf.js           ←   the pantry: sections and search
 │   │   ├── review.js          ←   the critic's review card
-│   │   ├── cookbook.js        ←   the Cookbook window
+│   │   ├── book.js            ←   the Recipe Book window
 │   │   ├── doodle.js, shapes.js ← the hand-drawn pictures, made in code
 │   │   ├── effects.js, audio.js ← sparkles, messages and sounds (made in code, no files)
 │   │   ├── state.js           ←   saving your progress
@@ -61,7 +62,7 @@ Kitchenria/
 │   ├── data/
 │   │   ├── ingredients.json   ← every ingredient and its taste/cooking properties
 │   │   ├── signatures.json    ← the classic dishes the game recognises
-│   │   └── kitchen.json       ← tools, chef ranks, unlocks, points and badges
+│   │   └── kitchen.json       ← hand tools, appliances and pantry sections
 │   ├── lang/en.json           ← every piece of text: dish name patterns, critic phrases, buttons
 │   ├── art/items/             ← put your own pictures here (see below)
 │   └── fonts/                 ← the Fredoka font and its licence
@@ -84,7 +85,7 @@ There is no list of every recipe. The **food engine** (`game/js/engine.js`) look
   "desc": "Round, orange and ready for autumn.", "art": { "shape": "apple", "color": "#f08a3c", "accent": "#5f9e45" } },
 ```
 
-`cat` (veg, fruit, grain, dairy…), `taste` and `flags` decide how it cooks: a `juicy` veg makes sauce in a dry pot, a `raw` one upsets the critic if it isn't cooked, and so on. `pack` decides when it appears (`starter`, or a pack that unlocks with a rank).
+`cat` (veg, fruit, grain, dairy…), `taste` and `flags` decide how it cooks: a `juicy` veg makes sauce in a dry pot, a `raw` one upsets the critic if it isn't cooked, and so on. `cat` also decides which pantry section it appears in (see `pantry` in `kitchen.json`). Every ingredient is available from the start.
 
 **A new classic dish**: add a line to `game/data/signatures.json`. For example, this turns any soup that contains pumpkin into "Pumpkin Soup", with a nicer description and a critic bonus:
 
@@ -92,7 +93,7 @@ There is no list of every recipe. The **food engine** (`game/js/engine.js`) look
 { "id": "pumpkin_soup", "name": "Pumpkin Soup", "arch": ["soup", "creamySoup"], "need": ["pumpkin"], "desc": "Velvety and orange, like autumn in a bowl." },
 ```
 
-**Tools, ranks, points and badges** are in `game/data/kitchen.json`. **All text** (including the dish name patterns like `"{x} Soup"` and Madame Purrline's phrases) is in `game/lang/en.json`.
+**Hand tools, appliances and pantry sections** are in `game/data/kitchen.json`. **All text** (including the dish name patterns like `"{x} Soup"` and Madame Purrline's phrases) is in `game/lang/en.json`.
 
 Every line ends with a comma **except the last one** in a list. If you make a typo, the game doesn't break: it skips that line and reports it in the browser's console. To see changes in the one-file `index.html`, it needs rebuilding (`node dev/build-standalone.mjs`). I rebuild it at every stage, and **Start Kitchenria.command** always shows your edits straight away.
 
@@ -104,7 +105,7 @@ To use **your own picture** for an ingredient or a tool:
 
 1. Save it as a square PNG, WebP or SVG, ideally about 256×256 pixels with a transparent background.
 2. Put it in `game/art/items/`, e.g. `game/art/items/apple.png`.
-3. In `ingredients.json` (or `kitchen.json` for tools), add an `image` line inside its `art`:
+3. In `ingredients.json` (or `kitchen.json` for hand tools and appliances), add an `image` line inside its `art`:
 
    ```json
    "art": { "shape": "apple", "color": "#e8584c", "image": "art/items/apple.png" }
@@ -124,10 +125,10 @@ That's it. The picture replaces the doodle everywhere. Delete the `image` line t
 
 | Stage | What gets built | Status |
 |---|---|---|
-| **1. Kitchen & core play** | Tool stations, the food engine (any combination works), burning/freezing/marinating/ageing, plating, the critic with 0.0–5.0 stars and reviews, painted dish portraits, chef ranks with unlocks, badges, the Cookbook, 52 ingredients, 75 classic dishes, sounds, auto-save, mouse/touch/keyboard | ✅ done |
+| **1. Kitchen & core play** | Stacking, hand tools, appliances, the food engine (any combination works), burning/freezing/marinating/ageing, plating, the critic with 0.0–5.0 stars and reviews, painted dish portraits, the Recipe Book, 52 ingredients, 75 classic dishes, sounds, auto-save, mouse/touch/keyboard | ✅ done |
 | **2. Bigger world** | Many more ingredients and classic dishes (aim: 500+ across Italian, French, Japanese, Mexican, Indian, Middle Eastern…), smarter naming, more doodle shapes, better critic variety | next |
 | **3. Kitchen helper AI** | Optional small AI on the player's own device (WebGPU) that writes extra-creative names, descriptions and critic reviews. Asks first, shows download size and progress, can be deleted, results saved forever, works offline. The game stays fully playable without it | |
-| **4. Visitors & decorating** | Animal visitors who ask for dishes ("something warm") and leave gifts, decorating the kitchen, more rewards | |
+| **4. Visitors & decorating** | Animal visitors who ask for dishes ("something warm") and leave gifts, decorating the kitchen | |
 | **5. Atmosphere** | Optional lighting effects (lamp glow, real-time sunlight, candle flicker, steam, soft shadows), Low Power mode, music, rain, the kitchen cat, seasons | |
 | **6. Full game & app** | Title screen, settings, pause, credits, save export/import/reset, accessibility options, installable app that works fully offline, final testing | |
 
