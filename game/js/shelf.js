@@ -1,7 +1,8 @@
 // shelf.js — the pantry shelf (inventory) with search, sorting and filters.
-// Items on the shelf are never used up: dragging one out makes a copy on the table.
+// Items on the shelf are never used up: dragging one out makes a copy on the counter.
+// Everything you cook is added here too, so you can use it again in new recipes.
 
-import { items } from './data.js';
+import { getItem } from './data.js';
 import { state, save, clearFresh } from './state.js';
 import { renderArt } from './doodle.js';
 import { t } from './i18n.js';
@@ -11,12 +12,12 @@ let gridEl, searchEl, sortEl, filterEls, countEl;
 let handlers = {};
 let query = '';
 
-const KIND_ORDER = { tool: 0, ingredient: 1, prep: 2, dish: 3 };
+const KIND_ORDER = { ingredient: 0, creation: 1 };
 const filterMatch = (item, f) =>
   f === 'all' ||
-  (f === 'tool' && item.type === 'tool') ||
-  (f === 'ingredient' && (item.type === 'ingredient' || item.type === 'prep')) ||
-  (f === 'dish' && item.type === 'dish');
+  (f === 'ingredient' && item.kind === 'ingredient') ||
+  (f === 'creation' && item.kind === 'creation') ||
+  (f === 'signature' && !!item.sig);
 
 /**
  * @param {object} h  callbacks: onTileDragStart(id, pointerEvent, tileEl), onTileActivate(id, tileEl)
@@ -85,7 +86,7 @@ export function render() {
   const f = state.settings.filter;
   filterEls.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === f)));
 
-  let list = state.discovered.map((id) => items.get(id)).filter(Boolean);
+  let list = state.discovered.map(getItem).filter(Boolean);
   list = list.filter((it) => filterMatch(it, f));
   if (query) list = list.filter((it) => it.name.toLowerCase().includes(query) || it.id.includes(query));
 
@@ -94,14 +95,14 @@ export function render() {
   if (sort === 'found') list.sort((a, b) => order.get(b.id) - order.get(a.id));
   else if (sort === 'oldest') list.sort((a, b) => order.get(a.id) - order.get(b.id));
   else if (sort === 'az') list.sort((a, b) => a.name.localeCompare(b.name));
-  else if (sort === 'type') list.sort((a, b) => KIND_ORDER[a.type] - KIND_ORDER[b.type] || a.name.localeCompare(b.name));
+  else if (sort === 'type') list.sort((a, b) => KIND_ORDER[a.kind] - KIND_ORDER[b.kind] || a.name.localeCompare(b.name));
 
   const fresh = new Set(state.fresh);
   const frag = document.createDocumentFragment();
   for (const it of list) {
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = `tile type-${it.type}`;
+    b.className = `tile kind-${it.kind}${it.sig ? ' is-sig' : ''}`;
     b.dataset.id = it.id;
     b.title = `${it.name} — ${it.desc}`;
     b.setAttribute('aria-label', t('tile.label', { name: it.name }));

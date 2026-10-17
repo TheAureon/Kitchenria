@@ -1,10 +1,8 @@
 # Kitchenria 🍳
 
-A cosy cooking discovery game for your web browser. Drag ingredients onto each other, or onto kitchen tools, to discover new dishes. There are no timers, no losing, no ads, no sign-up and no tracking.
+A cosy cooking game for your web browser, in the spirit of *Infinite Kitchen*. Put ingredients into kitchen tools (chop, boil, fry, bake, mix, blend…), invent dishes nobody has written down, plate them, and let the food critic Madame Purrline give you 0.0 to 5.0 stars. There are no timers, no ads, no sign-up, no tracking and no server. Everything runs on your own device.
 
-> **Status: Stage 1 of 6.** The kitchen, drag and drop, the pantry shelf, 18 starter items (12 ingredients and 6 tools) and 95 recipes work. The rest of the stages are listed in [the plan](#the-plan) below.
-
----
+> **Status: Stage 1 (reworked).** The kitchen with tool stations, the food engine that handles *any* combination, plating and critic reviews, chef ranks with unlocks, badges, the Cookbook, 52 ingredients (16 at the start) and 75 classic dishes to discover all work. See [the plan](#the-plan) for what comes next.
 
 ## ▶️ Play it on your Mac
 
@@ -22,15 +20,17 @@ Progress is saved separately for each way of playing (and each website), so the 
 
 ## 🎮 How to play
 
-* **Drag** something from the **pantry shelf** onto the **table**.
-* Drop one thing **onto another** to combine them. Flour + water = dough!
-* Drop an ingredient onto a **tool** (cutting board, pot, pan, oven, blender, mortar) to chop, boil, fry, bake, blend or grind it. Tools never get used up.
-* **Tap** a shelf item to put it on the table. **Tap** two things on the table, one after the other, to combine them.
-* **Double-click** something on the table to make a copy. Drag it back onto the shelf to put it away. **Tidy table** clears everything.
-* **Keyboard:** Tab to an item on the shelf and press Enter to put it on the table. On the table, press Enter on one thing, then Enter on another to combine them. Arrow keys move the selected item, Delete puts it away, and Escape lets go.
-* New discoveries sparkle, play a happy sound and get a **New!** tag. Everything saves automatically on this device.
-
----
+* **Drag** an ingredient from the **pantry** into a **tool** on the counter.
+  * The **knife** chops straight away.
+  * The **pot, pan, oven, bowl** (and later blender, mortar, freezer, grill, marinade jar, steamer, cellar) hold up to four things. Press their button (**Boil!**, **Fry!**, **Bake!**, **Mix!**…) to cook.
+* Anything can go with anything. Tomato + knife = Chopped Tomato; chopped tomato + onion in the pot = Tomato & Onion Sauce; that sauce mixed with pasta = **Spaghetti Pomodoro**, a classic dish! Cook something too often and it burns. Freeze it, marinate it, age it…
+* You can also drop one thing **onto another** on the counter to mix them quickly.
+* Everything you make goes into the pantry, so you can keep building on it.
+* Put food on the **plate** and press **Serve!** The critic tastes it and writes a review with stars. Cooked, balanced, well-paired, classic dishes score best.
+* Earn **chef points** for new creations, classic dishes and served plates. Ten **chef ranks** unlock new tools and new pantry shelves (garden, spices, bakery, market, world pantry, orchard & tea).
+* The **Cookbook** (top right) keeps every dish you served with its review, your collection of classic dishes, your rank and your badges.
+* **Tap instead of drag:** tap food to pick it up, then tap a tool (or another food to mix). **Keyboard:** Tab to food and press Enter, then Tab to a tool and press Enter. Arrow keys move food, Delete puts it away, Escape lets go.
+* Double-click food to copy it, drag it onto the pantry to put it away, and **Tidy counter** clears everything. Progress saves automatically.
 
 ## 📁 What's in the folder
 
@@ -39,67 +39,72 @@ Kitchenria/
 ├── index.html                 ← double-click to play: the whole game in one file (built automatically)
 ├── Start Kitchenria.command   ← plays the game/ folder through a mini web server (shows your edits instantly)
 ├── README.md                  ← this guide
-├── game/                      ← THE GAME. This is the folder you upload to your website.
+├── game/                      ← THE GAME (the source of everything)
 │   ├── index.html             ← the page itself
-│   ├── css/main.css           ← all the colours, sizes and animations
-│   ├── js/                    ← the game's code, one small file per job:
-│   │   ├── main.js            ←   starts everything up
-│   │   ├── data.js            ←   reads the recipe and item files
-│   │   ├── table.js           ←   the kitchen table: dragging and combining
-│   │   ├── shelf.js           ←   the pantry shelf: search, sort and filters
-│   │   ├── doodle.js          ←   draws the wobbly hand-drawn pictures
-│   │   ├── shapes.js          ←   the library of doodle shapes (apple, pot, bowl…)
-│   │   ├── effects.js         ←   sparkles and message bubbles
-│   │   ├── audio.js           ←   sound effects, made in code (no sound files)
-│   │   ├── state.js           ←   remembers your progress (auto-save)
-│   │   ├── i18n.js            ←   looks up on-screen text in the language file
+│   ├── css/main.css           ← colours, sizes and animations
+│   ├── js/                    ← the code, one small file per job:
+│   │   ├── engine.js          ←   THE FOOD ENGINE: works out what any tool + ingredients make
+│   │   ├── critic.js          ←   Madame Purrline: star scores and written reviews
+│   │   ├── kitchen.js         ←   cooking & serving, remembering what you made
+│   │   ├── progress.js        ←   chef points, ranks, unlocks and badges
+│   │   ├── stations.js        ←   the cooking tools on the counter
+│   │   ├── table.js           ←   the counter: dragging food around
+│   │   ├── shelf.js           ←   the pantry: search, sort and filters
+│   │   ├── review.js          ←   the critic's review card
+│   │   ├── cookbook.js        ←   the Cookbook window
+│   │   ├── doodle.js, shapes.js ← the hand-drawn pictures, made in code
+│   │   ├── effects.js, audio.js ← sparkles, messages and sounds (made in code, no files)
+│   │   ├── state.js           ←   saving your progress
+│   │   ├── data.js, load.js   ←   reading the data files
+│   │   ├── i18n.js            ←   looking up on-screen text
+│   │   └── main.js            ←   starts everything up
 │   ├── data/
-│   │   ├── items.json         ← every ingredient, tool and dish
-│   │   └── recipes.json       ← every combination
-│   ├── lang/en.json           ← every piece of on-screen text (for translating)
+│   │   ├── ingredients.json   ← every ingredient and its taste/cooking properties
+│   │   ├── signatures.json    ← the classic dishes the game recognises
+│   │   └── kitchen.json       ← tools, chef ranks, unlocks, points and badges
+│   ├── lang/en.json           ← every piece of text: dish name patterns, critic phrases, buttons
 │   ├── art/items/             ← put your own pictures here (see below)
 │   └── fonts/                 ← the Fredoka font and its licence
 └── dev/                       ← helper tools for development. NOT needed on your website.
     ├── build-standalone.mjs   ← packs game/ into the one-file index.html
+    ├── engine-sample.mjs      ← prints what the food engine makes, to check names
     ├── gallery.html           ← shows every doodle on one page
-    ├── check-recipes.mjs      ← checks the recipe files for mistakes
     └── test-game.cjs          ← automatic browser test
 ```
 
-## 🥕 Adding recipes
+## 🥕 Adding ingredients and classic dishes
 
-Open `game/data/recipes.json` in any text editor. On a Mac, **TextEdit** works: choose *Format → Make Plain Text* first. Free editors like **Visual Studio Code** or **BBEdit** are even nicer. Each line is one combination:
+There is no list of every recipe. The **food engine** (`game/js/engine.js`) looks at what goes into a tool and the properties of each ingredient, and works out a sensible result. That's what makes the recipes endless. You can change three things without touching code (any plain-text editor works, e.g. TextEdit after *Format → Make Plain Text*, or the free Visual Studio Code):
 
-```json
-{ "a": "flour", "b": "water", "makes": "dough" },
-```
-
-* `a` and `b` are the two things being combined. Order doesn't matter.
-* `makes` is the result.
-* Use the **id** of each item (the short lowercase name from `items.json`), not its display name.
-* A tool (`board`, `pot`, `pan`, `oven`, `blender`, `mortar`) can be `a` or `b`. Tools are never used up.
-* Every line ends with a comma **except the last one** in the list.
-
-To add a **brand-new item**, add a line to `game/data/items.json` first:
+**A new ingredient**: add a line to `game/data/ingredients.json`:
 
 ```json
-{ "id": "jam", "name": "Jam", "type": "dish", "tags": ["sweet"], "desc": "Fruit that got very, very cosy.",
-  "art": { "shape": "jar", "color": "#c8324a", "accent": "#f2efe8" } },
+{ "id": "pumpkin", "name": "Pumpkin", "mod": "Pumpkin", "cat": "veg", "form": "whole", "flags": [],
+  "taste": { "sweet": 2, "rich": 1 }, "color": "#f08a3c", "pack": "garden",
+  "desc": "Round, orange and ready for autumn.", "art": { "shape": "apple", "color": "#f08a3c", "accent": "#5f9e45" } },
 ```
 
-`type` is `ingredient`, `tool`, `prep` (an in-between step like dough) or `dish`. Then use `jam` in a recipe. **Seeing your changes:** the `game` folder is the real game, and the one-file `index.html` is a packed copy of it. To try your edits right away, play with **`Start Kitchenria.command`**, which always uses the `game` folder. The packed `index.html` only picks up changes when it is rebuilt (`node dev/build-standalone.mjs`; I rebuild it at every stage, and the automatic test fails if it's out of date).
+`cat` (veg, fruit, grain, dairy…), `taste` and `flags` decide how it cooks: a `juicy` veg makes sauce in a dry pot, a `raw` one upsets the critic if it isn't cooked, and so on. `pack` decides when it appears (`starter`, or a pack that unlocks with a rank).
 
-If you make a typo, the game doesn't break: it skips that line and lists the problem in the browser's console (in Safari, choose *Develop → Show JavaScript Console*).
+**A new classic dish**: add a line to `game/data/signatures.json`. For example, this turns any soup that contains pumpkin into "Pumpkin Soup", with a nicer description and a critic bonus:
+
+```json
+{ "id": "pumpkin_soup", "name": "Pumpkin Soup", "arch": ["soup", "creamySoup"], "need": ["pumpkin"], "desc": "Velvety and orange, like autumn in a bowl." },
+```
+
+**Tools, ranks, points and badges** are in `game/data/kitchen.json`. **All text** (including the dish name patterns like `"{x} Soup"` and Madame Purrline's phrases) is in `game/lang/en.json`.
+
+Every line ends with a comma **except the last one** in a list. If you make a typo, the game doesn't break: it skips that line and reports it in the browser's console. To see changes in the one-file `index.html`, it needs rebuilding (`node dev/build-standalone.mjs`). I rebuild it at every stage, and **Start Kitchenria.command** always shows your edits straight away.
 
 ## 🎨 Replacing the art with your own pictures
 
-Every picture is drawn by code from its `art` settings: a `shape` (see `game/js/shapes.js` or open `dev/gallery.html` to see them all), plus `color`, `accent`, `fill` and an optional `top`ping (`pat`, `steam`, `sparkle`, `specks`, `dots`, `heart`, `swirl`…).
+Every picture is drawn by code. Ingredients and tools use their `art` settings: a `shape` (see `game/js/shapes.js`, or open `dev/gallery.html` to see them all), plus `color`, `accent` and an optional `top`ping. Cooked creations get their picture automatically from what they are (soup → bowl, cake → cake…) and the colours of their ingredients.
 
-To use **your own picture** for an item:
+To use **your own picture** for an ingredient or a tool:
 
 1. Save it as a square PNG, WebP or SVG, ideally about 256×256 pixels with a transparent background.
 2. Put it in `game/art/items/`, e.g. `game/art/items/apple.png`.
-3. In `items.json`, add an `image` line inside that item's `art`:
+3. In `ingredients.json` (or `kitchen.json` for tools), add an `image` line inside its `art`:
 
    ```json
    "art": { "shape": "apple", "color": "#e8584c", "image": "art/items/apple.png" }
@@ -119,12 +124,12 @@ That's it. The picture replaces the doodle everywhere. Delete the `image` line t
 
 | Stage | What gets built | Status |
 |---|---|---|
-| **1. Kitchen & core play** | Kitchen scene, drag & drop (mouse, touch, keyboard), pantry shelf with search, sort and filters, doodle art engine, 12 ingredients + 6 tools, 95 recipes, discovery celebrations, sounds, auto-save | ✅ done |
-| **2. Big recipe book** | 500+ hand-checked recipes across many cuisines (Italian, French, Japanese, Mexican, Indian, Middle Eastern…), discoverable tools (whisk, grill, steamer, freezer, fermenting jar…), the Recipe Book with how each item was made and a discovery percentage, more doodle shapes | next |
-| **3. Kitchen helper AI** | Optional small AI that runs on the player's own device (WebGPU), for combinations that aren't in the book. Asks permission once, shows download size and progress, can be deleted. Validated results, saved forever (IndexedDB), works offline. Gentle "mysterious something" fallback when there's no AI | |
-| **4. Progression** | Milestones with rewards, visiting animals who ask for dishes and leave gifts, unlockable pantries (spice shelf, garden, bakery), decorating the kitchen | |
-| **5. Atmosphere** | Optional lighting effects (lamp glow, real-time window sunlight, candle flicker, steam, soft shadows, vignette), Low Power mode, ambient music, rain, the kitchen cat, seasonal themes | |
-| **6. Full game & app** | Title screen, settings, pause, credits, save export/import/reset, accessibility options, installable app (PWA) that works fully offline, final testing | |
+| **1. Kitchen & core play** | Tool stations, the food engine (any combination works), burning/freezing/marinating/ageing, plating, the critic with 0.0–5.0 stars and reviews, painted dish portraits, chef ranks with unlocks, badges, the Cookbook, 52 ingredients, 75 classic dishes, sounds, auto-save, mouse/touch/keyboard | ✅ done |
+| **2. Bigger world** | Many more ingredients and classic dishes (aim: 500+ across Italian, French, Japanese, Mexican, Indian, Middle Eastern…), smarter naming, more doodle shapes, better critic variety | next |
+| **3. Kitchen helper AI** | Optional small AI on the player's own device (WebGPU) that writes extra-creative names, descriptions and critic reviews. Asks first, shows download size and progress, can be deleted, results saved forever, works offline. The game stays fully playable without it | |
+| **4. Visitors & decorating** | Animal visitors who ask for dishes ("something warm") and leave gifts, decorating the kitchen, more rewards | |
+| **5. Atmosphere** | Optional lighting effects (lamp glow, real-time sunlight, candle flicker, steam, soft shadows), Low Power mode, music, rain, the kitchen cat, seasons | |
+| **6. Full game & app** | Title screen, settings, pause, credits, save export/import/reset, accessibility options, installable app that works fully offline, final testing | |
 
 ## Credits & licences
 

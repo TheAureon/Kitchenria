@@ -1,38 +1,43 @@
-// data.js — loads items.json and recipes.json and answers "what do A and B make?".
+// data.js — loads the pantry, kitchen tools and classic dishes, and sets up the food engine.
 // Mistakes in the JSON files are reported in the browser console and skipped,
 // so a typo never breaks the game.
 
 import { loadJSON } from './load.js';
+import { createEngine } from './engine.js';
+import { t, pick } from './i18n.js';
+import { state } from './state.js';
 
-export const items = new Map();   // id -> item
-const recipes = new Map();        // "a|b" (sorted) -> result id
-
-/** Order-independent key, so flour+water and water+flour are the same. */
-const pairKey = (a, b) => (a < b ? `${a}|${b}` : `${b}|${a}`);
+/** Everything loaded, in one place: db.engine, db.kitchen, db.tools, db.signatures */
+export const db = { engine: null, kitchen: null, tools: [], signatures: [] };
 
 export async function loadData() {
-  const [itemJson, recipeJson] = await Promise.all([
-    loadJSON('data/items.json'),
-    loadJSON('data/recipes.json'),
+  const [ing, kitchen, sig] = await Promise.all([
+    loadJSON('data/ingredients.json'),
+    loadJSON('data/kitchen.json'),
+    loadJSON('data/signatures.json'),
   ]);
-  for (const it of itemJson.items) {
-    if (!it.id || items.has(it.id)) { console.warn('[Kitchenria] Skipping item with missing or duplicate id:', it); continue; }
-    items.set(it.id, it);
-  }
-  for (const r of recipeJson.recipes) {
-    const bad = ['a', 'b', 'makes'].filter((k) => !items.has(r[k]));
-    if (bad.length) { console.warn('[Kitchenria] Skipping recipe with unknown item(s):', r); continue; }
-    const key = pairKey(r.a, r.b);
-    if (recipes.has(key)) { console.warn('[Kitchenria] Skipping duplicate recipe pair:', r); continue; }
-    recipes.set(key, r.makes);
-  }
+  const seen = new Set();
+  const ingredients = ing.ingredients.filter((g) => {
+    const ok = g.id && !seen.has(g.id) && g.name && g.art;
+    if (!ok) console.warn('[Kitchenria] Skipping ingredient with a missing or duplicate id/name/art:', g);
+    seen.add(g.id);
+    return ok;
+  });
+  db.engine = createEngine({ ingredients, signatures: sig.signatures, t, pick });
+  db.kitchen = kitchen;
+  db.tools = kitchen.tools;
+  db.signatures = sig.signatures;
 }
 
-/** Returns the id of what a + b make, or null if nothing is known (yet). */
-export function combineIds(a, b) {
-  return recipes.get(pairKey(a, b)) ?? null;
+const baseCache = new Map();
+/** Any item by id: a pantry ingredient, or something you cooked. */
+export function getItem(id) {
+  if (db.engine.ING.has(id)) {
+    if (!baseCache.has(id)) baseCache.set(id, db.engine.baseItem(id));
+    return baseCache.get(id);
+  }
+  return state.creations[id] || null;
 }
 
-export const isTool = (id) => items.get(id)?.type === 'tool';
-export const starterIds = () => [...items.values()].filter((i) => i.starter).map((i) => i.id);
-export const recipeCount = () => recipes.size;
+export const toolById = (id) => db.tools.find((tl) => tl.id === id);
+export const packIngredients = (pack) => [...db.engine.ING.values()].filter((g) => (g.pack || 'starter') === pack).map((g) => g.id);

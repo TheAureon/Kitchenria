@@ -148,10 +148,60 @@ function face(x, y, s = 1) {
 }
 
 const cache = new Map();
+const r2 = (n) => Math.round(n * 10) / 10;
+
+/** The inside of a doodle (no outer <svg>), so doodles can be nested into portraits. */
+export function artInner(art = {}, seed = 'x', type = '') {
+  if (art.image) return `<image href="${art.image}" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet"/>`;
+  const rng = makeRng(seed);
+  const kit = makeKit(rng);
+  const draw = SHAPES[art.shape] || SHAPES.blob;
+  const opts = {
+    c: art.color || '#e9d3a8',
+    a: art.accent || shade(art.color || '#e9d3a8', -0.25),
+    f: art.fill || art.accent || '#f5d779',
+    color: art.color,
+    round: !!art.round,
+  };
+  const out = draw(kit, opts);
+  let inner = out.body;
+  const anchor = out.top || [50, 46, 34];
+  if (art.top && TOPPINGS[art.top]) inner += TOPPINGS[art.top](kit, anchor, art.topColor || '#ffffff', opts);
+  const wantsFace = art.face ?? (type !== 'tool');
+  if (wantsFace && out.face) inner += face(...out.face);
+  if (art.emoji) inner += `<text x="50" y="62" font-size="34" text-anchor="middle">${art.emoji}</text>`;
+  return inner;
+}
 
 /**
- * Returns the HTML (an <svg> or <img>) for one item. Results are cached.
- * @param {object} item  an entry from items.json (or an AI-made item later on)
+ * A "painted portrait" of a plated dish for the critic: a soft backdrop, a plate,
+ * the main food big in the middle and the sides tucked in front.
+ */
+function portraitInner(art, seed) {
+  const rng = makeRng(seed + 'p');
+  const kit = makeKit(rng);
+  const layers = art.layers || [];
+  let s = `<rect x="2" y="2" width="96" height="96" rx="14" fill="#fbe9cf"/>`;
+  s += `<path d="M2 62 H98 V84 Q98 98 84 98 H16 Q2 98 2 84 Z" fill="#e8b88a" opacity=".55"/>`;
+  s += `<circle cx="78" cy="20" r="12" fill="#fff6dc" opacity=".8"/>`;
+  s += kit.shape(ellipsePts(50, 72, 44, 17, 18), '#f7f3ea', { wob: 0.8, sw: 2.6 });
+  s += kit.fill(ellipsePts(50, 71, 34, 12, 14), '#efe8da', { wob: 0.6 });
+  const spots = [[50, 46, 62], [22, 64, 34], [78, 64, 34], [50, 74, 26]];
+  const order = layers.length > 1 ? [1, 2, 3, 0].filter((i) => i < layers.length) : [0];
+  for (const i of order) {
+    const [cx, cy, size] = spots[i];
+    const lay = layers[i];
+    const shadow = `<ellipse cx="${cx}" cy="${r2(cy + size * 0.42)}" rx="${r2(size * 0.36)}" ry="${r2(size * 0.08)}" fill="#4a3426" opacity=".12"/>`;
+    s += shadow + `<svg x="${r2(cx - size / 2)}" y="${r2(cy - size / 2)}" width="${size}" height="${size}" viewBox="0 0 100 100" overflow="visible">${artInner({ ...lay, face: i === 0 ? lay.face : false }, seed + i)}</svg>`;
+  }
+  if (art.hot) for (const [x, c] of [[40, ''], [52, ' w1'], [64, ' w2']]) s += kit.line([[x, 18], [x - 3, 11], [x + 2, 5]], { color: '#4a3426', sw: 1.6, opacity: 0.28, cls: `steam-wisp${c}` });
+  s += `<rect x="2" y="2" width="96" height="96" rx="14" fill="none" stroke="${INK}" stroke-width="2.4"/>`;
+  return s;
+}
+
+/**
+ * Returns the HTML (an <svg> or <img>) for one item. Results are cached by item id.
+ * @param {object} item  an ingredient, creation or plated dish (anything with id + art)
  */
 export function renderArt(item) {
   if (cache.has(item.id)) return cache.get(item.id);
@@ -161,24 +211,14 @@ export function renderArt(item) {
     // Your own artwork wins. Square PNG/SVG/WebP images around 256×256 look best.
     html = `<img class="doodle doodle-img" src="${art.image}" alt="" draggable="false" loading="lazy">`;
   } else {
-    const rng = makeRng(item.id);
-    const kit = makeKit(rng);
-    const draw = SHAPES[art.shape] || SHAPES.blob;
-    const opts = {
-      c: art.color || '#e9d3a8',
-      a: art.accent || shade(art.color || '#e9d3a8', -0.25),
-      f: art.fill || art.accent || '#f5d779',
-      round: !!art.round,
-    };
-    const out = draw(kit, opts);
-    let inner = out.body;
-    const anchor = out.top || [50, 46, 34];
-    if (art.top && TOPPINGS[art.top]) inner += TOPPINGS[art.top](kit, anchor, art.topColor || '#ffffff', opts);
-    const wantsFace = art.face ?? (item.type !== 'tool');
-    if (wantsFace && out.face) inner += face(...out.face);
-    if (art.emoji) inner += `<text x="50" y="62" font-size="34" text-anchor="middle">${art.emoji}</text>`;
+    const inner = art.shape === 'portrait' ? portraitInner(art, item.id) : artInner(art, item.id, item.type);
     html = `<svg class="doodle" viewBox="0 0 100 100" aria-hidden="true" focusable="false">${inner}</svg>`;
   }
   cache.set(item.id, html);
   return html;
+}
+
+/** Draws any art description directly (used for tools, which aren't items). */
+export function renderArtRaw(art, seed, type = '') {
+  return `<svg class="doodle" viewBox="0 0 100 100" aria-hidden="true" focusable="false">${artInner(art, seed, type)}</svg>`;
 }

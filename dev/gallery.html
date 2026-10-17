@@ -1,5 +1,6 @@
 <!doctype html>
-<!-- Art preview: shows every item's doodle at once. Open it at  http://localhost:8123/dev/gallery.html  -->
+<!-- Art preview: every ingredient and tool, plus a batch of cooked creations and plated dishes.
+     Open it at  http://localhost:8123/dev/gallery.html  -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -15,12 +16,32 @@
 </head>
 <body>
   <h1>Kitchenria art gallery</h1>
-  <div class="g" id="g"></div>
+  <h2>Ingredients</h2><div class="g" id="ing"></div>
+  <h2>Tools</h2><div class="g" id="tools"></div>
+  <h2>Cooked creations</h2><div class="g" id="made"></div>
   <script type="module">
-    import { renderArt } from '../game/js/doodle.js';
-    const { items } = await fetch('../game/data/items.json').then((r) => r.json());
-    document.getElementById('g').innerHTML = items.map((it) =>
-      `<figure>${renderArt(it)}<figcaption>${it.name}<small>${it.art.shape}${it.art.top ? ' + ' + it.art.top : ''}</small></figcaption></figure>`).join('');
+    import { renderArt, renderArtRaw } from '../game/js/doodle.js';
+    import { createEngine } from '../game/js/engine.js';
+    import { setStrings, t, pick } from '../game/js/i18n.js';
+    const get = (p) => fetch('../game/' + p).then((r) => r.json());
+    const [ing, kit, sig, lang] = await Promise.all([get('data/ingredients.json'), get('data/kitchen.json'), get('data/signatures.json'), get('lang/en.json')]);
+    setStrings(lang);
+    const E = createEngine({ ingredients: ing.ingredients, signatures: sig.signatures, t, pick });
+    const fig = (html, name, sub) => `<figure>${html}<figcaption>${name}<small>${sub}</small></figcaption></figure>`;
+    document.getElementById('ing').innerHTML = ing.ingredients.map((g) => fig(renderArt(E.baseItem(g.id)), g.name, g.pack)).join('');
+    document.getElementById('tools').innerHTML = kit.tools.map((tl) => fig(renderArtRaw(tl.art, tl.id, 'tool'), t('tool.' + tl.id), tl.op)).join('');
+    const B = (id) => E.baseItem(id), C = (op, ...xs) => E.cook(op, xs.map((x) => (typeof x === 'string' ? B(x) : x)));
+    const dough = C('mix', 'flour', 'water'), bread = C('bake', dough), pasta = C('boil', C('chop', C('mix', 'flour', 'egg')), 'water');
+    const sauce = C('boil', C('chop', 'tomato'), 'onion', 'herbs');
+    const list = [C('chop', 'tomato'), C('chop', 'apple'), C('chop', 'egg'), dough, bread, C('chop', bread), C('fry', C('chop', bread)), C('fry', 'egg'),
+      C('boil', 'egg', 'water'), pasta, sauce, C('mix', pasta, sauce), C('fry', C('chop', 'potato'), 'oil'), C('mix', C('boil', 'potato', 'water'), 'butter'),
+      C('bake', 'potato'), C('boil', 'tomato', 'onion', 'water'), C('fry', C('mix', 'flour', 'egg', 'milk')), C('bake', C('mix', 'flour', 'sugar', 'butter', 'egg', 'milk')),
+      C('bake', C('mix', 'flour', 'butter'), C('chop', 'apple'), 'sugar'), C('bake', dough, sauce, C('chop', 'cheese')), C('fry', C('mix', 'egg', 'cheese', 'herbs')),
+      C('mix', C('chop', 'tomato'), C('chop', 'cheese'), 'herbs'), C('blend', 'apple'), C('boil', 'milk'), C('freeze', 'milk', 'sugar'), C('freeze', 'water'),
+      C('freeze', C('blend', 'apple')), C('grill', C('chop', 'tomato'), C('chop', 'onion')), C('fry', C('fry', C('fry', 'potato'))), C('fry', C('fry', C('fry', C('fry', 'potato')))),
+      C('boil', 'herbs', 'water'), C('mix', 'lemon', 'water', 'sugar'), C('boil', 'rice', 'water'), C('grind', 'herbs', 'oil', 'cheese'), C('mix', 'oil', 'lemon', 'salt')];
+    const plates = [E.plate([C('fry', 'egg'), C('fry', C('chop', bread)), C('chop', 'tomato')]), E.plate([C('mix', pasta, sauce)]), E.plate([B('potato')])];
+    document.getElementById('made').innerHTML = list.concat(plates).map((it) => fig(renderArt(it), it.name, `${it.arch} / ${it.form}`)).join('');
   </script>
 </body>
 </html>

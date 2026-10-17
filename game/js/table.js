@@ -1,75 +1,78 @@
-// table.js — the kitchen table: placing, dragging and combining items.
+// table.js — the kitchen counter: food you've taken out of the pantry or just cooked.
 //
-// Every thing on the table is a "chip" (a <button> with a doodle and a name).
-// Chips are positioned by their centre point (x, y) in table pixels.
+// Every thing on the counter is a "chip" (a <button> with a doodle and a name),
+// positioned by its centre point (x, y) in counter pixels.
 //
-// Ways to combine (all do the same thing):
-//   * drag one chip and drop it onto another (mouse or touch)
-//   * tap/click one chip to pick it up, then tap another one
-//   * keyboard: Tab to a chip, press Enter, Tab to another, press Enter
-//   * with a chip picked up, tap/Enter an item on the shelf
+// What you can do with a chip:
+//   * drag it into a cooking tool (or tap it, then tap the tool)
+//   * drop it onto another chip to mix the two together (like the mixing bowl)
+//   * drag it back onto the pantry to put it away; double-click to copy it
+//   * keyboard: Enter picks it up, then Enter on a tool or another chip; arrows move it
 
-import { items, combineIds, isTool } from './data.js';
-import { state, save, discover } from './state.js';
+import { getItem } from './data.js';
+import { state, save } from './state.js';
 import { renderArt } from './doodle.js';
 import { play } from './audio.js';
 import { t } from './i18n.js';
-import { sparkleBurst, toast, bounce, esc } from './effects.js';
+import { toast, bounce, esc } from './effects.js';
 import { shelfRect } from './shelf.js';
 
-let CHIP = 84;            // chip size in px (read from --chip in the CSS)
-const SNAP = 52;          // how close (px) two chips must be to combine
+let CHIP = 96;            // chip size in px (read from --chip in the CSS)
+const SNAP = 52;          // how close (px) two chips must be to mix
 let tableEl, layerEl, hintEl;
-let onChange = () => {};
+let hooks = {};
 const chips = new Set();
 let selected = null;      // chip picked up by tap/keyboard
 let drag = null;          // the drag in progress, if any
 
-export function initTable(opts) {
+/**
+ * @param {object} h  hooks from main.js:
+ *   mix(idA, idB) → cooking result for mixing two things
+ *   celebrate(result, chipEl)
+ *   stationAt(x, y) → tool id under the pointer, addToStation(toolId, itemId) → bool, highlightStation(toolId)
+ */
+export function initTable(h) {
+  hooks = h;
   tableEl = document.getElementById('table');
   layerEl = document.getElementById('drag-layer');
   hintEl = document.getElementById('table-hint');
-  onChange = opts.onChange || onChange;
 
   window.addEventListener('pointermove', onMove);
   window.addEventListener('pointerup', onUp);
   window.addEventListener('pointercancel', onUp);
-  const readSize = () => { CHIP = parseFloat(getComputedStyle(tableEl).getPropertyValue('--chip')) || 84; };
+  const readSize = () => { CHIP = parseFloat(getComputedStyle(tableEl).getPropertyValue('--chip')) || 96; };
   readSize();
   window.addEventListener('resize', () => { readSize(); for (const c of chips) place(c, c._x, c._y); });
   tableEl.addEventListener('keydown', onKey);
-  // clicking empty table space puts down whatever was picked up
   tableEl.addEventListener('click', (e) => { if (e.target === tableEl) select(null); });
 
-  // bring back what was on the table last time
   const r = tableEl.getBoundingClientRect();
-  for (const c of state.table) if (items.has(c.id)) addChip(c.id, c.x * r.width, c.y * r.height);
+  for (const c of state.table) if (getItem(c.id)) addChip(c.id, c.x * r.width, c.y * r.height);
   updateHint();
 }
 
 // ---------- chips ----------
 
-/** Builds the chip element (not yet on the table). */
 function makeChipEl(id) {
-  const it = items.get(id);
+  const it = getItem(id);
   const el = document.createElement('button');
   el.type = 'button';
-  el.className = `chip type-${it.type}`;
+  el.className = `chip kind-${it.kind}${it.sig ? ' is-sig' : ''}`;
   el.dataset.id = id;
-  el.setAttribute('aria-label', t(it.type === 'tool' ? 'chip.labelTool' : 'chip.label', { name: it.name }));
+  el.setAttribute('aria-label', t('chip.label', { name: it.name }));
+  el.title = `${it.name} — ${it.desc}`;
   el.innerHTML = `<span class="chip-art">${renderArt(it)}</span><span class="chip-name">${esc(it.name)}</span>`;
   el.dataset.newLabel = t('shelf.new');
-  el.style.setProperty('--blink', `${(-Math.random() * 6).toFixed(2)}s`); // so faces don't all blink together
+  el.style.setProperty('--blink', `${(-Math.random() * 6).toFixed(2)}s`); // faces don't all blink together
   return el;
 }
 
-/** Makes a chip live: draggable, clickable, and known to the table. */
 function wireChip(el) {
   el.addEventListener('pointerdown', onChipDown);
   el.addEventListener('click', onChipClick);
-  el.addEventListener('dblclick', () => { // double-click makes a copy
+  el.addEventListener('dblclick', () => {
     select(null);
-    addChip(el.dataset.id, el._x + 28, el._y + 22, 'pop');
+    addChip(el.dataset.id, el._x + 30, el._y + 24, 'pop');
     play('pick');
     persist();
   });
@@ -86,19 +89,19 @@ function addChip(id, x, y, anim = '') {
   return el;
 }
 
-/** Positions a chip, keeping it fully on the table. */
+/** Positions a chip, keeping it fully on the counter. */
 function place(el, x, y) {
   const w = tableEl.clientWidth, h = tableEl.clientHeight;
   const half = CHIP / 2;
   el._x = Math.min(Math.max(x, half), Math.max(half, w - half));
-  el._y = Math.min(Math.max(y, half), Math.max(half, h - half - 10));
+  el._y = Math.min(Math.max(y, half * 0.9), Math.max(half, h - half - 6));
   el.style.left = `${el._x}px`;
   el.style.top = `${el._y}px`;
 }
 
 function removeChip(el, anim = true) {
   chips.delete(el);
-  if (selected === el) selected = null;
+  if (selected === el) select(null);
   if (!anim) { el.remove(); updateHint(); return; }
   el.classList.add('vanish');
   el.style.pointerEvents = 'none';
@@ -106,44 +109,46 @@ function removeChip(el, anim = true) {
   updateHint();
 }
 
-function updateHint() {
-  hintEl.hidden = chips.size > 0;
-}
+function updateHint() { hintEl.hidden = chips.size > 0; }
 
-/** Saves the table layout as fractions so it survives window resizing. */
+/** Saves the counter layout as fractions so it survives window resizing. */
 function persist() {
   const w = tableEl.clientWidth || 1, h = tableEl.clientHeight || 1;
   state.table = [...chips].map((c) => ({ id: c.dataset.id, x: +(c._x / w).toFixed(4), y: +(c._y / h).toFixed(4) }));
   save();
 }
 
-/** Finds a roomy free spot on the table (used when tapping shelf items). */
-function freeSpot(near) {
+/** Finds a roomy free spot, optionally near a point. */
+function freeSpot(nx, ny) {
   const w = tableEl.clientWidth, h = tableEl.clientHeight;
-  let best = null, bestScore = -1;
-  for (let i = 0; i < 24; i++) {
-    const x = near ? near._x + (Math.random() - 0.5) * 220 : w * (0.2 + Math.random() * 0.6);
-    const y = near ? near._y + (Math.random() - 0.5) * 180 : h * (0.25 + Math.random() * 0.55);
-    let d = 400;
+  let best = [w / 2, h / 2], bestScore = -Infinity;
+  for (let i = 0; i < 30; i++) {
+    const x = nx != null ? nx + (Math.random() - 0.5) * 200 : w * (0.15 + Math.random() * 0.7);
+    const y = ny != null ? ny + Math.random() * 120 : h * (0.25 + Math.random() * 0.6);
+    let d = 300;
     for (const c of chips) d = Math.min(d, Math.hypot(c._x - x, c._y - y));
-    if (near) d = Math.min(d, 400 - Math.hypot(near._x - x, near._y - y) * 0.5);
-    if (d > bestScore) { bestScore = d; best = [x, y]; }
+    const score = Math.min(d, CHIP * 1.2) - (nx != null ? Math.hypot(nx - x, ny - y) * 0.15 : 0);
+    if (score > bestScore) { bestScore = score; best = [x, y]; }
   }
   return best;
 }
 
-/** Put an item from the shelf on the table (tap / Enter on a shelf tile). */
+/** Puts an item from the pantry on the counter (tap / Enter on a pantry tile). */
 export function placeFromShelf(id) {
-  const [x, y] = freeSpot(selected);
+  const [x, y] = freeSpot();
   const el = addChip(id, x, y, 'pop');
   play('drop');
-  if (selected) {
-    const other = selected;
-    select(null);
-    setTimeout(() => combine(el, other), 180);
-  } else {
-    persist();
-  }
+  persist();
+  return el;
+}
+
+/** Puts an item on the counter just below a screen rectangle (a tool), e.g. a fresh result. */
+export function placeBelow(rect, id, anim = 'pop') {
+  const tr = tableEl.getBoundingClientRect();
+  const cx = rect ? rect.left + rect.width / 2 - tr.left : tr.width / 2;
+  const [x, y] = freeSpot(cx, CHIP * 0.65);
+  const el = addChip(id, x, y, anim);
+  persist();
   return el;
 }
 
@@ -155,11 +160,22 @@ export function clearTable() {
   toast({ body: t('toast.cleared'), kind: 'soft', ms: 1600 });
 }
 
+/** Hands over the picked-up chip (for tapping a tool after tapping food). */
+export function takeSelected() {
+  if (!selected) return null;
+  const el = selected;
+  select(null);
+  removeChip(el);
+  persist();
+  return el.dataset.id;
+}
+
 // ---------- tap / keyboard selection ----------
 
 function select(el) {
   if (selected) selected.classList.remove('selected');
   selected = el;
+  document.body.classList.toggle('has-selection', !!el);
   if (el) {
     el.classList.add('selected');
     play('pick');
@@ -173,13 +189,13 @@ function onChipClick(e) {
   if (selected === el) { select(null); return; }
   const other = selected;
   select(null);
-  combine(other, el);
+  mixChips(other, el);
 }
 
 function onKey(e) {
   const el = e.target.closest?.('.chip');
   if (!el) return;
-  if (e.key === 'Escape') { select(null); }
+  if (e.key === 'Escape') select(null);
   else if (e.key === 'Delete' || e.key === 'Backspace') {
     e.preventDefault();
     const next = [...chips].find((c) => c !== el);
@@ -196,10 +212,9 @@ function onKey(e) {
 }
 
 // ---------- dragging ----------
-// While dragging, a floating copy (the "ghost") follows the pointer in a layer
-// above everything, so it can pass over the shelf. The real chip waits, invisible,
-// and moves to the drop spot at the end. (Moving the touched element itself
-// would confuse touch screens.)
+// While dragging, a floating copy (the "ghost") follows the pointer in a layer above
+// everything, so it can travel over the tools and the pantry. The real chip waits,
+// faded, and moves at the end. (Moving the touched element itself confuses touch screens.)
 
 function onChipDown(e) {
   if (e.button > 0) return;
@@ -213,7 +228,7 @@ function onChipDown(e) {
   };
 }
 
-/** Called by the shelf once the player starts pulling a tile out. */
+/** Called by the pantry once the player starts pulling a tile out. */
 export function beginShelfDrag(id, e) {
   if (selected) select(null);
   drag = { src: null, id, ghost: makeGhost(id), fromShelf: true, started: true, pointerId: e.pointerId, offX: 0, offY: 0 };
@@ -243,7 +258,6 @@ function moveGhost(cx, cy) {
   drag.ghost.style.top = `${cy - drag.offY}px`;
 }
 
-/** Converts a screen position to table coordinates. */
 function toTable(cx, cy) {
   const r = tableEl.getBoundingClientRect();
   return [cx - r.left, cy - r.top, cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom];
@@ -275,8 +289,10 @@ function onMove(e) {
   }
   e.preventDefault();
   moveGhost(e.clientX, e.clientY);
+  const station = hooks.stationAt?.(e.clientX, e.clientY);
+  hooks.highlightStation?.(station);
   const [x, y, inside] = toTable(e.clientX - drag.offX, e.clientY - drag.offY);
-  setHover(inside ? nearestChip(x, y, drag.src) : null);
+  setHover(!station && inside ? nearestChip(x, y, drag.src) : null);
 }
 
 function onUp(e) {
@@ -284,91 +300,53 @@ function onUp(e) {
   const d = drag; drag = null;
   if (!d.started) return; // it was a tap: the click handler deals with it
   setHover(null);
+  hooks.highlightStation?.(null);
   d.ghost.remove();
   if (d.src) {
     d.src.classList.remove('lifted');
     d.src._justDragged = true; // so the click that follows a drag is ignored
     setTimeout(() => { if (d.src) d.src._justDragged = false; }, 60);
   }
+  if (e.type === 'pointercancel') return;
 
-  const cancelled = e.type === 'pointercancel';
+  // 1. into a cooking tool?
+  const station = hooks.stationAt?.(e.clientX, e.clientY);
+  if (station) {
+    if (hooks.addToStation?.(station, d.id)) { if (d.src) { removeChip(d.src, false); persist(); } }
+    else if (d.src) bounce(d.src, 'wiggle');
+    return;
+  }
+
+  // 2. back to the pantry, or dropped somewhere that isn't the counter?
   const [x, y, inside] = toTable(e.clientX - d.offX, e.clientY - d.offY);
   const sr = shelfRect();
   const overShelf = e.clientX >= sr.left && e.clientX <= sr.right && e.clientY >= sr.top && e.clientY <= sr.bottom;
-
-  if (cancelled && d.src) return; // leave it where it was
-  if (overShelf || !inside || cancelled) {
-    if (d.src && !overShelf) { bounce(d.src, 'squash'); return; } // dropped outside: stays put
+  if (overShelf || !inside) {
+    if (d.src && !overShelf) { bounce(d.src, 'squash'); return; } // stays where it was
     if (d.src) removeChip(d.src);
     play('poof');
     persist();
     return;
   }
 
+  // 3. onto the counter (and maybe onto another chip to mix)
   const el = d.src || addChip(d.id, x, y);
   place(el, x, y);
   const target = nearestChip(el._x, el._y, el);
-  if (target) combine(el, target);
+  if (target) mixChips(el, target);
   else { bounce(el, 'squash'); play('drop'); persist(); }
 }
 
-// ---------- combining ----------
+// ---------- mixing two chips ----------
 
-/**
- * Combines two chips. "moving" is the one that was dropped, "target" the one below.
- * Tools are never used up: the item turns into something new next to the tool.
- */
-function combine(moving, target) {
-  const a = moving.dataset.id, b = target.dataset.id;
-  const result = combineIds(a, b);
-  const A = items.get(a), B = items.get(b);
-
-  if (!result) {
-    // Nothing happens (yet): a gentle wiggle, and the moving chip hops aside.
-    bounce(target, 'wiggle');
-    bounce(moving, 'wiggle');
-    const ang = Math.atan2(moving._y - target._y, moving._x - target._x) || Math.random() * 6;
-    place(moving, target._x + Math.cos(ang) * (CHIP * 0.95), target._y + Math.sin(ang) * (CHIP * 0.95));
-    play('nope');
-    toast({ body: t('toast.nothing', { a: esc(A.name), b: esc(B.name) }), kind: 'soft', ms: 2200 });
-    persist();
-    return;
-  }
-
-  const aTool = isTool(a), bTool = isTool(b);
-  let x = target._x, y = target._y;
-  if (aTool || bTool) {
-    // keep the tool, and pop the result out just below it (or above if there's no room)
-    const tool = aTool ? moving : target;
-    x = tool._x + (Math.random() - 0.5) * 30;
-    y = tool._y + CHIP * 1.3;
-    if (y > tableEl.clientHeight - CHIP / 2 - 10) y = tool._y - CHIP * 1.3;
-    if (aTool) place(moving, moving._x, moving._y);
-  }
-  if (!aTool) removeChip(moving);
-  if (!bTool) removeChip(target);
-
-  const R = items.get(result);
-  const el = addChip(result, x, y, 'pop');
-  play('combine');
-
-  const isNew = discover(result, [a, b]);
-  if (isNew) {
-    setTimeout(() => {
-      const r = el.getBoundingClientRect();
-      sparkleBurst(r.left + r.width / 2, r.top + r.height / 2.6);
-      play('discover');
-      el.classList.add('is-new');
-      setTimeout(() => el.classList.remove('is-new'), 4000);
-    }, 160);
-    toast({
-      kind: 'new',
-      art: renderArt(R),
-      title: `${t('toast.new')} ${esc(R.name)}`,
-      body: esc(R.desc),
-      ms: 4200,
-    });
-  }
+function mixChips(moving, target) {
+  const res = hooks.mix?.(moving.dataset.id, target.dataset.id);
+  if (!res) return;
+  const { _x: x, _y: y } = target;
+  removeChip(moving);
+  removeChip(target);
+  play('stir');
+  const el = addChip(res.item.id, x, y, 'pop');
   persist();
-  onChange({ result, isNew });
+  hooks.celebrate?.(res, el);
 }

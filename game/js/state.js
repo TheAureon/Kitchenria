@@ -1,27 +1,37 @@
-// state.js — remembers what the player has discovered and what is on the table.
-// Saved automatically in the browser (localStorage) a moment after every change.
+// state.js — everything the game remembers, saved automatically in the browser
+// (localStorage) a moment after every change.
 
-const SAVE_KEY = 'kitchenria.save.v1';
+const SAVE_KEY = 'kitchenria.save.v2';
 
 export const state = {
-  version: 1,
-  discovered: [],     // item ids in the order they were found
-  firstMade: {},      // id -> [a, b]  how it was first made (for the recipe book)
+  version: 2,
+  discovered: [],     // ids of everything in the pantry, in the order it arrived
+  creations: {},      // id -> full item for everything you have cooked (and dishes you served)
+  keyIndex: {},       // recipe key ("fry(egg)") -> item id, so a recipe always gives the same thing
+  nameIndex: {},      // lower-case name -> item id, so two ways to make "Toast" give one Toast
   fresh: [],          // ids still showing the "New!" tag
-  table: [],          // [{ id, x, y }] with x/y as 0..1 fractions of the table size
+  table: [],          // [{ id, x, y }] things on the counter, x/y as 0..1 fractions
+  stations: {},       // tool id -> [item ids] waiting inside that tool
+  points: 0,          // chef points
+  rank: 1,            // chef rank 1..10
+  served: {},         // dish id -> { stars, review, times, first, last }
+  signatures: [],     // classic dish ids found
+  badges: [],         // badge ids earned
+  stats: { made: {}, ops: {}, burnt: 0, servedRaw: 0, goodServes: 0, bestStars: 0 },
   settings: { muted: false, sort: 'found', filter: 'all' },
 };
 
-export function loadSave(starters) {
+export function loadSave() {
   try {
     const raw = localStorage.getItem(SAVE_KEY);
     if (raw) {
       const data = JSON.parse(raw);
-      Object.assign(state, data, { settings: { ...state.settings, ...(data.settings || {}) } });
+      Object.assign(state, data, {
+        settings: { ...state.settings, ...(data.settings || {}) },
+        stats: { ...state.stats, ...(data.stats || {}) },
+      });
     }
   } catch (e) { console.warn('[Kitchenria] Could not read the save, starting fresh.', e); }
-  // Starters are always known, even if the item list grows in an update.
-  for (const id of starters) if (!state.discovered.includes(id)) state.discovered.push(id);
 }
 
 let timer = null;
@@ -37,12 +47,11 @@ export function saveNow() {
 
 export const isDiscovered = (id) => state.discovered.includes(id);
 
-/** Records a discovery. Returns true if it was brand new. */
-export function discover(id, from) {
+/** Adds something to the pantry. Returns true if it was brand new. */
+export function addToPantry(id, { markFresh = true } = {}) {
   if (isDiscovered(id)) return false;
   state.discovered.push(id);
-  state.firstMade[id] = from;
-  state.fresh.push(id);
+  if (markFresh) state.fresh.push(id);
   save();
   return true;
 }

@@ -50,17 +50,24 @@ function wrapModule(name) {
 const js = `'use strict';\nconst __mods = {};\n${order.map(wrapModule).join('\n')}`.replace(/<\/script/gi, '<\\/script');
 
 // ---------- data ----------
-const items = JSON.parse(read('data/items.json'));
-for (const it of items.items) {
-  const img = it.art?.image;
-  if (img && !img.startsWith('data:')) {
-    if (existsSync(join(GAME, img))) it.art.image = dataUri(img);
-    else console.warn(`Picture not found for "${it.id}": game/${img} (the doodle will be used)`), delete it.art.image;
+// any custom pictures that ingredients or tools point to get packed inside as well
+const embedImages = (list) => {
+  for (const it of list) {
+    const img = it.art?.image;
+    if (img && !img.startsWith('data:')) {
+      if (existsSync(join(GAME, img))) it.art.image = dataUri(img);
+      else console.warn(`Picture not found for "${it.id}": game/${img} (the doodle will be used)`), delete it.art.image;
+    }
   }
-}
+};
+const ingredients = JSON.parse(read('data/ingredients.json'));
+const kitchen = JSON.parse(read('data/kitchen.json'));
+embedImages(ingredients.ingredients);
+embedImages(kitchen.tools);
 const packed = {
-  'data/items.json': items,
-  'data/recipes.json': JSON.parse(read('data/recipes.json')),
+  'data/ingredients.json': ingredients,
+  'data/kitchen.json': kitchen,
+  'data/signatures.json': JSON.parse(read('data/signatures.json')),
   'lang/en.json': JSON.parse(read('lang/en.json')),
 };
 const packedJs = `window.KITCHENRIA_PACKED = ${JSON.stringify(packed)};`.replace(/<\/script/gi, '<\\/script').replace(/<!--/g, '<\\!--');
