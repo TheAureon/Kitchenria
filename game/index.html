@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kitchenria</title>
+  <meta name="description" content="A cosy cooking discovery game. Combine ingredients and tools to discover new dishes.">
+  <meta name="theme-color" content="#f6ead6">
+  <link rel="stylesheet" href="css/main.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#table" data-i18n="a11y.skip">Skip to the table</a>
+
+  <!-- ===== top bar ===== -->
+  <header class="topbar">
+    <h1 class="logo">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 18 Q7 33 20 34 Q33 33 33 18 Z" fill="#e8584c" stroke="#4a3426" stroke-width="2.4" stroke-linejoin="round"/><path d="M5 18 H35" stroke="#4a3426" stroke-width="2.6" stroke-linecap="round"/><path d="M15 13 q-2 -4 1 -8 M24 13 q-2 -4 1 -8" fill="none" stroke="#4a3426" stroke-width="2" stroke-linecap="round" opacity=".5"/></svg>
+      <span data-i18n="app.title">Kitchenria</span>
+    </h1>
+    <div class="found" aria-live="polite">
+      <span id="found-text">…</span>
+      <span class="found-track" aria-hidden="true"><span id="found-bar"></span></span>
+    </div>
+    <div class="top-actions">
+      <button id="btn-clear" class="icon-btn" type="button" data-i18n-attr="title:top.clearHint;aria-label:top.clear">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3 L10 11" stroke-width="2.2"/><path d="M6 12 h9 l2 8 h-13 z" stroke-width="2"/><path d="M8 16 v3 M11 16 v3 M14 16 v3" stroke-width="1.6"/></svg>
+        <span class="btn-label" data-i18n="top.clear">Tidy table</span>
+      </button>
+      <button id="btn-sound" class="icon-btn" type="button" aria-pressed="true" data-i18n-attr="aria-label:top.sound">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9 h4 l5 -4 v14 l-5 -4 h-4 z" stroke-width="2"/><path class="wave" d="M16 9 q2 3 0 6 M18.5 7 q4 5 0 10" stroke-width="2"/><path class="cross" d="M16 9 l5 6 M21 9 l-5 6" stroke-width="2"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- ===== kitchen scene: back wall + table ===== -->
+    <section class="scene" aria-labelledby="table-title">
+      <div class="wall" aria-hidden="true">
+        <svg class="window" viewBox="0 0 160 110">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe3f2"/><stop offset="1" stop-color="#fbe9cf"/></linearGradient>
+            <clipPath id="glass"><rect x="8" y="8" width="144" height="94" rx="10"/></clipPath>
+          </defs>
+          <rect x="8" y="8" width="144" height="94" rx="10" fill="url(#sky)" stroke="#4a3426" stroke-width="3.5"/>
+          <g clip-path="url(#glass)"><g class="cloud"><ellipse cx="44" cy="36" rx="16" ry="7" fill="#fff"/><ellipse cx="54" cy="31" rx="10" ry="7" fill="#fff"/></g>
+          <g class="cloud slow"><ellipse cx="112" cy="58" rx="13" ry="5.5" fill="#fff" opacity=".9"/><ellipse cx="120" cy="54" rx="8" ry="5" fill="#fff" opacity=".9"/></g>
+          </g>
+          <circle cx="128" cy="28" r="9" fill="#ffd77a" opacity=".9"/>
+          <path d="M80 9 V101 M9 55 H151" stroke="#4a3426" stroke-width="3.5"/>
+          <path d="M2 100 H158" stroke="#4a3426" stroke-width="6" stroke-linecap="round"/>
+          <path d="M3 99 H157" stroke="#d9a66b" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <svg class="plant" viewBox="0 0 70 110">
+          <path d="M35 0 V22" stroke="#4a3426" stroke-width="2"/>
+          <g class="sway">
+            <path d="M18 50 Q8 70 14 92 M30 56 Q26 80 34 104 M50 52 Q62 72 56 96" fill="none" stroke="#5f9e45" stroke-width="3" stroke-linecap="round"/>
+            <ellipse cx="13" cy="72" rx="6" ry="3.5" fill="#79b55a" stroke="#4a3426" stroke-width="1.6" transform="rotate(60 13 72)"/>
+            <ellipse cx="16" cy="88" rx="6" ry="3.5" fill="#79b55a" stroke="#4a3426" stroke-width="1.6" transform="rotate(-50 16 88)"/>
+            <ellipse cx="29" cy="78" rx="6" ry="3.5" fill="#8cc46c" stroke="#4a3426" stroke-width="1.6" transform="rotate(70 29 78)"/>
+            <ellipse cx="34" cy="98" rx="6" ry="3.5" fill="#79b55a" stroke="#4a3426" stroke-width="1.6" transform="rotate(-60 34 98)"/>
+            <ellipse cx="59" cy="74" rx="6" ry="3.5" fill="#8cc46c" stroke="#4a3426" stroke-width="1.6" transform="rotate(-60 59 74)"/>
+            <ellipse cx="56" cy="90" rx="6" ry="3.5" fill="#79b55a" stroke="#4a3426" stroke-width="1.6" transform="rotate(50 56 90)"/>
+            <path d="M14 30 H56 L52 54 Q35 60 18 54 Z" fill="#e2884f" stroke="#4a3426" stroke-width="2.6" stroke-linejoin="round"/>
+            <path d="M16 36 H54" stroke="#4a3426" stroke-width="1.6" opacity=".4"/>
+            <path d="M14 30 L35 22 L56 30" fill="none" stroke="#4a3426" stroke-width="1.6"/>
+          </g>
+        </svg>
+        <svg class="jars" viewBox="0 0 150 80">
+          <rect x="22" y="22" width="22" height="32" rx="6" fill="#f6dc9a" stroke="#4a3426" stroke-width="2.4"/><rect x="24" y="15" width="18" height="8" rx="2" fill="#e2884f" stroke="#4a3426" stroke-width="2"/>
+          <rect x="54" y="14" width="26" height="40" rx="7" fill="#cfe8ee" stroke="#4a3426" stroke-width="2.4"/><rect x="57" y="7" width="20" height="8" rx="2" fill="#79b55a" stroke="#4a3426" stroke-width="2"/><circle cx="67" cy="36" r="6" fill="#e8584c" opacity=".8"/>
+          <rect x="90" y="28" width="18" height="26" rx="5" fill="#f2c9d4" stroke="#4a3426" stroke-width="2.4"/><rect x="92" y="22" width="14" height="7" rx="2" fill="#d48a3a" stroke="#4a3426" stroke-width="2"/>
+          <path d="M116 54 q4 -18 12 -22 q2 12 -4 22" fill="#79b55a" stroke="#4a3426" stroke-width="2"/>
+          <path d="M8 56 H142" stroke="#4a3426" stroke-width="6" stroke-linecap="round"/><path d="M9 55 H141" stroke="#d9a66b" stroke-width="3" stroke-linecap="round"/>
+          <path d="M24 58 L30 70 M126 58 L120 70" stroke="#4a3426" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <h2 id="table-title" class="visually-hidden" data-i18n="table.label">Kitchen table</h2>
+      <div id="table" class="table" role="application" data-i18n-attr="aria-label:table.label">
+        <p id="table-hint" class="table-hint">
+          <span class="hint-big" data-i18n="table.empty">The table is ready for you ✿</span>
+          <span data-i18n="table.hint"></span>
+        </p>
+      </div>
+      <div id="toasts" class="toasts" aria-live="polite"></div>
+    </section>
+
+    <!-- ===== pantry shelf (inventory) ===== -->
+    <aside id="shelf" class="shelf" aria-labelledby="shelf-title">
+      <div class="shelf-head">
+        <button id="shelf-toggle" class="shelf-toggle" type="button" aria-expanded="true" aria-controls="shelf-body">
+          <h2 id="shelf-title"><span class="long" data-i18n="shelf.title">Pantry shelf</span><span class="short" data-i18n="shelf.toggle">Shelf</span> <span id="shelf-count" class="count">0</span></h2>
+        </button>
+        <div class="shelf-tools">
+          <label class="search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6" stroke-width="2.2"/><path d="M15 15 L20 20" stroke-width="2.4"/></svg>
+            <input id="shelf-search" type="search" autocomplete="off" data-i18n-attr="placeholder:shelf.search;aria-label:shelf.search">
+          </label>
+          <select id="shelf-sort" data-i18n-attr="aria-label:shelf.sort">
+            <option value="found" data-i18n="shelf.sort.found">Newest first</option>
+            <option value="oldest" data-i18n="shelf.sort.oldest">Oldest first</option>
+            <option value="az" data-i18n="shelf.sort.az">A to Z</option>
+            <option value="type" data-i18n="shelf.sort.type">By kind</option>
+          </select>
+        </div>
+      </div>
+      <div id="shelf-body" class="shelf-body">
+        <div class="filters" role="group" data-i18n-attr="aria-label:shelf.filter">
+          <button type="button" data-filter="all" data-i18n="shelf.filter.all">All</button>
+          <button type="button" data-filter="ingredient" data-i18n="shelf.filter.ingredient">Ingredients</button>
+          <button type="button" data-filter="tool" data-i18n="shelf.filter.tool">Tools</button>
+          <button type="button" data-filter="dish" data-i18n="shelf.filter.dish">Dishes</button>
+        </div>
+        <div id="shelf-grid" class="shelf-grid"></div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- floating layers -->
+  <div id="drag-layer" class="drag-layer"></div>
+  <div id="fx-layer" class="fx-layer" aria-hidden="true"></div>
+
+  <div id="boot-error" class="boot-error" hidden>
+    <p><strong>Oh no, the kitchen didn’t open.</strong></p>
+    <p>Kitchenria needs to be opened through a web address (for example from your website, or with the “Start Kitchenria” file on a Mac), not by double-clicking <em>index.html</em>.</p>
+  </div>
+  <script>
+    // Opening index.html straight from the Finder can't load the game's modules; explain kindly.
+    if (location.protocol === 'file:') document.getElementById('boot-error').hidden = false;
+  </script>
+  <noscript><div class="boot-error"><p>Kitchenria needs JavaScript turned on.</p></div></noscript>
+</body>
+</html>

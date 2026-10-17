@@ -1,0 +1,26 @@
+<!doctype html>
+<!-- Art preview: shows every item's doodle at once. Open it at  http://localhost:8123/dev/gallery.html  -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Kitchenria – art gallery</title>
+  <link rel="stylesheet" href="../game/css/main.css">
+  <style>
+    body { display: block; overflow: auto; height: auto; padding: 20px; }
+    .g { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 14px; }
+    figure { margin: 0; background: var(--cream); border: 2px solid var(--ink); border-radius: 14px; padding: 8px; text-align: center; font-size: 12px; }
+    figure .doodle { width: 90px; height: 90px; margin: auto; }
+    small { display: block; opacity: .6; }
+  </style>
+</head>
+<body>
+  <h1>Kitchenria art gallery</h1>
+  <div class="g" id="g"></div>
+  <script type="module">
+    import { renderArt } from '../game/js/doodle.js';
+    const { items } = await fetch('../game/data/items.json').then((r) => r.json());
+    document.getElementById('g').innerHTML = items.map((it) =>
+      `<figure>${renderArt(it)}<figcaption>${it.name}<small>${it.art.shape}${it.art.top ? ' + ' + it.art.top : ''}</small></figcaption></figure>`).join('');
+  </script>
+</body>
+</html>

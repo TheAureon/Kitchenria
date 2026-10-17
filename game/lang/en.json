@@ -1,0 +1,51 @@
+{
+  "_help": "All on-screen text lives here. To translate, copy this file (e.g. to fr.json) and translate the right-hand side only. {curly} words are filled in by the game.",
+
+  "app.title": "Kitchenria",
+  "app.tagline": "a cosy kitchen of discoveries",
+
+  "top.discovered": "{n} / {total} found",
+  "top.clear": "Tidy table",
+  "top.clearHint": "Put everything on the table back on the shelf",
+  "top.sound": "Sound on",
+  "top.muted": "Sound off",
+  "top.book": "Recipe book (coming soon)",
+  "top.settings": "Settings (coming soon)",
+
+  "shelf.title": "Pantry shelf",
+  "shelf.search": "Search…",
+  "shelf.sort": "Sort",
+  "shelf.sort.found": "Newest first",
+  "shelf.sort.oldest": "Oldest first",
+  "shelf.sort.az": "A to Z",
+  "shelf.sort.type": "By kind",
+  "shelf.filter": "Show",
+  "shelf.filter.all": "All",
+  "shelf.filter.ingredient": "Ingredients",
+  "shelf.filter.tool": "Tools",
+  "shelf.filter.dish": "Dishes",
+  "shelf.empty": "Nothing here matches “{q}”.",
+  "shelf.new": "New!",
+  "shelf.toggle": "Shelf",
+
+  "type.ingredient": "Ingredient",
+  "type.prep": "Kitchen step",
+  "type.dish": "Dish",
+  "type.tool": "Tool",
+
+  "table.hint": "Drag things from the shelf onto the table, then drop one onto another to cook. Tap something on the shelf to put it on the table.",
+  "table.label": "Kitchen table",
+  "table.empty": "The table is ready for you ✿",
+
+  "toast.new": "New discovery!",
+  "toast.made": "{a} + {b}",
+  "toast.nothing": "Hmm… {a} and {b} don’t want to mix just yet.",
+  "toast.selected": "{name} picked up. Choose something to combine it with.",
+  "toast.cleared": "All tidy!",
+
+  "chip.label": "{name} on the table. Press Enter to pick it up or combine, Delete to put it away.",
+  "chip.labelTool": "{name} (tool) on the table. Press Enter to pick it up or combine, Delete to put it away.",
+  "tile.label": "{name}. Press Enter to put it on the table.",
+
+  "a11y.skip": "Skip to the table"
+}
