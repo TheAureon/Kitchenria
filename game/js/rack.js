@@ -19,10 +19,10 @@ export function initRack(h) {
   hooks = h;
   rackEl = document.getElementById('rack');
   rackEl.innerHTML = db.handTools.map((tool) => `
-    <button type="button" class="hand-tool" data-tool="${tool.id}" aria-label="${esc(t('handtool.label', { tool: t(`tool.${tool.id}`), verb: t(`verb.${tool.op}`) }))}">
+    <button type="button" class="hand-tool" data-tool="${tool.id}" aria-label="${esc(tool.menu ? t('handtool.handsLabel') : t('handtool.label', { tool: t(`tool.${tool.id}`), verb: t(`verb.${tool.op}`) }))}">
       <span class="hook" aria-hidden="true"></span>
       <span class="hand-tool-art">${renderArtRaw(tool.art, tool.id, 'tool')}</span>
-      <span class="hand-tool-name">${esc(t(`verb.${tool.op}`))}</span>
+      <span class="hand-tool-name">${esc(tool.menu ? t(`tool.${tool.id}`) : t(`verb.${tool.op}`))}</span>
     </button>`).join('');
 
   // a short move starts a drag; on touch screens the rail scrolls sideways, so only a downward pull drags

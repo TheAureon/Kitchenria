@@ -1,6 +1,7 @@
 {
   "_help": [
     "handTools : utensils hanging on the wall rail. Drag one onto food (or a stack of food) to use it.",
+    "            The hands have \"menu\": true, so they offer every hand action that makes sense (knead, squeeze, peel…).",
     "            op = what it does: knead, chop, whisk, mix, roll, mash, grate, grind.",
     "appliances: the big tools on the counter. Drop food (or a stack) into one to cook it.",
     "            op = boil, fry, bake, blend, grill, steam, freeze, marinate, age, plate.",
@@ -8,7 +9,7 @@
     "pantry    : the sections of the pantry, and which ingredient categories ('cat' in ingredients.json) go in each."
   ],
   "handTools": [
-    { "id": "hands",   "op": "knead", "art": { "shape": "hand",       "color": "#f6d2b8", "accent": "#e8a98a" } },
+    { "id": "hands",   "op": "knead", "menu": true, "art": { "shape": "hand",       "color": "#f6d2b8", "accent": "#e8a98a" } },
     { "id": "knife",   "op": "chop",  "art": { "shape": "knife",      "color": "#dfe5ea", "accent": "#6b4a33" } },
     { "id": "whisk",   "op": "whisk", "art": { "shape": "whisk",      "color": "#c9d2da", "accent": "#d9a66b" } },
     { "id": "spoon",   "op": "mix",   "art": { "shape": "spoon",      "color": "#d9a66b", "accent": "#b98149" } },

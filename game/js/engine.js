@@ -221,15 +221,66 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     },
 
     // ----- hand tools -----
+    // the hands can do many things (see handActions below for which ones make sense)
     knead(c) {
       const hasFlour = c.items.some((i) => c.isBase(i, 'flour') || i.arch === 'flourOf');
       if (hasFlour) return RULES.mix(c);
       if (c.n === 1 && c.items[0].form === 'dough') return R('kneaded', 'dough', c.items[0].name, { noun: true, doughKind: dk(c.items[0]) });
-      if (c.items.some((i) => ['rice', 'risotto'].includes(i.arch))) return R('riceBall', 'bun', c.flavour(['rice', 'water', 'salt']), { noun: !c.flavour(['rice', 'water', 'salt']) });
-      if (c.catW('protein') > 0) return R('patty', 'flat', mods(c.mains.filter((id) => ING.get(id).cat === 'protein')));
-      if (c.maxHeat > 0 && c.has('potato', 'carrot', 'beans', 'banana')) return R('mash', 'paste', mods(c.mains));
       if (c.only('butter', 'herbs', 'garlic', 'honey', 'salt', 'black_pepper', 'chili', 'lemon', 'cinnamon') && c.has('butter')) return RULES.mix(c);
-      return R('squished', 'lump', c.n > 1 ? names(c.mains) : subj(c.items[0]));
+      return RULES.shape(c, true);
+    },
+    shape(c, fromKnead = false) {
+      const dough = c.items.find((i) => i.form === 'dough');
+      if (dough) return R('doughBalls', 'dough', '', { noun: true, doughKind: dk(dough), artForm: 'bun' });
+      if (c.items.some((i) => ['rice', 'risotto', 'friedRice'].includes(i.arch))) return R('riceBall', 'bun', c.flavour(['rice', 'water', 'salt']), { noun: !c.flavour(['rice', 'water', 'salt']) });
+      if (c.catW('protein') > 0) return R('patty', 'flat', mods(c.mains.filter((id) => ING.get(id).cat === 'protein')));
+      if (c.items.some((i) => i.arch === 'mash') || (c.maxHeat > 0 && c.has('potato', 'carrot', 'beans', 'banana'))) return R('cakes', 'flat', mods(c.mains));
+      if (fromKnead) return R('squished', 'lump', c.n > 1 ? names(c.mains) : subj(c.items[0]));
+      return R('ball', 'bun', c.n > 1 ? names(c.mains) : subj(c.items[0]));
+    },
+    squeeze(c) {
+      let juicy = c.items.filter((i) => i.kind === 'ingredient' ? flag(i.id, 'juicy') : (PIECE_FORMS.has(i.form) || i.form === 'whole') && Object.keys(i.parts).some((id) => flag(id, 'juicy')));
+      if (c.n > 1) { const fruity = juicy.filter((i) => i.kind === 'ingredient' && (flag(i.id, 'acid') || ING.get(i.id).cat === 'fruit')); if (fruity.length) juicy = fruity; }
+      const rest = c.items.filter((i) => !juicy.includes(i));
+      const juiceName = mods(mains(mergeParts(juicy)));
+      if (!juicy.length) return R('squished', 'lump', c.n > 1 ? names(c.mains) : subj(c.items[0]));
+      if (!rest.length) return R('juice', 'drink', juiceName);
+      if (rest.every((i) => LIQUID_FORMS.has(i.form) || (i.kind === 'ingredient' && (flag(i.id, 'sweetener') || flag(i.id, 'medium'))))) return RULES.mix(c);
+      const main = rest.length === 1 ? rest[0] : null;
+      return R('squeezedOver', main ? (main.form in FORM_ART ? main.form : 'plated') : 'mixbowl', main ? (main.noun || main.kind === 'ingredient' ? main.name : subj(main)) : names(mains(mergeParts(rest))), { y: juiceName, keepArt: main && main.art ? main : null, keepSig: main?.sig });
+    },
+    peel(c) {
+      const x = c.items[0];
+      if (x.arch === 'boiledEgg') return R('peeledEgg', 'egg', '', { noun: true });
+      return R('peeled', 'whole', subj(x), { prep: true, peeled: x });
+    },
+    crack(c) {
+      const x = c.items[0];
+      if (c.isBase(x, 'egg')) return R('cracked', 'liquid', '', { noun: true });
+      return R('crackedThing', 'pieces', subj(x), { prep: true, round: true });
+    },
+    tear(c) {
+      const x = c.items[0];
+      if (x.parts.chicken && x.heat > 0) return R('pulled', 'plated', ING.get('chicken').mod);
+      if (['loaf', 'slices', 'flat'].includes(x.form)) return R('torn', 'crumbs', subj(x), { prep: true });
+      return R('torn', 'pieces', subj(x), { prep: true });
+    },
+    toss(c) { return RULES.mix(c); },
+    season(c) {
+      const isSeasoning = (i) => i.kind === 'ingredient' ? (flag(i.id, 'seasoning') || flag(i.id, 'sweetener') || ['herbs', 'mint', 'garlic'].includes(i.id)) : ['grated', 'powdered', 'herbSalt', 'zest', 'ground', 'shavings', 'torn'].includes(i.arch) && Object.keys(i.parts).length === 1;
+      const seasonings = c.items.filter(isSeasoning);
+      const rest = c.items.filter((i) => !isSeasoning(i));
+      if (!rest.length || !seasonings.length) return RULES.mix(c);
+      const main = rest.length === 1 ? rest[0] : null;
+      const firstId = Object.keys(seasonings[0].parts)[0];
+      const adj = t(`season.${firstId}`) === `season.${firstId}` ? t('season.other') : t(`season.${firstId}`);
+      const label = main ? (main.noun || main.kind === 'ingredient' ? main.name : subj(main)) : names(mains(mergeParts(rest)));
+      return R('seasoned', main ? (main.form in FORM_ART ? main.form : 'plated') : 'mixbowl', label, { y: adj, keepArt: main && main.art ? main : null, keepSig: main?.sig, seasonColor: ING.get(firstId)?.color, noun: !!main?.noun });
+    },
+    crumble(c) {
+      const x = c.items[0];
+      if (c.isBase(x, 'cheese')) return R('crumbled', 'crumbs', x.name, { prep: true });
+      return R(x.form === 'cookie' ? 'cookieCrumbs' : 'crumbs', 'crumbs', modOf(x));
     },
     whisk(c) {
       if (c.all('egg', 'oil') && c.only('egg', 'oil', 'lemon', 'vinegar', 'salt', 'black_pepper', 'garlic')) return R('mayo', 'sauce', '', { noun: true });
@@ -488,6 +539,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       const fl = (skip = []) => c.flavour(['flour', 'water', 'milk', 'egg', 'sugar', 'butter', 'yeast', 'oil', 'salt', 'cream', 'vanilla', ...skip]);
       const extrasAreLoose = dough && c.items.every((i) => i === dough || LIQUID_FORMS.has(i.form) || (i.kind === 'ingredient' && (flag(i.id, 'sweetener') || flag(i.id, 'seasoning') || flag(i.id, 'fat'))));
       if (dough && (c.n === 1 || extrasAreLoose) && dough.arch === 'pizzaBase') return R('flatbread', 'flat', '', { noun: true });
+      if (dough && (c.n === 1 || extrasAreLoose) && dough.arch === 'doughBalls' && !['cookieDough', 'pastryDough', 'pastaDough'].includes(dk(dough))) return R('rolls', 'bun', '', { noun: true });
       if (dough && (c.n === 1 || extrasAreLoose)) {
         if (dk(dough) === 'cookieDough') return fl() ? R('flavCookies', 'cookie', fl(), { noun: true }) : R('cookies', 'cookie', '', { noun: true });
         if (dk(dough) === 'pastaDough') return R('crackers', 'cookie', '', { noun: true });
@@ -642,6 +694,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       from: { op, inputs: items.map((i) => i.id) },
       hot: !frozen && heat > 0 && !burnt && op !== 'freeze',
     };
+    if (r.keepSig) return { ...item, sig: r.keepSig }; // a sprinkled classic is still that classic
     return applySignature(item);
   }
 
@@ -652,6 +705,17 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
 
   // ---------- doodles for new creations ----------
   function makeArt(r, { color, parts, c, op, frozen, burnt, key }) {
+    if (r.peeled) {
+      const g = r.peeled.kind === 'ingredient' ? ING.get(r.peeled.id) : null;
+      return { ...(r.peeled.art || {}), color: g ? g.color : color, accent: tint(g ? g.color : color, '#4a3426', 0.2), top: undefined };
+    }
+    if (r.keepArt && r.keepArt.art && !burnt && (op === 'season' || op === 'squeeze')) {
+      const a = { ...r.keepArt.art };
+      a.top = op === 'season' ? 'specks' : 'dots';
+      a.topColor = op === 'season' ? (r.seasonColor === '#f7f4ee' || r.seasonColor === '#fffdfa' ? '#ffffff' : r.seasonColor || '#4a3426') : '#f8e15a';
+      if (a.top === 'specks' && a.topColor === '#ffffff') a.top = 'sparkle';
+      return a;
+    }
     if (r.keepArt && r.keepArt.art && !burnt) {
       const a = { ...r.keepArt.art };
       if (frozen) a.top = 'frost'; else if (HEAT_OPS.has(op)) a.top = 'steam';
@@ -769,5 +833,34 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     return item;
   }
 
-  return { baseItem, cook, plate, keyOf, mains, mods, ING, signatures };
+  /**
+   * Which hand actions make sense for some food (best first). The hands tool shows these as a menu.
+   * Always returns at least one action.
+   */
+  function handActions(items) {
+    if (!items.length) return [];
+    const c = context(items);
+    const one = c.n === 1 ? items[0] : null;
+    const base = one && one.kind === 'ingredient' ? one.id : null;
+    const juicy = items.some((i) => Object.keys(i.parts).some((id) => flag(id, 'juicy')) && (i.kind === 'ingredient' || PIECE_FORMS.has(i.form) || i.form === 'whole'));
+    const seasoning = (i) => i.kind === 'ingredient' && (flag(i.id, 'seasoning') || flag(i.id, 'sweetener') || ['herbs', 'mint', 'garlic'].includes(i.id));
+    const out = [];
+    const baking = items.some((i) => c.isBase(i, 'flour') || i.arch === 'flourOf' || i.form === 'dough');
+    // in a stack, only citrus and fruit get squeezed over the rest; on its own anything juicy can be
+    const squeezable = one ? juicy : items.some((i) => i.kind === 'ingredient' && (flag(i.id, 'acid') || ING.get(i.id).cat === 'fruit') && flag(i.id, 'juicy'));
+    if (baking) out.push('knead');
+    if (base === 'egg' || base === 'nuts') out.push('crack');
+    if (squeezable && !(base === 'egg') && !baking) out.push('squeeze');
+    if (one && (['banana', 'orange', 'potato', 'carrot', 'onion', 'garlic', 'ginger', 'avocado', 'apple', 'peach', 'lemon'].includes(base) || one.arch === 'boiledEgg')) out.push('peel');
+    if (one && (['herbs', 'spinach', 'mint', 'seaweed', 'mushroom', 'cheese'].includes(base) || ['loaf', 'slices', 'flat'].includes(one.form) || (one.parts.chicken && one.heat > 0))) out.push('tear');
+    if (items.some((i) => i.form === 'dough' || ['rice', 'risotto', 'friedRice', 'mash'].includes(i.arch)) || c.catW('protein') > 0) out.push('shape');
+    const mainsCount = items.filter((i) => !seasoning(i)).length;
+    if (!baking && c.n >= 2 && items.some(seasoning) && mainsCount >= 1) out.push('season');
+    if (!baking && mainsCount >= 2) out.push('toss');
+    if (one && (base === 'cheese' || ['loaf', 'slices', 'cookie', 'cake'].includes(one.form) || one.arch === 'toast')) out.push('crumble');
+    if (!out.length) out.push('knead');
+    return [...new Set(out)];
+  }
+
+  return { baseItem, cook, plate, handActions, keyOf, mains, mods, ING, signatures };
 }

@@ -27,7 +27,8 @@ let drag = null;          // the drag in progress, if any
 
 /**
  * @param {object} h  hooks from main.js:
- *   useTool(toolId, ids) → cooking result     celebrate(result, chipEl)
+ *   useTool(toolId, ids, op) → cooking result     handActions(ids) → hand actions that make sense
+ *   celebrate(result, chipEl)
  *   applianceAt(x, y) → id     dropInAppliance(id, ids) → bool     highlightAppliance(id)
  */
 export function initTable(h) {
@@ -220,13 +221,69 @@ function stackOnto(target, ids) {
 // ---------- using a hand tool on food ----------
 
 function useToolOn(toolId, chip) {
-  const res = hooks.useTool?.(toolId, idsOf(chip));
+  const tool = db.handTools.find((x) => x.id === toolId);
+  if (tool?.menu) {
+    // the hands can do lots of things: offer the ones that make sense for this food
+    const actions = hooks.handActions?.(idsOf(chip)) || [tool.op];
+    if (actions.length === 1) return applyTool(toolId, chip, actions[0]);
+    return showHandMenu(toolId, chip, actions);
+  }
+  applyTool(toolId, chip, tool.op);
+}
+
+function applyTool(toolId, chip, op) {
+  if (!chips.has(chip)) return;
+  const res = hooks.useTool?.(toolId, idsOf(chip), op);
   if (!res) return;
   const { _x: x, _y: y } = chip;
   removeChip(chip, false);
   const el = addChip([res.item.id], x, y, 'pop');
   persist();
   hooks.celebrate?.(res, el);
+}
+
+let menuEl = null;
+function closeHandMenu() {
+  if (!menuEl) return;
+  menuEl.remove();
+  menuEl = null;
+  window.removeEventListener('pointerdown', onOutside, true);
+}
+function onOutside(e) { if (menuEl && !menuEl.contains(e.target)) closeHandMenu(); }
+
+/** A little bubble next to the food with the hand actions to choose from. */
+function showHandMenu(toolId, chip, actions) {
+  closeHandMenu();
+  menuEl = document.createElement('div');
+  menuEl.className = 'hand-menu';
+  menuEl.setAttribute('role', 'menu');
+  menuEl.setAttribute('aria-label', t('hand.title'));
+  menuEl.innerHTML = `<p class="hand-menu-title">${esc(t('hand.title'))}</p>`
+    + actions.map((op) => `<button type="button" role="menuitem" data-op="${op}">${esc(t(`hand.${op}`))}</button>`).join('')
+    + `<button type="button" role="menuitem" class="hand-cancel" data-op="">${esc(t('hand.cancel'))}</button>`;
+  // place it beside the food, flipped to the left near the right edge
+  const flip = chip._x > tableEl.clientWidth - 220;
+  menuEl.style.left = `${flip ? chip._x - CHIP * 0.55 : chip._x + CHIP * 0.55}px`;
+  menuEl.style.top = `${Math.max(8, chip._y - CHIP * 0.6)}px`;
+  if (flip) menuEl.classList.add('flip');
+  menuEl.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-op]');
+    if (!b) return;
+    const op = b.dataset.op;
+    closeHandMenu();
+    if (op) applyTool(toolId, chip, op); else chip.focus();
+  });
+  menuEl.addEventListener('keydown', (e) => {
+    const items = [...menuEl.querySelectorAll('button')];
+    const i = items.indexOf(document.activeElement);
+    if (e.key === 'Escape') { e.preventDefault(); closeHandMenu(); chip.focus(); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+  });
+  tableEl.appendChild(menuEl);
+  play('pick');
+  menuEl.querySelector('button').focus({ preventScroll: true });
+  setTimeout(() => window.addEventListener('pointerdown', onOutside, true), 0);
 }
 
 /** Tapping a hand tool on the rail: uses it on the picked-up food. */
@@ -289,6 +346,7 @@ function onKey(e) {
 
 function onChipDown(e) {
   if (e.button > 0) return;
+  closeHandMenu();
   const el = e.currentTarget;
   el._justDragged = false;
   const r = el.getBoundingClientRect();

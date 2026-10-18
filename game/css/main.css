@@ -136,6 +136,18 @@ svg { overflow: visible; }
 .hand-tool-name { margin-top: -2px; padding: 0 8px; font-size: .72rem; font-weight: 600; background: var(--cream); border: 2px solid var(--ink); border-radius: 99px; }
 .hand-tool.in-use .hand-tool-art { opacity: .25; }
 .has-selection .hand-tool .hand-tool-name { background: var(--sun); }
+.hand-menu {
+  position: absolute; z-index: 30; translate: 0 -10%;
+  display: flex; flex-direction: column; gap: 4px; min-width: 132px;
+  padding: 8px; background: var(--cream); border: 2.5px solid var(--ink); border-radius: 16px 16px 16px 4px;
+  box-shadow: 0 5px 0 var(--ink-soft);
+  animation: toast-in .25s cubic-bezier(.3, 1.5, .5, 1);
+}
+.hand-menu.flip { translate: -100% -10%; border-radius: 16px 16px 4px 16px; }
+.hand-menu-title { margin: 0 2px 2px; font-size: .72rem; font-weight: 600; opacity: .7; }
+.hand-menu button { padding: 4px 12px; text-align: left; font-weight: 560; background: #fff8e6; border: 2px solid var(--ink); border-radius: 99px; }
+.hand-menu button:hover, .hand-menu button:focus-visible { background: var(--sun); outline: none; }
+.hand-menu .hand-cancel { background: transparent; border-style: dashed; font-weight: 450; font-size: .85rem; }
 .tool-ghost { position: fixed; z-index: 100; width: 84px; height: 84px; translate: -50% -50%; rotate: -20deg; pointer-events: none; filter: drop-shadow(0 12px 4px rgba(74, 52, 38, .25)); }
 .tool-ghost .doodle { width: 100%; height: 100%; }
 .plant .sway { transform-origin: 35px 22px; animation: sway 7s ease-in-out infinite; }

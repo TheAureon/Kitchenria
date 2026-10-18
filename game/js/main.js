@@ -3,7 +3,7 @@
 // and the top bar together.
 
 import { loadLanguage, applyToPage, t } from './i18n.js';
-import { loadData, toolById } from './data.js';
+import { loadData, toolById, db, getItem } from './data.js';
 import { state, loadSave, saveNow } from './state.js';
 import { cook as cookItems, serve as serveItems } from './kitchen.js';
 import { initShelf } from './shelf.js';
@@ -26,10 +26,11 @@ async function boot() {
     onTileActivate: (id) => placeFromShelf(id),
   });
   initTable({
-    useTool: (toolId, ids) => {
-      play(TOOL_SOUND[toolId] || 'stir');
-      return cookItems(toolById(toolId).op, ids);
+    useTool: (toolId, ids, op) => {
+      play(HAND_SOUND[op] || TOOL_SOUND[toolId] || 'stir');
+      return cookItems(op || toolById(toolId).op, ids);
     },
+    handActions: (ids) => db.engine.handActions(ids.map(getItem).filter(Boolean)),
     celebrate,
     applianceAt,
     dropInAppliance,
@@ -78,6 +79,7 @@ async function boot() {
   document.body.classList.add('ready');
 }
 
+const HAND_SOUND = { squeeze: 'stir', peel: 'pick', crack: 'chop', tear: 'poof', shape: 'grind', toss: 'stir', season: 'freeze', crumble: 'grind' };
 const TOOL_SOUND = { hands: 'grind', knife: 'chop', whisk: 'whirr', spoon: 'stir', pin: 'grind', masher: 'grind', grater: 'chop', mortar: 'grind' };
 
 /** A little sparkle the first time you make something this visit; a big one for classic dishes. */

@@ -23,7 +23,11 @@ Progress is saved separately for each way of playing (and each website), so the 
 * **Drag** an ingredient from the **pantry** onto the counter. (Or tap it.)
 * Drop food **onto other food** to **stack** it. Nothing happens to a stack yet: it's just a pile, waiting for a tool. Hover over a stack to see what's in it; double-click it to spread it out again.
 * **Hand tools** hang on the wall rail. Drag one down onto food or a stack:
-  * **Hands**: knead (flour + water + salt → Dough)
+  * **Hands** can do lots of things. Drop them on food and a little menu offers what makes sense:
+    knead (flour + water + salt → Dough), squeeze (lemon → Lemon Juice, or over fish), peel (banana, orange, boiled egg…),
+    crack (eggs, nuts), tear (herbs, bread; cooked chicken → Pulled Chicken), shape (rice → Rice Ball, chicken → Patty,
+    dough → Dough Balls that bake into Bread Rolls), toss (several things → a salad), sprinkle (fries + salt → Salted Fries)
+    and crumble (bread, cookies, cheese)
   * **Knife**: chop · **Whisk**: whisk (egg → Whisked Eggs) · **Spoon**: stir
   * **Rolling pin**: roll (Dough → Pizza Base, Pastry Dough → Pie Crust)
   * **Masher**: mash · **Grater**: grate (cheese, potato, lemon zest…) · **Mortar**: grind
@@ -125,7 +129,7 @@ That's it. The picture replaces the doodle everywhere. Delete the `image` line t
 
 | Stage | What gets built | Status |
 |---|---|---|
-| **1. Kitchen & core play** | Stacking, hand tools, appliances, the food engine (any combination works), burning/freezing/marinating/ageing, plating, the critic with 0.0–5.0 stars and reviews, painted dish portraits, the Recipe Book, 52 ingredients, 75 classic dishes, sounds, auto-save, mouse/touch/keyboard | ✅ done |
+| **1. Kitchen & core play** | Stacking, hand tools (hands with 9 actions), appliances, the food engine (any combination works), burning/freezing/marinating/ageing, plating, the critic with 0.0–5.0 stars and reviews, painted dish portraits, the Recipe Book, 52 ingredients, 75 classic dishes, sounds, auto-save, mouse/touch/keyboard | ✅ done |
 | **2. Bigger world** | Many more ingredients and classic dishes (aim: 500+ across Italian, French, Japanese, Mexican, Indian, Middle Eastern…), smarter naming, more doodle shapes, better critic variety | next |
 | **3. Kitchen helper AI** | Optional small AI on the player's own device (WebGPU) that writes extra-creative names, descriptions and critic reviews. Asks first, shows download size and progress, can be deleted, results saved forever, works offline. The game stays fully playable without it | |
 | **4. Visitors & decorating** | Animal visitors who ask for dishes ("something warm") and leave gifts, decorating the kitchen | |

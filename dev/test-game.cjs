@@ -114,6 +114,37 @@ const chipAt = async (page, name) => center(page, chip(page, name).first());
   await page.focus(appliance('pan')); await page.keyboard.press('Enter');
   await page.waitForTimeout(1100);
   check(await chip(page, 'Hash Browns').count() === 1, 'keyboard: grated potato into the pan → Hash Browns');
+  await page.mouse.click(900, 700);
+
+  // the hands do many things: a menu offers what makes sense
+  await mouseDrag(page, await center(page, tile('lemon')), [700, 680]);
+  await mouseDrag(page, await center(page, tool('hands')), await chipAt(page, 'Lemon'));
+  const menu = await page.locator('.hand-menu button[data-op]:not(.hand-cancel)').allTextContents();
+  check(menu.join(',') === 'Squeeze,Peel', `hands on a lemon offer: ${menu.join(', ')}`);
+  await page.click('.hand-menu [data-op="squeeze"]');
+  check(await chip(page, 'Lemon Juice').count() === 1, 'squeeze → Lemon Juice');
+  await mouseDrag(page, await center(page, tile('salt')), await chipAt(page, 'Hash Browns'));
+  await mouseDrag(page, await center(page, tool('hands')), await chipAt(page, 'Stack of 2'));
+  check(await chip(page, 'Salted Hash Browns').count() === 1, 'hands on hash browns + salt → Salted Hash Browns (only one choice, so no menu)');
+  await mouseDrag(page, await center(page, tile('herbs')), [520, 680]);
+  await page.click(tile('egg'));
+  await page.waitForTimeout(300);
+  await chip(page, 'Egg').click();
+  await page.click(tool('hands'));
+  check(await chip(page, 'Cracked Egg').count() === 1, 'tap egg, tap hands → Cracked Egg');
+  await chip(page, 'Herbs').focus(); await page.keyboard.press('Enter');
+  await page.focus(tool('hands')); await page.keyboard.press('Enter');
+  check(await chip(page, 'Torn Herbs').count() === 1, 'keyboard: herbs + hands → Torn Herbs');
+  await mouseDrag(page, await center(page, tile('cheese')), [420, 680]);
+  await mouseDrag(page, await center(page, tool('hands')), await chipAt(page, 'Cheese'));
+  check(await page.locator('.hand-menu').count() === 1, 'hands on cheese open the menu (tear or crumble)');
+  await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter');
+  check(await chip(page, 'Crumbled Cheese').count() === 1, 'keyboard in the menu: down, Enter → Crumbled Cheese');
+  await page.screenshot({ path: SHOTS + 'desktop-hands.png' });
+  for (const name of ['Lemon Juice', 'Salted Hash Browns', 'Cracked Egg', 'Torn Herbs', 'Crumbled Cheese']) {
+    await chip(page, name).focus(); await page.keyboard.press('Delete');
+  }
+  await page.waitForTimeout(300);
 
   // double-click a stack to spread it out
   await mouseDrag(page, await center(page, tile('apple')), [200, 650]);

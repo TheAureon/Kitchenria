@@ -1089,5 +1089,88 @@
   "book.sort.newest": "Newest",
   "book.sort.best": "Best",
   "top.summaryOne": "1 dish · ★ {avg}",
-  "book.summaryOne": "1 dish served · ★ {avg}"
+  "book.summaryOne": "1 dish served · ★ {avg}",
+  "food.doughBalls": "Dough Balls",
+  "food.rolls": "Bread Rolls",
+  "food.cakes": "{x} Cakes",
+  "food.ball": "{x} Ball",
+  "food.squeezedOver": "{x} with a Squeeze of {y}",
+  "food.peeled": "Peeled {x}",
+  "food.peeledEgg": "Peeled Egg",
+  "food.crackedThing": "Cracked {x}",
+  "food.torn": "Torn {x}",
+  "food.pulled": "Pulled {x}",
+  "food.seasoned": "{y} {x}",
+  "food.crumbled": "Crumbled {x}",
+  "desc.doughBalls": [
+    "Little round balls of dough, ready for the oven."
+  ],
+  "desc.rolls": [
+    "Soft, round and still warm."
+  ],
+  "desc.cakes": [
+    "Shaped by hand into little golden cakes."
+  ],
+  "desc.ball": [
+    "Rolled between your palms into a neat ball."
+  ],
+  "desc.squeezedOver": [
+    "With a bright squeeze of {y} on top."
+  ],
+  "desc.peeled": [
+    "Out of its jacket and ready to go."
+  ],
+  "desc.peeledEgg": [
+    "Smooth, white and shiny."
+  ],
+  "desc.crackedThing": [
+    "Cracked open with a satisfying snap."
+  ],
+  "desc.torn": [
+    "Torn by hand into rustic pieces."
+  ],
+  "desc.pulled": [
+    "Pulled apart into tender shreds."
+  ],
+  "desc.seasoned": [
+    "Sprinkled with a little {y} magic.",
+    "A pinch here, a pinch there. Perfect."
+  ],
+  "desc.crumbled": [
+    "Crumbled between your fingers."
+  ],
+  "season.salt": "Salted",
+  "season.black_pepper": "Peppered",
+  "season.sugar": "Sugar-Dusted",
+  "season.honey": "Honey-Drizzled",
+  "season.cinnamon": "Cinnamon",
+  "season.chili": "Spicy",
+  "season.curry_powder": "Curried",
+  "season.herbs": "Herby",
+  "season.mint": "Minty",
+  "season.garlic": "Garlicky",
+  "season.vanilla": "Vanilla",
+  "season.ginger": "Gingery",
+  "season.soy_sauce": "Soy-Glazed",
+  "season.vinegar": "Tangy",
+  "season.cheese": "Cheesy",
+  "season.lemon": "Lemony",
+  "season.orange": "Orangey",
+  "season.nuts": "Nutty",
+  "season.chocolate": "Chocolatey",
+  "season.coffee": "Coffee",
+  "season.yeast": "Seasoned",
+  "season.other": "Seasoned",
+  "hand.title": "What should your hands do?",
+  "hand.knead": "Knead",
+  "hand.squeeze": "Squeeze",
+  "hand.peel": "Peel",
+  "hand.crack": "Crack",
+  "hand.tear": "Tear",
+  "hand.shape": "Shape",
+  "hand.toss": "Toss",
+  "hand.season": "Sprinkle",
+  "hand.crumble": "Crumble",
+  "hand.cancel": "Never mind",
+  "handtool.handsLabel": "Hands: knead, squeeze, peel, crack, tear, shape, toss, sprinkle or crumble. Drag them onto food, or pick food up first and press here."
 }
