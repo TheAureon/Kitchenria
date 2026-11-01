@@ -2,7 +2,7 @@
 //
 // Every thing on the counter is a "chip": one piece of food, or a STACK of several
 // (drop food onto food to pile it up — nothing happens to it yet). Then:
-//   * drag a hand tool from the wall rail onto the food or stack (knead, chop, whisk…)
+//   * drag a hand tool from the wall rail onto the food or stack (squish, chop, whisk…)
 //   * or drag the food or stack into an appliance (pot, pan, oven…) or onto the plate
 //   * tap instead of drag: tap food to pick it up, then tap a tool, an appliance or more food
 //   * double-click a stack to spread it out again; double-click single food to copy it

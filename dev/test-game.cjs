@@ -61,10 +61,10 @@ const chipAt = async (page, name) => center(page, chip(page, name).first());
 
   // hand tools
   await mouseDrag(page, await center(page, tool('hands')), await chipAt(page, 'Stack of 3'));
-  check(await chip(page, 'Dough').count() === 1, 'hands knead the stack → Dough');
+  check(await chip(page, 'Dough').count() === 1, 'hands squish the stack → Dough');
   await mouseDrag(page, await center(page, tool('pin')), await chipAt(page, 'Dough'));
   check(await chip(page, 'Pizza Base').count() === 1, 'rolling pin on dough → Pizza Base');
-  await page.screenshot({ path: SHOTS + 'desktop-kneading.png' });
+  await page.screenshot({ path: SHOTS + 'desktop-hands-dough.png' });
 
   await mouseDrag(page, await center(page, tile('tomato')), [600, 560]);
   await mouseDrag(page, await center(page, tool('knife')), await chipAt(page, 'Tomato'));

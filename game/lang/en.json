@@ -14,7 +14,7 @@
   "shelf.empty": "Nothing here matches “{q}”.",
   "table.label": "Kitchen counter",
   "table.empty": "Welcome to your kitchen ✿",
-  "table.hint": "Drag ingredients from the pantry onto the counter. Drop food onto food to stack it. Then grab a hand tool from the wall (hands knead, the whisk whisks…) and drop it on your stack, or put the food in the pot, pan or oven. When it looks delicious, put it on the plate and press Serve!",
+  "table.hint": "Drag ingredients from the pantry onto the counter. Drop food onto food to stack it. Then grab a hand tool from the wall (hands squish, squeeze, peel…; the whisk whisks) and drop it on your stack, or put the food in the pot, pan or oven. When it looks delicious, put it on the plate and press Serve!",
   "tool.knife": "Knife",
   "tool.pot": "Pot",
   "tool.pan": "Pan",
@@ -65,7 +65,7 @@
   "food.withMilk": "Milky",
   "food.pasta": "Pasta",
   "food.onions": "Onions",
-  "food.kneaded": "Well-Kneaded {x}",
+  "food.kneaded": "Smooth {x}",
   "food.riceBall": "{x} Rice Ball",
   "food.patty": "{x} Patty",
   "food.squished": "Squished {x}",
@@ -273,7 +273,7 @@
   "food.plateWith2": "{x} with {y} & {z}",
   "food.plateFeast": "{x} Feast",
   "desc.kneaded": [
-    "Kneaded until smooth and springy."
+    "Squished and pressed until smooth and springy."
   ],
   "desc.riceBall": [
     "Squeezed into a neat little ball."
@@ -451,7 +451,7 @@
     "Squishy, stretchy and slowly puffing up."
   ],
   "desc.flavBreadDough": [
-    "A bread dough with {x} kneaded in."
+    "A bread dough with {x} worked in."
   ],
   "desc.pastaDough": [
     "A sunny yellow ball with noodle dreams."
@@ -1069,7 +1069,7 @@
   "tool.pin": "Rolling Pin",
   "tool.masher": "Masher",
   "tool.grater": "Grater",
-  "verb.knead": "Knead",
+  "verb.squish": "Squish",
   "verb.whisk": "Whisk",
   "verb.roll": "Roll",
   "verb.mash": "Mash",
@@ -1162,7 +1162,7 @@
   "season.yeast": "Seasoned",
   "season.other": "Seasoned",
   "hand.title": "What should your hands do?",
-  "hand.knead": "Knead",
+  "hand.squish": "Squish",
   "hand.squeeze": "Squeeze",
   "hand.peel": "Peel",
   "hand.crack": "Crack",
@@ -1172,5 +1172,5 @@
   "hand.season": "Sprinkle",
   "hand.crumble": "Crumble",
   "hand.cancel": "Never mind",
-  "handtool.handsLabel": "Hands: knead, squeeze, peel, crack, tear, shape, toss, sprinkle or crumble. Drag them onto food, or pick food up first and press here."
+  "handtool.handsLabel": "Hands: squish, squeeze, peel, crack, tear, shape, toss, sprinkle or crumble. Drag them onto food, or pick food up first and press here."
 }

@@ -222,20 +222,20 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
 
     // ----- hand tools -----
     // the hands can do many things (see handActions below for which ones make sense)
-    knead(c) {
+    squish(c) {
       const hasFlour = c.items.some((i) => c.isBase(i, 'flour') || i.arch === 'flourOf');
       if (hasFlour) return RULES.mix(c);
       if (c.n === 1 && c.items[0].form === 'dough') return R('kneaded', 'dough', c.items[0].name, { noun: true, doughKind: dk(c.items[0]) });
       if (c.only('butter', 'herbs', 'garlic', 'honey', 'salt', 'black_pepper', 'chili', 'lemon', 'cinnamon') && c.has('butter')) return RULES.mix(c);
       return RULES.shape(c, true);
     },
-    shape(c, fromKnead = false) {
+    shape(c, fromSquish = false) {
       const dough = c.items.find((i) => i.form === 'dough');
       if (dough) return R('doughBalls', 'dough', '', { noun: true, doughKind: dk(dough), artForm: 'bun' });
       if (c.items.some((i) => ['rice', 'risotto', 'friedRice'].includes(i.arch))) return R('riceBall', 'bun', c.flavour(['rice', 'water', 'salt']), { noun: !c.flavour(['rice', 'water', 'salt']) });
       if (c.catW('protein') > 0) return R('patty', 'flat', mods(c.mains.filter((id) => ING.get(id).cat === 'protein')));
       if (c.items.some((i) => i.arch === 'mash') || (c.maxHeat > 0 && c.has('potato', 'carrot', 'beans', 'banana'))) return R('cakes', 'flat', mods(c.mains));
-      if (fromKnead) return R('squished', 'lump', c.n > 1 ? names(c.mains) : subj(c.items[0]));
+      if (fromSquish) return R('squished', 'lump', c.n > 1 ? names(c.mains) : subj(c.items[0]));
       return R('ball', 'bun', c.n > 1 ? names(c.mains) : subj(c.items[0]));
     },
     squeeze(c) {
@@ -304,7 +304,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       return R('flattened', 'flat', c.n > 1 ? names(c.mains) : subj(x));
     },
     mash(c) {
-      if (c.items.some((i) => i.form === 'dough')) return RULES.knead(c);
+      if (c.items.some((i) => i.form === 'dough')) return RULES.squish(c);
       if (c.has('avocado', 'banana', 'potato', 'beans', 'carrot', 'strawberry', 'blueberry', 'apple', 'peach') || c.maxHeat > 0) return R('mash', 'paste', mods(c.mains));
       return R('squished', 'lump', c.n > 1 ? names(c.mains) : subj(c.items[0]));
     },
@@ -848,7 +848,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     const baking = items.some((i) => c.isBase(i, 'flour') || i.arch === 'flourOf' || i.form === 'dough');
     // in a stack, only citrus and fruit get squeezed over the rest; on its own anything juicy can be
     const squeezable = one ? juicy : items.some((i) => i.kind === 'ingredient' && (flag(i.id, 'acid') || ING.get(i.id).cat === 'fruit') && flag(i.id, 'juicy'));
-    if (baking) out.push('knead');
+    if (baking) out.push('squish');
     if (base === 'egg' || base === 'nuts') out.push('crack');
     if (squeezable && !(base === 'egg') && !baking) out.push('squeeze');
     if (one && (['banana', 'orange', 'potato', 'carrot', 'onion', 'garlic', 'ginger', 'avocado', 'apple', 'peach', 'lemon'].includes(base) || one.arch === 'boiledEgg')) out.push('peel');
@@ -858,7 +858,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     if (!baking && c.n >= 2 && items.some(seasoning) && mainsCount >= 1) out.push('season');
     if (!baking && mainsCount >= 2) out.push('toss');
     if (one && (base === 'cheese' || ['loaf', 'slices', 'cookie', 'cake'].includes(one.form) || one.arch === 'toast')) out.push('crumble');
-    if (!out.length) out.push('knead');
+    if (!out.length) out.push('squish');
     return [...new Set(out)];
   }
 

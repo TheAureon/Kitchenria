@@ -1,6 +1,6 @@
 # Kitchenria 🍳
 
-A cosy cooking game for your web browser. Take ingredients from the pantry, **stack** them on the counter, and use **hand tools** to work them (knead, chop, whisk, roll, mash, grate…) and **appliances** to cook them (boil, fry, bake, blend…). When your dish looks delicious, put it on the plate and serve it to the food critic, Madame Purrline, who gives it 0.0 to 5.0 stars and a written review. There are no timers, no ads, no sign-up, no tracking and no server. Everything runs on your own device.
+A cosy cooking game for your web browser. Take ingredients from the pantry, **stack** them on the counter, and use **hand tools** to work them (squish, chop, whisk, roll, mash, grate…) and **appliances** to cook them (boil, fry, bake, blend…). When your dish looks delicious, put it on the plate and serve it to the food critic, Madame Purrline, who gives it 0.0 to 5.0 stars and a written review. There are no timers, no ads, no sign-up, no tracking and no server. Everything runs on your own device.
 
 > **Status: Stage 1 (third version).** Stacking, 8 hand tools, 10 appliances, a food engine that handles any combination, the critic with stars and reviews, the Recipe Book of finished dishes, 52 ingredients (all available from the start) and 75 classic dishes to discover. See [the plan](#the-plan) for what comes next.
 
@@ -24,7 +24,7 @@ Progress is saved separately for each way of playing (and each website), so the 
 * Drop food **onto other food** to **stack** it. Nothing happens to a stack yet: it's just a pile, waiting for a tool. Hover over a stack to see what's in it; double-click it to spread it out again.
 * **Hand tools** hang on the wall rail. Drag one down onto food or a stack:
   * **Hands** can do lots of things. Drop them on food and a little menu offers what makes sense:
-    knead (flour + water + salt → Dough), squeeze (lemon → Lemon Juice, or over fish), peel (banana, orange, boiled egg…),
+    squish (flour + water + salt → Dough), squeeze (lemon → Lemon Juice, or over fish), peel (banana, orange, boiled egg…),
     crack (eggs, nuts), tear (herbs, bread; cooked chicken → Pulled Chicken), shape (rice → Rice Ball, chicken → Patty,
     dough → Dough Balls that bake into Bread Rolls), toss (several things → a salad), sprinkle (fries + salt → Salted Fries)
     and crumble (bread, cookies, cheese)

@@ -15,7 +15,7 @@ function noteSignature(sigId) {
 }
 
 /**
- * Uses a tool (knead, chop, boil, fry…) on some food (ids, or the food items themselves).
+ * Uses a tool (squish, chop, boil, fry…) on some food (ids, or the food items themselves).
  * @returns {{ item, isNew, isNewSig }}
  */
 export function cook(op, foods) {
