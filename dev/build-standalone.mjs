@@ -9,6 +9,7 @@
 //   * joins all js/*.js modules into one script (each keeps its own private scope)
 //   * embeds data/*.json and lang/en.json, which the game reads through js/load.js
 //   * embeds any custom pictures from art/ that items.json points to
+//   * embeds the WebLLM library (vendor/web-llm) as plain text for the optional AI helper
 // The files in game/ stay the "source"; never edit the built index.html by hand.
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
@@ -85,7 +86,10 @@ const swap = (from, to) => {
 swap('<link rel="stylesheet" href="css/main.css">', `<style>\n${css}\n</style>`);
 swap('<script type="module" src="js/main.js"></script>\n', '');
 html = html.replace(/\s*<script data-web-only>[\s\S]*?<\/script>/, '');
-swap('</body>', `<script>\n${packedJs}\n</script>\n<script>\n${js}\n</script>\n</body>`);
+// the AI library (only used if the player turns the Kitchen Helper AI on) rides along as plain text
+const webllm = read('vendor/web-llm/web-llm.js');
+if (/<\/script/i.test(webllm)) throw new Error('vendor/web-llm/web-llm.js contains "</script" and cannot be packed as-is');
+swap('</body>', `<script type="text/plain" id="webllm-src">${webllm}</script>\n<script>\n${packedJs}\n</script>\n<script>\n${js}\n</script>\n</body>`);
 html = html.replace('<!doctype html>', '<!doctype html>\n<!--\n  Kitchenria — the one-file version. Double-click to play, no Terminal needed.\n  This file is BUILT from the game/ folder by dev/build-standalone.mjs.\n  Don\'t edit it by hand: change the files in game/ and rebuild instead.\n-->');
 
 if (process.argv.includes('--check')) {

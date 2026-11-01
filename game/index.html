@@ -20,6 +20,10 @@
     </h1>
     <span id="book-summary" class="book-summary" aria-live="polite"></span>
     <div class="top-actions">
+      <button id="btn-ai" class="icon-btn ai-btn" type="button" data-i18n-attr="title:ai.title">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" stroke-width="2"/><path d="M19 3 v4 M17 5 h4" stroke-width="1.6"/></svg>
+        <span id="ai-status" class="ai-status">AI</span>
+      </button>
       <button id="btn-book" class="icon-btn" type="button" data-i18n-attr="aria-label:top.book;title:top.book">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5 q4 -2 8 1 q4 -3 8 -1 v13 q-4 -2 -8 1 q-4 -3 -8 -1 z" stroke-width="2"/><path d="M12 6 v13" stroke-width="1.8"/></svg>
         <span class="btn-label" data-i18n="top.book">Recipe Book</span>
@@ -105,6 +109,7 @@
   <!-- pop-up windows -->
   <dialog id="review" class="sheet review"></dialog>
   <dialog id="book" class="sheet book-dialog"></dialog>
+  <dialog id="ai-panel" class="sheet ai-dialog"></dialog>
 
   <!-- floating layers -->
   <div id="drag-layer" class="drag-layer"></div>

@@ -39,7 +39,7 @@ const starSvg = (fill, i) => `<span class="star" style="--fill:${fill}%; --i:${i
  * Opens the review card. Resolves when the player closes it.
  * @param {object} r  result from kitchen.serve(): { dish, score, firstTime, isNewSig, earned }
  */
-export function showReview(r) {
+export function showReview(r, pending = null) {
   return new Promise((resolve) => {
     const dlg = document.getElementById('review');
     const { dish, score } = r;
@@ -55,7 +55,7 @@ export function showReview(r) {
         <div class="review-stars" role="img" aria-label="${esc(t('review.stars', { s: score.stars.toFixed(1) }))}">${stars}<span class="review-score">${score.stars.toFixed(1)}</span></div>
         <div class="review-critic">
           ${criticFace(score.stars)}
-          <blockquote>“${esc(score.review)}”<cite>${esc(t('review.critic'))} · ${esc(t('review.criticRole'))}</cite></blockquote>
+          <blockquote>${pending ? `<span class="review-text tasting" aria-live="polite">${esc(t('review.tasting'))}</span>` : `<span class="review-text">“${esc(score.review)}”</span>`}<cite>${esc(t('review.critic'))} · ${esc(t('review.criticRole'))}</cite></blockquote>
         </div>
         ${r.firstTime ? '' : `<p class="review-again">${esc(t('review.again'))}</p>`}
         <p class="review-points">${esc(t('review.saved'))}</p>
@@ -64,6 +64,19 @@ export function showReview(r) {
     dlg.setAttribute('aria-labelledby', 'review-dish');
     dlg.addEventListener('close', () => resolve(), { once: true });
     dlg.showModal();
+    if (pending) {
+      // the AI is writing; if it can't, the kitchen's own review is shown instead
+      pending.then((v) => {
+        const q = dlg.querySelector('.review-text');
+        if (!q) return;
+        q.classList.remove('tasting');
+        q.textContent = `“${v ? v.review : score.review}”`;
+        if (v?.dishName && !dish.sig) {
+          const h = dlg.querySelector('.review-dish');
+          if (h?.firstChild) h.firstChild.textContent = `${v.dishName} `;
+        }
+      });
+    }
     // stars light up one after another
     const full = Math.ceil(score.stars);
     for (let i = 0; i < full; i++) setTimeout(() => play('star'), 450 + i * 220);

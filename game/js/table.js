@@ -199,6 +199,26 @@ export function takeSelected() {
   return idsOf(el);
 }
 
+/** Redraws every chip that contains some food (e.g. after the AI renamed it). */
+export function refreshFood(id, cls = '') {
+  for (const c of [...chips]) {
+    if (!idsOf(c).includes(id)) continue;
+    const el = makeChipEl(idsOf(c));
+    const wasSelected = selected === c;
+    chips.delete(c);
+    c.remove();
+    wireChip(el);
+    place(el, c._x, c._y);
+    if (wasSelected) { selected = el; el.classList.add('selected'); }
+    if (cls) bounce(el, cls);
+  }
+}
+
+/** Marks chips whose food the AI is still thinking about. */
+export function markThinking(id, on) {
+  for (const c of chips) if (idsOf(c).includes(id)) c.classList.toggle('ai-thinking', on);
+}
+
 // ---------- stacking ----------
 
 function stackOnto(target, ids) {

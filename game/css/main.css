@@ -391,6 +391,44 @@ svg { overflow: visible; }
 .toast-soft { background: rgba(255, 248, 236, .92); font-size: .85rem; }
 .toast-sig { background: var(--gold); padding: 10px 18px 10px 12px; }
 
+/* ---------- the Kitchen Helper AI ---------- */
+.ai-btn { gap: 4px; }
+.ai-btn .ai-status { font-size: .8rem; font-weight: 600; white-space: nowrap; }
+.ai-btn.on { background: #fff3c4; }
+.ai-btn.on svg { stroke: #d9921f; }
+.ai-btn.busy svg { animation: spin 3s linear infinite; }
+dialog.ai-dialog { width: min(600px, 96vw); max-width: 96vw; }
+.ai-box { gap: 10px; min-height: 0; }
+.ai-box p { margin: 0; line-height: 1.4; }
+.ai-facts { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 3px; font-size: .9rem; }
+.ai-device { font-weight: 520; }
+.ai-choices { border: 2px dashed rgba(74, 52, 38, .35); border-radius: 14px; padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; margin: 0; }
+.ai-choices legend { font-weight: 600; padding: 0 4px; }
+.ai-choice { display: flex; gap: 8px; align-items: flex-start; cursor: pointer; }
+.ai-choice input { margin-top: 4px; accent-color: var(--red); }
+.ai-choice span { display: flex; flex-wrap: wrap; gap: 0 6px; align-items: baseline; }
+.ai-choice em { font-style: normal; font-size: .75rem; padding: 0 7px; background: var(--gold); border: 1.5px solid var(--ink); border-radius: 99px; }
+.ai-choice small { flex-basis: 100%; font-size: .8rem; opacity: .75; }
+.ai-progress .progress-track { margin: 4px 0 6px; }
+.ai-detail { font-size: .72rem; opacity: .6; overflow-wrap: anywhere; }
+.ai-ok { font-weight: 560; color: #3f7a2c; }
+.ai-err { padding: 6px 10px; background: #fde3dc; border: 2px solid var(--ink); border-radius: 12px; }
+.ai-buttons { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.big-btn:disabled { background: #cfc6b8; cursor: default; transform: none; }
+.big-btn.small { padding: 4px 14px; font-size: .9rem; margin: 0; }
+.plain-btn { padding: 6px 14px; background: transparent; border: 2px dashed var(--ink); border-radius: 99px; font-size: .9rem; }
+.ai-credits { font-size: .72rem; opacity: .6; }
+.ai-offer {
+  position: absolute; left: 14px; bottom: 14px; z-index: 25; width: min(330px, calc(100% - 28px));
+  display: flex; flex-direction: column; gap: 8px; padding: 12px 14px;
+  background: var(--cream); border: 2.5px solid var(--ink); border-radius: var(--radius-wobbly); box-shadow: 0 5px 0 var(--ink-soft);
+  animation: toast-in .4s cubic-bezier(.3, 1.5, .5, 1);
+}
+.ai-offer p { margin: 0; display: flex; flex-direction: column; gap: 4px; font-size: .88rem; line-height: 1.35; }
+.ai-offer div { display: flex; gap: 8px; }
+.chip.ai-thinking .chip-name { background: linear-gradient(90deg, #fff3c4, #fffaf0, #fff3c4); background-size: 200% 100%; animation: shimmer 1.2s linear infinite; }
+.review-text.tasting { opacity: .7; font-style: italic; animation: pulse 1.6s ease-in-out infinite; display: inline-block; }
+
 /* ---------- pop-up windows (review & recipe book) ---------- */
 dialog.sheet {
   border: 0; padding: 0; background: transparent; color: var(--ink);
@@ -501,6 +539,7 @@ dialog.book-dialog { width: min(760px, 96vw); max-width: 96vw; }
 @keyframes cook-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px) rotate(3deg); } }
 @keyframes star-in { from { opacity: 0; scale: .2; rotate: -40deg; } to { opacity: 1; scale: 1; rotate: 0deg; } }
 @keyframes swing { 0%, 100% { rotate: 0deg; } 25% { rotate: 6deg; } 60% { rotate: -4deg; } }
+@keyframes shimmer { to { background-position: -200% 0; } }
 @keyframes blink { 0%, 95%, 100% { transform: scaleY(1); } 97% { transform: scaleY(.1); } }
 
 /* ---------- 10. small screens: pantry moves to the bottom ---------- */
@@ -512,6 +551,8 @@ dialog.book-dialog { width: min(760px, 96vw); max-width: 96vw; }
   .logo span { display: none; }
   .book-summary { font-size: .75rem; }
   .btn-label { display: none; }
+  .ai-btn .ai-status { display: none; }
+  .ai-btn.busy .ai-status { display: inline; }
   .icon-btn { padding: 6px 9px; }
   .layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
   .wall { height: 96px; padding: 0; }

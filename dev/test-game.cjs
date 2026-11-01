@@ -34,7 +34,8 @@ const chipAt = async (page, name) => center(page, chip(page, name).first());
   const errors = [];
   const watch = (p, tag) => {
     p.on('pageerror', (e) => errors.push(`${tag}: ${e.message}`));
-    p.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') errors.push(`${tag}: ${m.text()}`); });
+    // (the test computer has no graphics chip; Chrome warns about that when the game checks for WebGPU)
+    p.on('console', (m) => { if ((m.type() === 'error' || m.type() === 'warning') && !/WebGPU Context Provider/.test(m.text())) errors.push(`${tag}: ${m.text()}`); });
   };
 
   // ---------------- desktop ----------------
@@ -44,7 +45,13 @@ const chipAt = async (page, name) => center(page, chip(page, name).first());
   watch(page, 'desktop');
   await page.goto(BASE);
   await page.waitForSelector('body.ready');
+  // the AI helper is offered once; this player says no thanks
+  await page.waitForSelector('.ai-offer', { timeout: 5000 });
   await page.screenshot({ path: SHOTS + 'desktop-empty.png' });
+  check(/Kitchen Helper AI/.test(await page.textContent('.ai-offer')), 'the optional AI helper is offered once');
+  await page.click('.ai-offer [data-a="no"]');
+  check(await page.locator('.ai-offer').count() === 0, '"No thanks" closes the offer');
+  check(/AI off/.test(await page.textContent('#ai-status')), 'the AI stays off');
 
   check(await page.locator('.tile').count() === 52, 'all 52 ingredients are in the pantry from the start (no unlocks)');
   check(await page.locator('.shelf-section').count() === 8, 'the pantry is sorted into 8 sections');
@@ -226,6 +233,8 @@ const chipAt = async (page, name) => center(page, chip(page, name).first());
     await mp.waitForTimeout(500);
   };
   check(await mp.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'nothing sticks out sideways on a phone');
+  await mp.waitForSelector('.ai-offer');
+  await mp.tap('.ai-offer [data-a="no"]');
   await touchDrag(await center(mp, tile('potato')), [195, 420]);
   check(await chip(mp, 'Potato').count() === 1, 'touch: pull a potato up onto the counter');
   await touchDrag(await center(mp, tool('knife')), await chipAt(mp, 'Potato'));
@@ -264,6 +273,86 @@ const chipAt = async (page, name) => center(page, chip(page, name).first());
   await fp.reload();
   await fp.waitForSelector('body.ready');
   check(await chip(fp, 'Chopped Tomato').count() === 1, 'the counter is saved between visits');
+
+  // ---------------- the Kitchen Helper AI, with a stand-in model ----------------
+  console.log('AI helper (stand-in model, so it can run here without a graphics chip):');
+  const actx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const ap = await actx.newPage();
+  watch(ap, 'ai');
+  await ap.goto(BASE + '?aimock');
+  await ap.waitForSelector('body.ready');
+  await ap.waitForSelector('.ai-offer');
+  await ap.click('.ai-offer [data-a="more"]');
+  await ap.waitForSelector('#ai-panel[open] .ai-device');
+  await ap.waitForFunction(() => !/Checking/.test(document.querySelector('#ai-panel .ai-device').textContent));
+  check(await ap.locator('#ai-panel input[value="qwen4b"]').isChecked(), 'the panel recommends Qwen3.5 4B');
+  check(/3 GB/.test(await ap.textContent('#ai-panel')), 'the panel shows the download size');
+  await ap.screenshot({ path: SHOTS + 'ai-panel.png' });
+  await ap.click('#ai-panel [data-a="on"]');
+  await ap.waitForSelector('#ai-panel .progress-track', { timeout: 3000 });
+  check(true, 'a progress bar shows while it downloads');
+  await ap.waitForSelector('#ai-panel .ai-ok', { timeout: 5000 });
+  check(/AI on/.test(await ap.textContent('#ai-status')), 'the top bar says AI on');
+  await ap.keyboard.press('Escape');
+  await mouseDrag(ap, await center(ap, tile('tomato')), [500, 560]);
+  await mouseDrag(ap, await center(ap, tool('knife')), await chipAt(ap, 'Tomato'));
+  await ap.waitForTimeout(800);
+  check(await chip(ap, 'Cozy Chopped Tomato').count() === 1, 'the AI renames new food (Chopped Tomato → "Cozy Chopped Tomato")');
+  check(await ap.locator('#table .chip.ai-thinking').count() === 0, 'the "thinking" shimmer goes away');
+  await mouseDrag(ap, await center(ap, tile('water')), await center(ap, appliance('pot')));
+  await ap.waitForTimeout(1500);
+  check(await chip(ap, 'Boiling Water').count() === 1, 'a nonsense AI answer is rejected and the kitchen\'s own name is kept');
+  await mouseDrag(ap, await chipAt(ap, 'Cozy Chopped Tomato'), await center(ap, appliance('plate')));
+  await ap.click('.appliance[data-tool="plate"] .serve-btn');
+  await ap.waitForSelector('#review[open]');
+  await ap.waitForFunction(() => /pretend review/.test(document.querySelector('#review blockquote').textContent), null, { timeout: 5000 });
+  check(true, 'Madame Purrline\'s review is written by the AI');
+  check(/Pretend Plate/.test(await ap.textContent('#review .review-dish')), 'the AI names the plate');
+  await ap.screenshot({ path: SHOTS + 'ai-review.png' });
+  await ap.click('#review .big-btn');
+  await ap.click('#btn-book');
+  check(/pretend review/.test(await ap.textContent('#book')) || (await ap.locator('#book .dish-card').first().click(), /pretend review/.test(await ap.textContent('#book'))), 'the Recipe Book keeps the AI review');
+  await ap.keyboard.press('Escape');
+  // answers are saved: with the AI off, the same recipe gets the same name instantly
+  await ap.click('#btn-ai');
+  await ap.click('#ai-panel [data-a="off"]');
+  check(/AI off/.test(await ap.textContent('#ai-status')), 'the AI can be turned off');
+  await ap.keyboard.press('Escape');
+  await mouseDrag(ap, await center(ap, tile('tomato')), [700, 560]);
+  await mouseDrag(ap, await center(ap, tool('knife')), await chipAt(ap, 'Tomato'));
+  check(await chip(ap, 'Cozy Chopped Tomato').count() === 1, 'a saved AI name comes back even with the AI off');
+  const nameChecks = await ap.evaluate(async () => {
+    const { cleanName } = await import('./js/ai.js');
+    return [cleanName('golden apple tart'), cleanName('As an AI I cannot'), cleanName('A Very Long Name That Has Far Too Many Words In It'), cleanName('🍕 Pizza "Party"'), cleanName('Pasta With Pesto')];
+  });
+  check(JSON.stringify(nameChecks) === JSON.stringify(['Golden Apple Tart', null, null, 'Pizza Party', 'Pasta with Pesto']), `AI names are checked and tidied (${JSON.stringify(nameChecks)})`);
+
+  // ---------------- the real WebLLM library, in software WebGPU ----------------
+  console.log('Real AI library (software WebGPU; the model itself can\'t be downloaded here):');
+  const gb = await chromium.launch({ args: ['--enable-unsafe-webgpu', '--enable-features=Vulkan', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
+  for (const [label, url] of [['website', BASE], ['one-file', 'file://' + path.resolve(__dirname, '..', 'index.html')]]) {
+    const rctx = await gb.newContext({ viewport: { width: 1280, height: 800 } });
+    const rp = await rctx.newPage();
+    const requested = [];
+    rctx.on('request', (r) => requested.push(r.url()));
+    const pageErrors = [];
+    rp.on('pageerror', (e) => pageErrors.push(e.message));
+    await rp.goto(url);
+    await rp.waitForSelector('body.ready');
+    await rp.click('#btn-ai');
+    await rp.waitForFunction(() => !/Checking/.test(document.querySelector('#ai-panel .ai-device').textContent));
+    check(/can run the AI/.test(await rp.textContent('#ai-panel .ai-device')), `${label}: WebGPU is detected`);
+    await rp.click('#ai-panel [data-a="on"]');
+    await rp.waitForSelector('#ai-panel .ai-err, #ai-panel .ai-ok', { timeout: 60000 });
+    const msg = await rp.textContent('#ai-panel .ai-err, #ai-panel .ai-ok');
+    const libLoaded = requested.some((u) => /huggingface\.co\/mlc-ai\/Qwen3\.5-4B|binary-mlc-llm-libs/.test(u));
+    if (!libLoaded) console.log('    (requests seen:', requested.filter((u) => !/^data:|^blob:/.test(u)).slice(-6).join(' '), ')');
+    check(libLoaded, `${label}: the library loads and the background worker starts fetching the model`);
+    check(/download didn|couldn/.test(msg), `${label}: with no internet for the model, a friendly message appears ("${msg.trim().slice(0, 60)}…")`);
+    check(pageErrors.length === 0, `${label}: the game keeps working (no page errors)`);
+    if (label === 'website') await rp.screenshot({ path: SHOTS + 'ai-error.png' });
+  }
+  await gb.close();
 
   // ---------------- art gallery ----------------
   const gp = await ctx.newPage();

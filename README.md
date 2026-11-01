@@ -37,6 +37,20 @@ Progress is saved separately for each way of playing (and each website), so the 
 * **Tap instead of drag:** tap food to pick it up, then tap a hand tool, an appliance, or more food (to stack). **Keyboard:** Tab to food and press Enter, then Tab to a tool and press Enter. Arrow keys move food, Delete puts it away, Escape lets go.
 * Drag food onto the pantry to put it away. **Tidy counter** clears everything. Progress saves automatically.
 
+## ✨ The Kitchen Helper AI (optional)
+
+Press **✨ AI** in the top bar. The Kitchen Helper AI gives the food you make creative names and cute descriptions, and lets Madame Purrline write her own reviews. The game itself still decides what physically happens to the food (chopped, fried, burnt…); the AI only writes the words.
+
+* **It runs entirely on your own computer**, in the browser. Nothing is sent anywhere, and there's no account or cost.
+* **Models:** **Qwen3.5 4B** (recommended, about 3 GB download, needs about 4 GB of graphics memory, which most Macs from 2020 onwards have) or **Qwen3.5 2B** (lighter, about 1.5 GB). In Chrome versions that include Google's built-in on-device AI (Gemini Nano), that's offered too, with no download from us.
+* **One-time download**, with a progress bar. After that it works offline, and it switches itself back on next time (loading from your computer takes a few seconds).
+* Every name and review is **checked** (length, sensible words, nothing unsuitable) and **saved**, so the same recipe always gets the same name, even with the AI off.
+* **Turn it off or delete the download** any time from the same panel. Without it, the game uses its own built-in names and reviews.
+* **Needs:** a browser with WebGPU. On a Mac that's Chrome or Edge, or Safari 26 (macOS Tahoe).
+* It works in both the one-file `index.html` and the `game` folder version.
+
+Credits: Qwen3.5 models by the Qwen team (Alibaba Cloud), Apache 2.0. WebLLM by MLC AI, Apache 2.0 (in `game/vendor/web-llm/`).
+
 ## 📁 What's in the folder
 
 ```
@@ -57,6 +71,8 @@ Kitchenria/
 │   │   ├── shelf.js           ←   the pantry: sections and search
 │   │   ├── review.js          ←   the critic's review card
 │   │   ├── book.js            ←   the Recipe Book window
+│   │   ├── ai.js              ←   the optional Kitchen Helper AI (runs the model, checks and saves its answers)
+│   │   ├── ai-ui.js           ←   the AI panel, its button and the one-time offer
 │   │   ├── doodle.js, shapes.js ← the hand-drawn pictures, made in code
 │   │   ├── effects.js, audio.js ← sparkles, messages and sounds (made in code, no files)
 │   │   ├── state.js           ←   saving your progress
@@ -70,6 +86,7 @@ Kitchenria/
 │   ├── lang/en.json           ← every piece of text: dish name patterns, critic phrases, buttons
 │   ├── art/items/             ← put your own pictures here (see below)
 │   └── fonts/                 ← the Fredoka font and its licence
+│   └── vendor/web-llm/        ← the WebLLM library that runs the AI (only loaded if you turn the AI on)
 └── dev/                       ← helper tools for development. NOT needed on your website.
     ├── build-standalone.mjs   ← packs game/ into the one-file index.html
     ├── engine-sample.mjs      ← prints what the food engine makes, to check names
@@ -131,7 +148,7 @@ That's it. The picture replaces the doodle everywhere. Delete the `image` line t
 |---|---|---|
 | **1. Kitchen & core play** | Stacking, hand tools (hands with 9 actions), appliances, the food engine (any combination works), burning/freezing/marinating/ageing, plating, the critic with 0.0–5.0 stars and reviews, painted dish portraits, the Recipe Book, 52 ingredients, 75 classic dishes, sounds, auto-save, mouse/touch/keyboard | ✅ done |
 | **2. Bigger world** | Many more ingredients and classic dishes (aim: 500+ across Italian, French, Japanese, Mexican, Indian, Middle Eastern…), smarter naming, more doodle shapes, better critic variety | next |
-| **3. Kitchen helper AI** | Optional small AI on the player's own device (WebGPU) that writes extra-creative names, descriptions and critic reviews. Asks first, shows download size and progress, can be deleted, results saved forever, works offline. The game stays fully playable without it | |
+| **3. Kitchen helper AI** | Optional Qwen3.5 4B / 2B (or Chrome's built-in AI) on the player's own device, writing creative names, descriptions and critic reviews. Asks first, shows download size and progress, can be deleted, answers checked and saved forever, works offline | ✅ built (needs testing on a real Mac) |
 | **4. Visitors & decorating** | Animal visitors who ask for dishes ("something warm") and leave gifts, decorating the kitchen | |
 | **5. Atmosphere** | Optional lighting effects (lamp glow, real-time sunlight, candle flicker, steam, soft shadows), Low Power mode, music, rain, the kitchen cat, seasons | |
 | **6. Full game & app** | Title screen, settings, pause, credits, save export/import/reset, accessibility options, installable app that works fully offline, final testing | |
