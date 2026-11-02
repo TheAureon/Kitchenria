@@ -20,6 +20,7 @@ Progress is saved separately for each way of playing (and each website), so the 
 
 ## 🎮 How to play
 
+* The game opens on a **title screen**: a kitchen window whose sky follows your real time of day (sunrise, daytime, sunset or a starry night). Press **Start cooking** (or **Continue cooking**). You can also open the Recipe Book or the AI helper from there.
 * **Drag** an ingredient from the **pantry** onto the counter. (Or tap it.)
 * Drop food **onto other food** to **stack** it. Nothing happens to a stack yet: it's just a pile, waiting for a tool. Hover over a stack to see what's in it; double-click it to spread it out again.
 * **Hand tools** hang on the wall rail. Drag one down onto food or a stack:
@@ -151,7 +152,7 @@ That's it. The picture replaces the doodle everywhere. Delete the `image` line t
 | **3. Kitchen helper AI** | Optional Qwen3.5 4B / 2B (or Chrome's built-in AI) on the player's own device, writing creative names, descriptions and critic reviews. Asks first, shows download size and progress, can be deleted, answers checked and saved forever, works offline | ✅ built (needs testing on a real Mac) |
 | **4. Visitors & decorating** | Animal visitors who ask for dishes ("something warm") and leave gifts, decorating the kitchen | |
 | **5. Atmosphere** | Optional lighting effects (lamp glow, real-time sunlight, candle flicker, steam, soft shadows), Low Power mode, music, rain, the kitchen cat, seasons | |
-| **6. Full game & app** | Title screen, settings, pause, credits, save export/import/reset, accessibility options, installable app that works fully offline, final testing | |
+| **6. Full game & app** | ~~Title screen~~ (done early), settings, pause, credits, save export/import/reset, accessibility options, installable app that works fully offline, final testing | |
 
 ## Credits & licences
 

@@ -21,10 +21,16 @@ export function initAiUi() {
   updateButton();
 
   // turn the AI back on if the player had it on last time (it loads from the device, no download)
-  const s = aiSettings();
-  if (s.on) startAI();
-  else if (!s.asked) setTimeout(showOffer, 2500);
+  if (aiSettings().on) startAI();
 }
+
+/** Offers the AI once, a moment after the player starts cooking. */
+export function scheduleOffer() {
+  if (!aiSettings().on && !aiSettings().asked) setTimeout(showOffer, 2500);
+}
+
+/** Opens the AI panel (also used by the title screen). */
+export function openAiPanel() { return openPanel(); }
 
 function updateButton() {
   const label = ai.status === 'ready' ? t('ai.statusOn') : ai.status === 'loading' ? `${Math.round(ai.progress * 100)}%` : ai.status === 'error' ? t('ai.statusError') : t('ai.statusOff');

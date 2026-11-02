@@ -1214,5 +1214,8 @@
   "ai.error.network": "The download didn’t work. Check the internet connection and try again (it continues where it stopped).",
   "ai.error.memory": "This device doesn’t have enough graphics memory for this model. Try the lighter Qwen3.5 2B.",
   "ai.error.other": "The AI couldn’t start on this device. The game works fine without it; you can try the lighter model.",
-  "ai.credits": "Qwen3.5 models by the Qwen team (Alibaba Cloud), Apache 2.0 licence. Run in the browser by WebLLM (MLC AI), Apache 2.0 licence."
+  "ai.credits": "Qwen3.5 models by the Qwen team (Alibaba Cloud), Apache 2.0 licence. Run in the browser by WebLLM (MLC AI), Apache 2.0 licence.",
+  "title.start": "Start cooking",
+  "title.continue": "Continue cooking",
+  "title.credits": "Made with love · Font: Fredoka (OFL) · Optional AI: Qwen3.5 & WebLLM (Apache 2.0)"
 }

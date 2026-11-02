@@ -28,6 +28,12 @@ const tool = (id) => `.hand-tool[data-tool="${id}"]`;
 const appliance = (id) => `.appliance[data-tool="${id}"] .appliance-drop`;
 const chip = (page, name) => page.locator('#table .chip:not(.vanish)', { has: page.locator('.chip-name', { hasText: new RegExp(`^${name}$`) }) });
 const chipAt = async (page, name) => center(page, chip(page, name).first());
+/** Presses Start on the title screen and waits for it to slide away. */
+async function startGame(page) {
+  await page.waitForSelector('#title .t-start');
+  await page.locator('#title .t-start').click({ force: true }); // it gently "breathes", so it's never perfectly still
+  await page.waitForSelector('#title', { state: 'hidden' });
+}
 
 (async () => {
   const browser = await chromium.launch();
@@ -45,6 +51,17 @@ const chipAt = async (page, name) => center(page, chip(page, name).first());
   watch(page, 'desktop');
   await page.goto(BASE);
   await page.waitForSelector('body.ready');
+  await page.waitForSelector('#title .t-start');
+  await page.waitForTimeout(800);
+  await page.screenshot({ path: SHOTS + 'title.png' });
+  check(await page.getAttribute('#title .t-logo', 'aria-label') === 'Kitchenria', 'the title screen shows the Kitchenria logo');
+  check(await page.textContent('#title .t-start') === 'Start cooking', 'a new player sees "Start cooking"');
+  check(await page.locator('#title .t-dish').count() >= 3, 'dishes from the game sit on the title counter');
+  await page.click('#title [data-a="book"]');
+  check(await page.locator('#book[open]').count() === 1, 'the Recipe Book opens from the title screen');
+  await page.keyboard.press('Escape');
+  await startGame(page);
+  check(await page.locator('#title').isHidden(), 'Start slides the title away');
   // the AI helper is offered once; this player says no thanks
   await page.waitForSelector('.ai-offer', { timeout: 5000 });
   await page.screenshot({ path: SHOTS + 'desktop-empty.png' });
@@ -209,6 +226,9 @@ const chipAt = async (page, name) => center(page, chip(page, name).first());
   await page.waitForTimeout(600);
   await page.reload();
   await page.waitForSelector('body.ready');
+  await page.waitForSelector('#title .t-start');
+  check(await page.textContent('#title .t-start') === 'Continue cooking', 'a returning player sees "Continue cooking"');
+  await startGame(page);
   check(await page.locator('#table .chip').count() === before, `after reload: the counter is the same (${before} things)`);
   check(await chip(page, 'Stack of 6').count() === 1, 'after reload: the stack is still a stack');
   check(await page.locator('.appliance[data-tool="plate"] .slot.full').count() === 1, 'after reload: the omelette is still on the plate');
@@ -221,7 +241,7 @@ const chipAt = async (page, name) => center(page, chip(page, name).first());
   const mp = await m.newPage();
   watch(mp, 'mobile');
   await mp.goto(BASE);
-  await mp.waitForSelector('body.ready');
+  await mp.waitForSelector('body.ready'); await startGame(mp);
   const cdp = await m.newCDPSession(mp);
   const touchDrag = async (from, to) => {
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: from[0], y: from[1] }] });
@@ -262,7 +282,7 @@ const chipAt = async (page, name) => center(page, chip(page, name).first());
   const fp = await fctx.newPage();
   watch(fp, 'file');
   await fp.goto('file://' + path.resolve(__dirname, '..', 'index.html'));
-  await fp.waitForSelector('body.ready', { timeout: 5000 });
+  await fp.waitForSelector('body.ready', { timeout: 5000 }); await startGame(fp);
   check(await fp.locator('.tile').count() === 52, 'opens from disk with all 52 ingredients');
   check(await fp.locator('#boot-error').isHidden(), 'no "didn\'t open" message');
   await mouseDrag(fp, await center(fp, tile('tomato')), [500, 560]);
@@ -271,7 +291,7 @@ const chipAt = async (page, name) => center(page, chip(page, name).first());
   check(await fp.evaluate(() => document.fonts.check('16px Fredoka')), 'the cosy font is loaded');
   await fp.waitForTimeout(500);
   await fp.reload();
-  await fp.waitForSelector('body.ready');
+  await fp.waitForSelector('body.ready'); await startGame(fp);
   check(await chip(fp, 'Chopped Tomato').count() === 1, 'the counter is saved between visits');
 
   // ---------------- the Kitchen Helper AI, with a stand-in model ----------------
@@ -280,7 +300,7 @@ const chipAt = async (page, name) => center(page, chip(page, name).first());
   const ap = await actx.newPage();
   watch(ap, 'ai');
   await ap.goto(BASE + '?aimock');
-  await ap.waitForSelector('body.ready');
+  await ap.waitForSelector('body.ready'); await startGame(ap);
   await ap.waitForSelector('.ai-offer');
   await ap.click('.ai-offer [data-a="more"]');
   await ap.waitForSelector('#ai-panel[open] .ai-device');
@@ -338,7 +358,7 @@ const chipAt = async (page, name) => center(page, chip(page, name).first());
     const pageErrors = [];
     rp.on('pageerror', (e) => pageErrors.push(e.message));
     await rp.goto(url);
-    await rp.waitForSelector('body.ready');
+    await rp.waitForSelector('body.ready'); await startGame(rp);
     await rp.click('#btn-ai');
     await rp.waitForFunction(() => !/Checking/.test(document.querySelector('#ai-panel .ai-device').textContent));
     check(/can run the AI/.test(await rp.textContent('#ai-panel .ai-device')), `${label}: WebGPU is detected`);

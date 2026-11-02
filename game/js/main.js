@@ -7,7 +7,8 @@ import { loadData, toolById, db, getItem } from './data.js';
 import { state, loadSave, saveNow } from './state.js';
 import { cook as cookItems, serve as serveItems, renameFood, updateReview } from './kitchen.js';
 import { ai, loadSavedTexts, nameFood, reviewDish } from './ai.js';
-import { initAiUi } from './ai-ui.js';
+import { initAiUi, scheduleOffer, openAiPanel } from './ai-ui.js';
+import { showTitle } from './title.js';
 import { initShelf } from './shelf.js';
 import { initTable, beginShelfDrag, beginToolDrag, useOnSelected, placeFromShelf, placeBelow, clearTable, takeSelected, refreshFood, markThinking } from './table.js';
 import { initRack } from './rack.js';
@@ -85,6 +86,10 @@ async function boot() {
   updateTop();
   window.addEventListener('pagehide', saveNow);
   document.body.classList.add('ready');
+
+  // the title screen, then into the kitchen
+  await showTitle({ openBook, openAi: openAiPanel });
+  scheduleOffer();
 }
 
 const HAND_SOUND = { squeeze: 'stir', peel: 'pick', crack: 'chop', tear: 'poof', shape: 'grind', toss: 'stir', season: 'freeze', crumble: 'grind' };
