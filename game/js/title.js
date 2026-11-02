@@ -9,6 +9,7 @@ import { criticFace } from './review.js';
 import { t } from './i18n.js';
 import { esc } from './effects.js';
 import { play } from './audio.js';
+import { wireSoundButton } from './sound-ui.js';
 
 /** Morning, day, evening or night, from the player's own clock. */
 function timeOfDay(d = new Date()) {
@@ -95,8 +96,12 @@ export function showTitle(h = {}) {
         <div class="t-dishes">${dishes().map((d, i) => `<span class="t-dish" style="--i:${i}">${renderArt(d)}</span>`).join('')}</div>
       </div>
       <div class="t-critic" aria-hidden="true">${criticFace(5)}</div>
-      <p class="t-credits">${esc(t('title.credits'))}</p>`;
+      <p class="t-credits">${esc(t('title.credits'))}</p>
+      <button type="button" class="t-sound icon-btn" data-sound-menu aria-haspopup="dialog" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18 V6 l10 -2 v12" stroke-width="2"/><circle cx="6.5" cy="18" r="2.6" stroke-width="2"/><circle cx="16.5" cy="16" r="2.6" stroke-width="2"/></svg>
+      </button>`;
     el.hidden = false;
+    wireSoundButton(el.querySelector('.t-sound'));
     document.body.classList.add('on-title');
 
     const start = () => {

@@ -16,7 +16,8 @@ import { initAppliances, drop as dropInAppliance, applianceAt, highlight, applia
 import { showReview } from './review.js';
 import { openBook, bookSummary } from './book.js';
 import { renderArt } from './doodle.js';
-import { setMuted, play } from './audio.js';
+import { play } from './audio.js';
+import { initSound } from './sound-ui.js';
 import { sparkleBurst, toast, bounce, esc } from './effects.js';
 
 async function boot() {
@@ -65,15 +66,7 @@ async function boot() {
   // --- top bar ---
   document.getElementById('btn-clear').addEventListener('click', () => clearTable());
   document.getElementById('btn-book').addEventListener('click', () => { play('click'); openBook(); });
-  const soundBtn = document.getElementById('btn-sound');
-  const syncSound = () => {
-    setMuted(state.settings.muted);
-    soundBtn.setAttribute('aria-pressed', String(!state.settings.muted));
-    soundBtn.title = t(state.settings.muted ? 'top.muted' : 'top.sound');
-    soundBtn.classList.toggle('off', state.settings.muted);
-  };
-  soundBtn.addEventListener('click', () => { state.settings.muted = !state.settings.muted; syncSound(); saveNow(); play('click'); });
-  syncSound();
+  initSound();
 
   // On phones the pantry can be folded away to make room for the counter.
   document.getElementById('shelf-toggle').addEventListener('click', () => {

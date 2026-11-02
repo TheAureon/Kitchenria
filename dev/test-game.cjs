@@ -62,6 +62,28 @@ async function startGame(page) {
   await page.keyboard.press('Escape');
   await startGame(page);
   check(await page.locator('#title').isHidden(), 'Start slides the title away');
+  // background music & the sound menu
+  const music = () => page.evaluate(async () => (await import('./js/music.js')).isMusicPlaying());
+  check(await music(), 'the background music starts with the first click');
+  const level = await page.evaluate(async () => {
+    const b = await (await import('./js/music.js')).renderMusic(8, 22050);
+    let peak = 0, sum = 0; const d = b.getChannelData(0);
+    for (const x of d) { peak = Math.max(peak, Math.abs(x)); sum += x * x; }
+    return { peak, rms: Math.sqrt(sum / d.length) };
+  });
+  check(level.rms > 0.01 && level.peak < 0.9, `the music is audible and doesn't distort (peak ${level.peak.toFixed(2)}, rms ${level.rms.toFixed(3)})`);
+  await page.click('#btn-sound');
+  check(await page.locator('.sound-menu input[type="range"]').count() === 2, 'the sound menu has separate Music and Sound effects sliders');
+  await page.locator('.sound-menu [data-k="music"]').fill('0');
+  check(!(await music()), 'music volume 0 stops the music');
+  await page.locator('.sound-menu [data-k="music"]').fill('60');
+  check(await music(), 'turning it up starts the music again');
+  await page.click('.sound-menu .sound-mute');
+  check(await page.locator('#btn-sound.off').count() === 1, '"Mute everything" mutes (the button shows it)');
+  await page.click('.sound-menu .sound-mute');
+  await page.screenshot({ path: SHOTS + 'sound-menu.png' });
+  await page.keyboard.press('Escape');
+  check(await page.locator('.sound-menu').count() === 0, 'Escape closes the sound menu');
   // the AI helper is offered once; this player says no thanks
   await page.waitForSelector('.ai-offer', { timeout: 5000 });
   await page.screenshot({ path: SHOTS + 'desktop-empty.png' });

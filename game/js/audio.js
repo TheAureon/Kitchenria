@@ -2,18 +2,27 @@
 // No audio files are needed: each sound is a few tiny synthesised notes.
 
 let ctx = null;
-let master = null;
+let root = null;    // everything goes through here (mute)
+let master = null;  // sound effects volume
+let musicBus = null; // music volume (music.js plays into this)
 let muted = false;
+let sfxVolume = 0.8, musicVolume = 0.5;
 
 /** Browsers only allow sound after the player touches the page, so we start lazily. */
-function ensure() {
+export function ensure() {
   if (!ctx) {
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return null;
     ctx = new AC();
+    root = ctx.createGain();
+    root.gain.value = muted ? 0 : 1;
+    root.connect(ctx.destination);
     master = ctx.createGain();
-    master.gain.value = 0.5;
-    master.connect(ctx.destination);
+    master.gain.value = 0.6 * sfxVolume;
+    master.connect(root);
+    musicBus = ctx.createGain();
+    musicBus.gain.value = musicVolume;
+    musicBus.connect(root);
   }
   if (ctx.state === 'suspended') ctx.resume();
   return ctx;
@@ -21,11 +30,19 @@ function ensure() {
 window.addEventListener('pointerdown', ensure, { once: true, capture: true });
 window.addEventListener('keydown', ensure, { once: true, capture: true });
 
-export function setMuted(m) { muted = m; }
+/** The audio context and the music channel, for music.js. */
+export const audioParts = () => (ensure() ? { ctx, musicBus } : null);
+
+const glide = (param, v) => { if (ctx) param.setTargetAtTime(v, ctx.currentTime, 0.08); };
+export function setMuted(m) { muted = m; if (root) glide(root.gain, m ? 0 : 1); }
+/** 0..1 */
+export function setSfxVolume(v) { sfxVolume = v; if (master) glide(master.gain, 0.6 * v); }
+/** 0..1 */
+export function setMusicVolume(v) { musicVolume = v; if (musicBus) glide(musicBus.gain, v); }
 
 /** One soft note. type: sine/triangle, f0 → f1 pitch glide, dur in seconds. */
 function tone({ f0, f1 = f0, dur = 0.15, type = 'sine', vol = 0.25, at = 0 }) {
-  const c = ensure(); if (!c || muted) return;
+  const c = ensure(); if (!c || muted || sfxVolume === 0) return;
   const t = c.currentTime + at;
   const o = c.createOscillator(), g = c.createGain();
   o.type = type;
@@ -40,7 +57,7 @@ function tone({ f0, f1 = f0, dur = 0.15, type = 'sine', vol = 0.25, at = 0 }) {
 
 /** A soft puff of filtered noise (for "poof" and sizzle-y sounds). */
 function puff({ dur = 0.2, freq = 1200, vol = 0.12, at = 0, type = 'bandpass', q = 0.8 }) {
-  const c = ensure(); if (!c || muted) return;
+  const c = ensure(); if (!c || muted || sfxVolume === 0) return;
   const t = c.currentTime + at;
   const buf = c.createBuffer(1, Math.ceil(c.sampleRate * dur), c.sampleRate);
   const d = buf.getChannelData(0);

@@ -36,6 +36,7 @@ Progress is saved separately for each way of playing (and each website), so the 
 * Example: stack Pizza Base + Tomato Sauce + Grated Cheese, put the stack in the oven, and you get **Cheese Pizza**, a classic dish!
 * Put up to four things on the **plate** and press **Serve!** The critic tastes it and writes a review. Cooked, balanced, well-paired, classic dishes score best. Finished dishes are kept in your **Recipe Book**, along with your collection of classic dishes.
 * **Tap instead of drag:** tap food to pick it up, then tap a hand tool, an appliance, or more food (to stack). **Keyboard:** Tab to food and press Enter, then Tab to a tool and press Enter. Arrow keys move food, Delete puts it away, Escape lets go.
+* **Music & sound:** a gentle original tune plays in the background. The speaker button (top right, and a ♪ button on the title screen) opens a small menu with separate **Music** and **Sound effects** volumes, and **Mute everything**.
 * Drag food onto the pantry to put it away. **Tidy counter** clears everything. Progress saves automatically.
 
 ## ✨ The Kitchen Helper AI (optional)
@@ -74,6 +75,9 @@ Kitchenria/
 │   │   ├── book.js            ←   the Recipe Book window
 │   │   ├── ai.js              ←   the optional Kitchen Helper AI (runs the model, checks and saves its answers)
 │   │   ├── ai-ui.js           ←   the AI panel, its button and the one-time offer
+│   │   ├── music.js           ←   the background music, composed and played live
+│   │   ├── sound-ui.js        ←   the sound menu (music & effects volume, mute)
+│   │   ├── title.js           ←   the title screen
 │   │   ├── doodle.js, shapes.js ← the hand-drawn pictures, made in code
 │   │   ├── effects.js, audio.js ← sparkles, messages and sounds (made in code, no files)
 │   │   ├── state.js           ←   saving your progress
@@ -151,11 +155,11 @@ That's it. The picture replaces the doodle everywhere. Delete the `image` line t
 | **2. Bigger world** | Many more ingredients and classic dishes (aim: 500+ across Italian, French, Japanese, Mexican, Indian, Middle Eastern…), smarter naming, more doodle shapes, better critic variety | next |
 | **3. Kitchen helper AI** | Optional Qwen3.5 4B / 2B (or Chrome's built-in AI) on the player's own device, writing creative names, descriptions and critic reviews. Asks first, shows download size and progress, can be deleted, answers checked and saved forever, works offline | ✅ built (needs testing on a real Mac) |
 | **4. Visitors & decorating** | Animal visitors who ask for dishes ("something warm") and leave gifts, decorating the kitchen | |
-| **5. Atmosphere** | Optional lighting effects (lamp glow, real-time sunlight, candle flicker, steam, soft shadows), Low Power mode, music, rain, the kitchen cat, seasons | |
+| **5. Atmosphere** | Optional lighting effects (lamp glow, real-time sunlight, candle flicker, steam, soft shadows), Low Power mode, ~~music~~ (done early), rain, the kitchen cat, seasons | |
 | **6. Full game & app** | ~~Title screen~~ (done early), settings, pause, credits, save export/import/reset, accessibility options, installable app that works fully offline, final testing | |
 
 ## Credits & licences
 
 * Game code and doodle art: made for Kitchenria.
 * Font: [Fredoka](https://github.com/hafontia/Fredoka-One) by The Fredoka Project Authors, SIL Open Font License 1.1 (see `game/fonts/OFL-LICENSE.txt`).
-* Sound effects: generated live in code with the Web Audio API. There are no audio files.
+* Sound effects and music: original, composed for Kitchenria and generated live in code with the Web Audio API (`game/js/audio.js` and `game/js/music.js`). There are no audio files and no third-party music, so there's nothing to licence: the music is part of your game.

@@ -542,6 +542,19 @@ dialog.book-dialog { width: min(760px, 96vw); max-width: 96vw; }
 @keyframes shimmer { to { background-position: -200% 0; } }
 @keyframes blink { 0%, 95%, 100% { transform: scaleY(1); } 97% { transform: scaleY(.1); } }
 
+/* ---------- sound menu ---------- */
+.sound-menu {
+  position: fixed; z-index: 200; width: 250px;
+  display: flex; flex-direction: column; gap: 10px; padding: 12px 14px;
+  background: var(--cream); border: 2.5px solid var(--ink); border-radius: 16px 4px 16px 16px; box-shadow: 0 5px 0 var(--ink-soft);
+  animation: toast-in .25s cubic-bezier(.3, 1.5, .5, 1);
+}
+.sound-title { margin: 0; font-weight: 650; }
+.sound-row { display: flex; flex-direction: column; gap: 4px; font-size: .9rem; font-weight: 520; }
+.sound-row input { width: 100%; accent-color: var(--red); }
+.sound-note { margin: 0; font-size: .72rem; opacity: .65; }
+.t-sound { position: absolute; top: 70px; right: 16px; z-index: 5; }
+
 /* ---------- the title screen ---------- */
 .title {
   position: fixed; inset: 0; z-index: 150; overflow: hidden;
