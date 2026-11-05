@@ -36,7 +36,7 @@ Progress is saved separately for each way of playing (and each website), so the 
 * Example: stack Pizza Base + Tomato Sauce + Grated Cheese, put the stack in the oven, and you get **Cheese Pizza**, a classic dish!
 * Put up to four things on the **plate** and press **Serve!** The critic tastes it and writes a review. Cooked, balanced, well-paired, classic dishes score best. Finished dishes are kept in your **Recipe Book**, along with your collection of classic dishes.
 * **Tap instead of drag:** tap food to pick it up, then tap a hand tool, an appliance, or more food (to stack). **Keyboard:** Tab to food and press Enter, then Tab to a tool and press Enter. Arrow keys move food, Delete puts it away, Escape lets go.
-* **Music & sound:** a gentle original tune plays in the background. The speaker button (top right, and a ♪ button on the title screen) opens a small menu with separate **Music** and **Sound effects** volumes, and **Mute everything**.
+* **Music & sound:** five gentle original songs play in the background, one after another with soft crossfades, starting with one that suits the time of day: *Morning Toast* (lazy electric piano), *Sunday Market* (bouncy ukulele and flute), *Rainy Window* (dreamy pads, kalimba and rain), *Lavender Tea* (a French café waltz with accordion) and *Night Bakery* (late-night jazz with vibraphone). The speaker button (top right, and a ♪ button on the title screen) opens a small menu with **Now playing** (skip back and forward, or **Stay on this song**), separate **Music** and **Sound effects** volumes, and **Mute everything**.
 * Drag food onto the pantry to put it away. **Tidy counter** clears everything. Progress saves automatically.
 
 ## ✨ The Kitchen Helper AI (optional)
@@ -75,7 +75,8 @@ Kitchenria/
 │   │   ├── book.js            ←   the Recipe Book window
 │   │   ├── ai.js              ←   the optional Kitchen Helper AI (runs the model, checks and saves its answers)
 │   │   ├── ai-ui.js           ←   the AI panel, its button and the one-time offer
-│   │   ├── music.js           ←   the background music, composed and played live
+│   │   ├── music.js           ←   the music "studio": instruments, echo, playlist and crossfades
+│   │   ├── tracks.js          ←   the five songs (chords, tempo, which instrument plays what); add your own here
 │   │   ├── sound-ui.js        ←   the sound menu (music & effects volume, mute)
 │   │   ├── title.js           ←   the title screen
 │   │   ├── doodle.js, shapes.js ← the hand-drawn pictures, made in code
@@ -162,4 +163,4 @@ That's it. The picture replaces the doodle everywhere. Delete the `image` line t
 
 * Game code and doodle art: made for Kitchenria.
 * Font: [Fredoka](https://github.com/hafontia/Fredoka-One) by The Fredoka Project Authors, SIL Open Font License 1.1 (see `game/fonts/OFL-LICENSE.txt`).
-* Sound effects and music: original, composed for Kitchenria and generated live in code with the Web Audio API (`game/js/audio.js` and `game/js/music.js`). There are no audio files and no third-party music, so there's nothing to licence: the music is part of your game.
+* Sound effects and music: original, composed for Kitchenria and generated live in code with the Web Audio API (`game/js/audio.js`, `game/js/music.js` and `game/js/tracks.js`). There are no audio files and no third-party music, so there's nothing to licence: the music is part of your game.

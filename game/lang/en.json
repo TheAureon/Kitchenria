@@ -1223,5 +1223,14 @@
   "sound.sfx": "Sound effects",
   "sound.mute": "Mute everything",
   "sound.unmute": "Turn sound back on",
-  "sound.note": "The music is an original tune, played live by the game."
+  "sound.note": "All five songs are original, composed for Kitchenria and played live by the game.",
+  "sound.nowPlaying": "Now playing",
+  "sound.prev": "Previous song",
+  "sound.next": "Next song",
+  "sound.stay": "Stay on this song",
+  "music.toast": "Morning Toast",
+  "music.market": "Sunday Market",
+  "music.rain": "Rainy Window",
+  "music.tea": "Lavender Tea",
+  "music.bakery": "Night Bakery"
 }

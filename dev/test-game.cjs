@@ -65,13 +65,19 @@ async function startGame(page) {
   // background music & the sound menu
   const music = () => page.evaluate(async () => (await import('./js/music.js')).isMusicPlaying());
   check(await music(), 'the background music starts with the first click');
-  const level = await page.evaluate(async () => {
-    const b = await (await import('./js/music.js')).renderMusic(8, 22050);
-    let peak = 0, sum = 0; const d = b.getChannelData(0);
-    for (const x of d) { peak = Math.max(peak, Math.abs(x)); sum += x * x; }
-    return { peak, rms: Math.sqrt(sum / d.length) };
+  const levels = await page.evaluate(async () => {
+    const m = await import('./js/music.js');
+    const out = {};
+    for (const id of m.trackIds()) {
+      const b = await m.renderMusic(8, 22050, id);
+      let peak = 0, sum = 0; const d = b.getChannelData(0);
+      for (const x of d) { peak = Math.max(peak, Math.abs(x)); sum += x * x; }
+      out[id] = { peak: +peak.toFixed(2), rms: +Math.sqrt(sum / d.length).toFixed(3) };
+    }
+    return out;
   });
-  check(level.rms > 0.01 && level.peak < 0.9, `the music is audible and doesn't distort (peak ${level.peak.toFixed(2)}, rms ${level.rms.toFixed(3)})`);
+  check(Object.keys(levels).length === 5, `there are 5 songs (${Object.keys(levels).join(', ')})`);
+  check(Object.values(levels).every((l) => l.rms > 0.01 && l.peak < 0.9), `every song is audible and doesn't distort (${JSON.stringify(levels)})`);
   await page.click('#btn-sound');
   check(await page.locator('.sound-menu input[type="range"]').count() === 2, 'the sound menu has separate Music and Sound effects sliders');
   await page.locator('.sound-menu [data-k="music"]').fill('0');
@@ -81,6 +87,17 @@ async function startGame(page) {
   await page.click('.sound-menu .sound-mute');
   check(await page.locator('#btn-sound.off').count() === 1, '"Mute everything" mutes (the button shows it)');
   await page.click('.sound-menu .sound-mute');
+  const songName = () => page.textContent('.sound-menu .now-playing strong');
+  const first = await songName();
+  check(['Morning Toast', 'Sunday Market', 'Rainy Window', 'Lavender Tea', 'Night Bakery'].includes(first), `"Now playing" shows the song (${first})`);
+  await page.click('.sound-menu [data-k="next"]');
+  const second = await songName();
+  check(second !== first, `the next button changes the song (${first} → ${second})`);
+  await page.waitForTimeout(2200);
+  const playingId = await page.evaluate(async () => (await import('./js/music.js')).currentTrack());
+  check(await music() && (await page.evaluate((id) => document.querySelector('.sound-menu .now-playing strong').textContent, playingId)) === second, `after the crossfade the new song is playing (${playingId})`);
+  await page.click('.sound-menu [data-k="stay"]');
+  check(await page.evaluate(() => JSON.parse(localStorage.getItem('kitchenria.save.v3') || '{}').settings?.musicStay === true) || await page.locator('.sound-menu [data-k="stay"]').isChecked(), '"Stay on this song" can be ticked');
   await page.screenshot({ path: SHOTS + 'sound-menu.png' });
   await page.keyboard.press('Escape');
   check(await page.locator('.sound-menu').count() === 0, 'Escape closes the sound menu');
