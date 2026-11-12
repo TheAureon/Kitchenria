@@ -20,6 +20,12 @@
     </h1>
     <span id="book-summary" class="book-summary" aria-live="polite"></span>
     <div class="top-actions">
+      <button id="btn-hearts" class="icon-btn hearts-pill" type="button" data-i18n-attr="title:hearts.title">
+        <span aria-hidden="true">♥</span> <span id="hearts-count">0</span>
+      </button>
+      <button id="btn-daily" class="icon-btn daily-btn" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2" stroke-width="2"/><path d="M8.5 9 h7 M8.5 12.5 h7 M8.5 16 h4" stroke-width="1.8"/><path class="tick" d="M13 16.5 l2 2 l4 -5" stroke-width="2.4"/></svg>
+      </button>
       <button id="btn-ai" class="icon-btn ai-btn" type="button" data-i18n-attr="title:ai.title">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z" stroke-width="2"/><path d="M19 3 v4 M17 5 h4" stroke-width="1.6"/></svg>
         <span id="ai-status" class="ai-status">AI</span>
@@ -41,39 +47,18 @@
     <!-- ===== kitchen scene: back wall + table ===== -->
     <section class="scene" aria-labelledby="table-title">
       <div class="wall">
-        <svg class="window" aria-hidden="true" viewBox="0 0 160 110">
-          <defs>
-            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe3f2"/><stop offset="1" stop-color="#fbe9cf"/></linearGradient>
-            <clipPath id="glass"><rect x="8" y="8" width="144" height="94" rx="10"/></clipPath>
-          </defs>
-          <rect x="8" y="8" width="144" height="94" rx="10" fill="url(#sky)" stroke="#4a3426" stroke-width="3.5"/>
-          <g clip-path="url(#glass)"><g class="cloud"><ellipse cx="44" cy="36" rx="16" ry="7" fill="#fff"/><ellipse cx="54" cy="31" rx="10" ry="7" fill="#fff"/></g>
-          <g class="cloud slow"><ellipse cx="112" cy="58" rx="13" ry="5.5" fill="#fff" opacity=".9"/><ellipse cx="120" cy="54" rx="8" ry="5" fill="#fff" opacity=".9"/></g>
-          </g>
-          <circle cx="128" cy="28" r="9" fill="#ffd77a" opacity=".9"/>
-          <path d="M80 9 V101 M9 55 H151" stroke="#4a3426" stroke-width="3.5"/>
-          <path d="M2 100 H158" stroke="#4a3426" stroke-width="6" stroke-linecap="round"/>
-          <path d="M3 99 H157" stroke="#d9a66b" stroke-width="3" stroke-linecap="round"/>
-        </svg>
+        <div id="decor-lights" class="decor-lights" aria-hidden="true"></div>
+        <div class="window-wrap" aria-hidden="true">
+          <div id="window-slot" class="window-slot"></div>
+          <div id="decor-sill" class="decor-sill"></div>
+        </div>
+        <div id="decor-frame" class="decor-frame" aria-hidden="true"></div>
         <div class="rail-wrap">
           <div id="rack" class="rack" role="group" data-i18n-attr="aria-label:rack.label"></div>
         </div>
-        <svg class="plant" viewBox="0 0 70 110" aria-hidden="true">
-          <path d="M35 0 V22" stroke="#4a3426" stroke-width="2"/>
-          <g class="sway">
-            <path d="M18 50 Q8 70 14 92 M30 56 Q26 80 34 104 M50 52 Q62 72 56 96" fill="none" stroke="#5f9e45" stroke-width="3" stroke-linecap="round"/>
-            <ellipse cx="13" cy="72" rx="6" ry="3.5" fill="#79b55a" stroke="#4a3426" stroke-width="1.6" transform="rotate(60 13 72)"/>
-            <ellipse cx="16" cy="88" rx="6" ry="3.5" fill="#79b55a" stroke="#4a3426" stroke-width="1.6" transform="rotate(-50 16 88)"/>
-            <ellipse cx="29" cy="78" rx="6" ry="3.5" fill="#8cc46c" stroke="#4a3426" stroke-width="1.6" transform="rotate(70 29 78)"/>
-            <ellipse cx="34" cy="98" rx="6" ry="3.5" fill="#79b55a" stroke="#4a3426" stroke-width="1.6" transform="rotate(-60 34 98)"/>
-            <ellipse cx="59" cy="74" rx="6" ry="3.5" fill="#8cc46c" stroke="#4a3426" stroke-width="1.6" transform="rotate(-60 59 74)"/>
-            <ellipse cx="56" cy="90" rx="6" ry="3.5" fill="#79b55a" stroke="#4a3426" stroke-width="1.6" transform="rotate(50 56 90)"/>
-            <path d="M14 30 H56 L52 54 Q35 60 18 54 Z" fill="#e2884f" stroke="#4a3426" stroke-width="2.6" stroke-linejoin="round"/>
-            <path d="M16 36 H54" stroke="#4a3426" stroke-width="1.6" opacity=".4"/>
-            <path d="M14 30 L35 22 L56 30" fill="none" stroke="#4a3426" stroke-width="1.6"/>
-          </g>
-        </svg>
+        <div id="decor-hang" class="decor-hang" aria-hidden="true"></div>
       </div>
+      <div id="visitor" class="visitor" hidden></div>
 
       <div id="appliances" class="appliances" role="group" data-i18n-attr="aria-label:appliances.label"></div>
       <h2 id="table-title" class="visually-hidden" data-i18n="table.label">Kitchen counter</h2>
@@ -113,6 +98,7 @@
   <dialog id="review" class="sheet review"></dialog>
   <dialog id="book" class="sheet book-dialog"></dialog>
   <dialog id="ai-panel" class="sheet ai-dialog"></dialog>
+  <dialog id="decorate" class="sheet book-dialog"></dialog>
 
   <!-- floating layers -->
   <div id="drag-layer" class="drag-layer"></div>

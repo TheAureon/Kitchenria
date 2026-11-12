@@ -32,7 +32,7 @@ function hash(s) { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0)
  * @param {object} ctx   { t, pick, ING }
  * @returns {{ stars:number, review:string, good:string[], bad:string[] }}
  */
-export function scoreDish(dish, { t, pick, ING }) {
+export function scoreDish(dish, { t, pick, ING, favourite }) {
   const seed = dish.key;
   const parts = dish.parts;
   const name = (id) => ING.get(id)?.name || id;
@@ -90,6 +90,10 @@ export function scoreDish(dish, { t, pick, ING }) {
   if (taste.rich >= 2) { score += 0.2; good.push(['rich', 0.3]); }
   if (taste.sweet >= 1.6 && taste.umami >= 1.6 && !dish.sig) { score -= 0.4; bad.push(['weird', 0.4]); }
 
+  // --- Madame Purrline's favourite flavour this week ---
+  let lovedFav = false;
+  if (favourite && taste[favourite] >= 1.6 && !dish.burnt) { score += 0.4; lovedFav = true; good.push(['favourite', 2, { flavour: t(`flavour.${favourite}`) }]); }
+
   // --- temperature & plating ---
   if (dish.hot && !dish.burnt) { score += 0.3; good.push(['warm', 0.35]); }
   if (dish.frozen) { if (taste.sweet >= 1.2) { score += 0.3; good.push(['cool', 0.3]); } else { score -= 0.5; bad.push(['weird', 0.5]); } }
@@ -108,5 +112,5 @@ export function scoreDish(dish, { t, pick, ING }) {
   for (const [f, , vars] of goods) lines.push(pick(`critic.good.${f}`, seed + f, vars || {}));
   for (const [f, , vars] of bads) lines.push(pick(`critic.bad.${f}`, seed + f, vars || {}));
   lines.push(pick(`critic.verdict.${band}`, seed));
-  return { stars, review: lines.join(' '), good: good.map((g) => g[0]), bad: bad.map((b) => b[0]) };
+  return { stars, lovedFav, review: lines.join(' '), good: good.map((g) => g[0]), bad: bad.map((b) => b[0]) };
 }

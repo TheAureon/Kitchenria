@@ -8,14 +8,16 @@ import { t, pick } from './i18n.js';
 import { state } from './state.js';
 
 /** Everything loaded, in one place. */
-export const db = { engine: null, kitchen: null, handTools: [], appliances: [], signatures: [], ingredients: [] };
+export const db = { engine: null, kitchen: null, handTools: [], appliances: [], signatures: [], ingredients: [], cozy: null };
 
 export async function loadData() {
-  const [ing, kitchen, sig] = await Promise.all([
+  const [ing, kitchen, sig, cozy] = await Promise.all([
     loadJSON('data/ingredients.json'),
     loadJSON('data/kitchen.json'),
     loadJSON('data/signatures.json'),
+    loadJSON('data/cozy.json'),
   ]);
+  db.cozy = cozy;
   const seen = new Set();
   const ingredients = ing.ingredients.filter((g) => {
     const ok = g.id && !seen.has(g.id) && g.name && g.art;

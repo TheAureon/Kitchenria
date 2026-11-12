@@ -338,7 +338,7 @@ const NOTES = {
   complex: 'layers of flavour', warm: 'served warm', sweetSalty: 'sweet and salty together', fresh: 'fresh and bright', rich: 'rich', sweet: 'a nice sweet treat',
   plated: 'thoughtfully plated with sides', cool: 'refreshingly cold', raw: 'some of it should have been cooked', burnt: 'burnt', salty: 'too salty',
   bitter: 'bitter', bland: 'a bit plain', busy: 'too many things at once', clash: 'flavours that clash', lonely: 'just one raw ingredient on a plate',
-  sour: 'very sour', spicy: 'very spicy', weird: 'a strange combination',
+  sour: 'very sour', spicy: 'very spicy', weird: 'a strange combination', favourite: 'her favourite flavour this week',
 };
 
 export function savedReview(key) {

@@ -10,7 +10,7 @@ import { ai, loadSavedTexts, nameFood, reviewDish } from './ai.js';
 import { initAiUi, scheduleOffer, openAiPanel } from './ai-ui.js';
 import { showTitle } from './title.js';
 import { initShelf } from './shelf.js';
-import { initTable, beginShelfDrag, beginToolDrag, useOnSelected, placeFromShelf, placeBelow, clearTable, takeSelected, refreshFood, markThinking } from './table.js';
+import { initTable, beginShelfDrag, beginToolDrag, useOnSelected, placeFromShelf, placeBelow, clearTable, takeSelected, peekSelected, refreshFood, markThinking } from './table.js';
 import { initRack } from './rack.js';
 import { initAppliances, drop as dropInAppliance, applianceAt, highlight, applianceRect } from './appliances.js';
 import { showReview } from './review.js';
@@ -19,6 +19,10 @@ import { renderArt } from './doodle.js';
 import { play } from './audio.js';
 import { initSound } from './sound-ui.js';
 import { sparkleBurst, toast, bounce, esc } from './effects.js';
+import { dailyEvent, weeklyFavourite } from './cozy.js';
+import { initVisitors, visitorAt, give as giveToVisitor } from './visitors.js';
+import { initDecor } from './decorate.js';
+import { initDaily, dailyDone } from './daily.js';
 
 async function boot() {
   await Promise.all([loadLanguage('en'), loadData()]);
@@ -33,8 +37,12 @@ async function boot() {
   initTable({
     useTool: (toolId, ids, op) => {
       play(HAND_SOUND[op] || TOOL_SOUND[toolId] || 'stir');
-      return cookItems(op || toolById(toolId).op, ids);
+      const res = cookItems(op || toolById(toolId).op, ids);
+      if (res && dailyEvent({ type: 'cook', item: res.item, tool: toolId })) setTimeout(dailyDone, 600);
+      return res;
     },
+    visitorAt,
+    giveToVisitor,
     handActions: (ids) => db.engine.handActions(ids.map(getItem).filter(Boolean)),
     celebrate,
     applianceAt,
@@ -48,6 +56,7 @@ async function boot() {
     cook: (applianceId, op, items) => {
       const res = cookItems(op, items);
       if (!res) return;
+      if (dailyEvent({ type: 'cook', item: res.item, tool: applianceId })) setTimeout(dailyDone, 600);
       const el = placeBelow(applianceRect(applianceId), [res.item.id]);
       celebrate(res, el);
     },
@@ -60,6 +69,11 @@ async function boot() {
         : null;
       await showReview(r, pending);
       updateTop();
+      if (r.favFirst) {
+        play('discover');
+        toast({ kind: 'sig', title: '♥', body: esc(t('review.favFound', { flavour: t(`flavour.${weeklyFavourite()}`), n: db.cozy.hearts.favouriteBonus })), ms: 5000 });
+      }
+      if (dailyEvent({ type: 'serve', dish: r.dish, stars: r.score.stars })) dailyDone();
     },
   });
 
@@ -67,6 +81,14 @@ async function boot() {
   document.getElementById('btn-clear').addEventListener('click', () => clearTable());
   document.getElementById('btn-book').addEventListener('click', () => { play('click'); openBook(); });
   initSound();
+  initDecor();
+  initDaily();
+  initVisitors({
+    selectedIds: peekSelected,
+    removeSelected: takeSelected,
+    isPaused: () => !document.getElementById('title').hidden,
+    onDaily: dailyDone,
+  });
 
   // On phones the pantry can be folded away to make room for the counter.
   document.getElementById('shelf-toggle').addEventListener('click', () => {

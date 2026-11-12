@@ -6,6 +6,7 @@ import { state, save } from './state.js';
 import { scoreDish } from './critic.js';
 import { t, pick } from './i18n.js';
 import { savedName, savedReview } from './ai.js';
+import { weeklyFavourite, favouriteFound, markFavouriteFound, addHearts } from './cozy.js';
 
 const seenKeys = new Set(); // recipes made during this visit, for the "New!" sparkle
 
@@ -43,7 +44,9 @@ export function serve(ids) {
   let dish = db.engine.plate(items);
   const reviewed = savedReview(dish.key);
   if (reviewed && reviewed.dishName && !dish.sig) dish = { ...dish, name: reviewed.dishName };
-  const score = scoreDish(dish, { t, pick, ING: db.engine.ING });
+  const score = scoreDish(dish, { t, pick, ING: db.engine.ING, favourite: weeklyFavourite() });
+  let favFirst = false;
+  if (score.lovedFav && !favouriteFound()) { markFavouriteFound(); addHearts(db.cozy.hearts.favouriteBonus); favFirst = true; }
   const firstTime = !state.dishes[dish.id];
   const isNewSig = noteSignature(dish.sig) || noteSignature(dish.mainSig);
   if (reviewed) score.review = reviewed.review;
@@ -51,7 +54,7 @@ export function serve(ids) {
   rec.times++; rec.last = Date.now();
   state.dishes[dish.id] = rec;
   save();
-  return { dish, score, firstTime, isNewSig, aiDone: !!reviewed };
+  return { dish, score, firstTime, isNewSig, favFirst, aiDone: !!reviewed };
 }
 
 /** Puts an AI-written name on something you made (and on everything on the counter that is it). */

@@ -189,6 +189,9 @@ export function clearTable() {
   toast({ body: t('toast.cleared'), kind: 'soft', ms: 1600 });
 }
 
+/** The ids of the picked-up food, without taking it (or null). */
+export const peekSelected = () => (selected ? idsOf(selected) : null);
+
 /** Hands over the picked-up food (for tapping an appliance after tapping food). */
 export function takeSelected() {
   if (!selected) return null;
@@ -476,6 +479,13 @@ function onUp(e) {
     setTimeout(() => { if (d.src) d.src._justDragged = false; }, 60);
   }
   if (e.type === 'pointercancel') return;
+
+  // 0. given to a friend at the window?
+  if (hooks.visitorAt?.(e.clientX, e.clientY)) {
+    if (hooks.giveToVisitor?.(d.ids)) { if (d.src) { removeChip(d.src, false); persist(); } }
+    else if (d.src) bounce(d.src, 'wiggle');
+    return;
+  }
 
   // 1. into an appliance (or onto the plate)?
   const appliance = hooks.applianceAt?.(e.clientX, e.clientY);

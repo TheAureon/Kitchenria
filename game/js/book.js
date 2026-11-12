@@ -7,6 +7,8 @@ import { renderArt } from './doodle.js';
 import { t } from './i18n.js';
 import { esc } from './effects.js';
 import { criticFace } from './review.js';
+import { animalFace, animalSilhouette } from './animals.js';
+import { weeklyFavourite, favouriteFound } from './cozy.js';
 
 let tab = 'dishes';
 let sort = 'newest';
@@ -20,7 +22,7 @@ export function openBook() {
         <form method="dialog"><button class="icon-btn" value="close" aria-label="${esc(t('book.close'))}">✕</button></form>
       </header>
       <div class="book-tabs" role="tablist">
-        ${['dishes', 'classics'].map((k) => `<button role="tab" type="button" data-tab="${k}" aria-selected="${tab === k}">${esc(t(`book.${k}`))}</button>`).join('')}
+        ${['dishes', 'classics', 'friends'].map((k) => `<button role="tab" type="button" data-tab="${k}" aria-selected="${tab === k}">${esc(t(`book.${k}`))}</button>`).join('')}
       </div>
       <div class="book-body" role="tabpanel"></div>
     </div>`;
@@ -33,7 +35,7 @@ export function openBook() {
 function openTab(dlg) {
   dlg.querySelectorAll('[data-tab]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
   const body = dlg.querySelector('.book-body');
-  body.innerHTML = tab === 'dishes' ? dishes() : classics();
+  body.innerHTML = tab === 'dishes' ? dishes() : tab === 'classics' ? classics() : friends();
   body.querySelectorAll('.dish-card').forEach((c) => c.addEventListener('click', () => {
     const open = c.classList.toggle('open');
     c.setAttribute('aria-expanded', String(open));
@@ -55,7 +57,9 @@ function dishes() {
   if (!recs.length) return `<p class="book-empty">${criticFace(3)}<span>${esc(t('book.empty'))}</span></p>`;
   recs.sort((a, b) => (sort === 'best' ? b.stars - a.stars : b.last - a.last));
   const { count, avg } = bookSummary();
-  return `<div class="book-bar"><span>${esc(t(count === 1 ? 'book.summaryOne' : 'book.summary', { n: count, avg: avg.toFixed(1) }))}</span>
+  const fav = favouriteFound() ? t(`flavour.${weeklyFavourite()}`) : '???';
+  return `<p class="book-fav">${criticFace(4)}<span>${esc(t('book.favourite', { flavour: fav }))}</span></p>
+    <div class="book-bar"><span>${esc(t(count === 1 ? 'book.summaryOne' : 'book.summary', { n: count, avg: avg.toFixed(1) }))}</span>
       <span class="book-sort">${['newest', 'best'].map((k) => `<button type="button" data-sort="${k}" aria-pressed="${sort === k}">${esc(t(`book.sort.${k}`))}</button>`).join('')}</span></div>
     <div class="dish-grid">${recs.map(({ dish, stars, review }) => `
     <button type="button" class="dish-card" aria-expanded="false">
@@ -79,5 +83,19 @@ function classics() {
       // undiscovered classics show only their first letters as a hint: "M_________ P____"
       const hint = s.name.replace(/\p{L}+/gu, (w) => w[0] + '_'.repeat(w.length - 1));
       return `<div class="classic ${found ? 'found' : ''}"><span class="classic-name" ${found ? '' : `aria-label="${esc(t('book.hidden'))}"`}>${esc(found ? s.name : hint)}</span>${found ? `<span class="classic-desc">${esc(s.desc || '')}</span>` : ''}</div>`;
+    }).join('')}</div>`;
+}
+
+function friends() {
+  const cfg = db.cozy.hearts;
+  return `<p class="book-progress">${esc(t('book.friendsIntro'))}</p>
+    <div class="friend-grid">${db.cozy.visitors.map((v) => {
+      const f = state.friends?.[v.id];
+      if (!f) return `<div class="friend unknown">${animalSilhouette(v.id)}<span class="friend-name">???</span></div>`;
+      const gift = (state.owned || []).includes(v.gift);
+      return `<div class="friend">${animalFace(v.id, 'happy')}<span class="friend-name">${esc(t(`visitor.${v.id}`))}</span>
+        <span class="friend-visits">${esc(t(f.visits === 1 ? 'book.visitOne' : 'book.visits', { n: f.visits }))}</span>
+        ${f.last ? `<span class="friend-last">${esc(t('book.lastAte', { dish: f.last }))}</span>` : ''}
+        <span class="friend-gift">${esc(gift ? t('book.giftGot', { gift: t(`decor.${v.gift}`) }) : t('book.giftSoon', { n: Math.max(0, cfg.giftAfterVisits - f.visits) }))}</span></div>`;
     }).join('')}</div>`;
 }

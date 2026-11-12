@@ -13,6 +13,16 @@ export const state = {
   plate: [],          // ids of food on the serving plate
   dishes: {},         // dish id -> { dish, stars, review, times, first, last } (the Recipe Book)
   signatures: [],     // classic dish ids found
+  hearts: 0,          // thank-you hearts from friends and daily cards (spent on decorations)
+  owned: [],          // decoration ids bought or received as gifts
+  decor: {},          // slot -> decoration id in use (wallpaper, counter, hang, sill, frame, lights, theme)
+  visitor: null,      // { id, wish } the friend waiting at the window, if any
+  lastVisitor: null,
+  playTime: 0,        // seconds spent cooking (visitors come every few minutes of play)
+  nextVisitAt: null,
+  friends: {},        // friend id -> { visits, last }
+  daily: null,        // today's recipe card { date, id, param, done }
+  favSeen: {},        // weeks where Madame Purrline's favourite flavour was discovered
   settings: { muted: false, section: 'all' },
 };
 

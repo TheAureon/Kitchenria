@@ -70,6 +70,7 @@ const packed = {
   'data/ingredients.json': ingredients,
   'data/kitchen.json': kitchen,
   'data/signatures.json': JSON.parse(read('data/signatures.json')),
+  'data/cozy.json': JSON.parse(read('data/cozy.json')),
   'lang/en.json': JSON.parse(read('lang/en.json')),
 };
 const packedJs = `window.KITCHENRIA_PACKED = ${JSON.stringify(packed)};`.replace(/<\/script/gi, '<\\/script').replace(/<!--/g, '<\\!--');
