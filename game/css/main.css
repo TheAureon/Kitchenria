@@ -112,7 +112,7 @@ svg { overflow: visible; }
 .window-slot, .window-slot .window { display: block; width: 100%; height: 100%; }
 .decor-sill { position: absolute; right: 6%; bottom: 2%; width: 26%; aspect-ratio: 60 / 50; pointer-events: none; }
 .decor-sill svg, .decor-hang svg, .decor-frame svg { display: block; width: 100%; height: 100%; }
-.decor-frame { flex: none; height: 72%; align-self: center; aspect-ratio: 70 / 80; }
+.decor-frame { flex: none; height: 62%; align-self: center; aspect-ratio: 70 / 80; }
 .decor-frame:empty, .decor-hang:empty { display: none; }
 .decor-hang { flex: none; height: 80%; align-self: flex-start; aspect-ratio: 70 / 110; }
 .decor-lights { position: absolute; left: 0; right: 0; top: 0; height: 30px; pointer-events: none; z-index: 2; }
@@ -788,6 +788,7 @@ dialog.book-dialog { width: min(760px, 96vw); max-width: 96vw; }
   .window-wrap, .decor-frame, .decor-hang { display: none; }
   .decor-lights { height: 18px; }
   .hearts-pill { padding: 6px 8px; }
+  .decor-frame { height: 60%; }
   .rack { justify-content: flex-start; padding: 8px 6px 0; }
   .hand-tool { width: 62px; }
   .hand-tool-art { width: 46px; height: 46px; }
@@ -823,6 +824,13 @@ dialog.book-dialog { width: min(760px, 96vw); max-width: 96vw; }
   .shelf-section { grid-column: auto; grid-row: 1 / -1; writing-mode: vertical-rl; rotate: 180deg; margin: 0; border: 0; border-left: 2px dashed rgba(74, 52, 38, .3); font-size: .7rem; text-align: center; }
   .tile { min-height: 0; touch-action: pan-x; padding: 4px 3px; }
   .tile-art { width: 42px; height: 42px; }
+}
+
+@media (max-width: 520px) {
+  .book-summary { display: none; }
+  .top-actions { gap: 4px; margin-left: auto; }
+  .icon-btn { padding: 5px 7px; }
+  .icon-btn svg { width: 20px; height: 20px; }
 }
 
 /* ---------- 11. reduced motion ---------- */

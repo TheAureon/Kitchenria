@@ -274,6 +274,61 @@ async function startGame(page) {
   check(/1 dish /.test(await page.textContent('#book-summary')), 'after reload: the Recipe Book is kept');
   await page.screenshot({ path: SHOTS + 'desktop-after.png' });
 
+  // ---------------- friends, hearts & decorating ----------------
+  console.log('Friends & decorating:');
+  const fctx2 = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const vp = await fctx2.newPage();
+  watch(vp, 'friends');
+  await vp.goto(BASE + '?visitnow=warm');
+  await vp.waitForSelector('body.ready'); await startGame(vp);
+  await vp.waitForSelector('#visitor:not([hidden])', { timeout: 6000 });
+  check(/Hazel the Hedgehog/.test(await vp.textContent('.visitor-bubble')) && /warm/.test(await vp.textContent('.visitor-bubble')), 'a friend knocks at the window and wishes for something warm');
+  check(await vp.textContent('#hearts-count') === '0', 'a new player has 0 hearts');
+  if (await vp.locator('.ai-offer').count()) await vp.click('.ai-offer [data-a="no"]');
+  await mouseDrag(vp, await center(vp, tile('egg')), [500, 560]);
+  await mouseDrag(vp, await chipAt(vp, 'Egg'), await center(vp, '.visitor-btn'));
+  check(/cook it/.test(await vp.textContent('.visitor-bubble')) && await chip(vp, 'Egg').count() === 1, 'a raw egg is politely refused (and stays on the counter)');
+  await mouseDrag(vp, await chipAt(vp, 'Egg'), await center(vp, appliance('pan')));
+  await vp.waitForTimeout(900);
+  await mouseDrag(vp, await chipAt(vp, 'Fried Egg'), await center(vp, '.visitor-btn'));
+  await vp.waitForTimeout(400);
+  check(/Thank you/.test(await vp.textContent('.visitor-bubble')), 'a fried egg makes the friend happy');
+  check(await vp.textContent('#hearts-count') === '4', 'they leave 4 hearts');
+  check(await chip(vp, 'Fried Egg').count() === 0, 'the dish was given away');
+  await vp.waitForTimeout(4200);
+  check(await vp.locator('#visitor').isHidden(), 'then they wave goodbye');
+  await vp.click('#btn-book'); await vp.click('[data-tab="friends"]');
+  check(/Hazel the Hedgehog/.test(await vp.textContent('.friend-grid')) && /Happy visits: 1/.test(await vp.textContent('.friend-grid')), 'the Recipe Book lists Hazel as a friend');
+  check(await vp.locator('.friend.unknown').count() === 7, 'friends not met yet are shadows');
+  await vp.click('[data-tab="dishes"]');
+  check(/Madame Purrline loves: \?\?\?/.test(await vp.textContent('.book-fav')), 'the critic\'s favourite flavour this week is a secret until found');
+  await vp.keyboard.press('Escape');
+  check(/Today's recipe card/.test(await vp.getAttribute('#btn-daily', 'aria-label')), 'there is a daily recipe card');
+  await vp.click('#btn-daily');
+  check(await vp.locator('.daily-pop .daily-goal').count() === 1, 'tapping it shows today\'s goal');
+  await vp.keyboard.press('Escape');
+  // decorating
+  // (give the player 30 hearts as the page loads; the game saves itself when a page closes)
+  await vp.addInitScript(() => { if (sessionStorage.gotHearts) return; sessionStorage.gotHearts = 1; const s = JSON.parse(localStorage.getItem('kitchenria.save.v3')); s.hearts = 30; localStorage.setItem('kitchenria.save.v3', JSON.stringify(s)); });
+  await vp.goto(BASE); await vp.waitForSelector('body.ready'); await startGame(vp);
+  await vp.click('#btn-hearts');
+  await vp.click('#decorate [data-tab="themes"]');
+  await vp.click('#decorate [data-buy="seaside"]');
+  check(await vp.textContent('#hearts-count') === '10', 'buying the Seaside Café theme costs 20 hearts');
+  check(await vp.evaluate(() => document.body.classList.contains('th-seaside') && document.body.classList.contains('wp-tiles')), 'the kitchen turns into the Seaside Café');
+  check(await vp.locator('#window-slot .waves').count() === 1, 'the window now looks out on the sea');
+  await vp.click('#decorate [data-tab="hang"]');
+  await vp.click('#decorate [data-buy="lantern"]');
+  check(await vp.locator('#decor-hang svg').count() === 1 && await vp.textContent('#hearts-count') === '2', 'a paper lantern hangs on the wall');
+  await vp.click('#decorate [data-tab="sill"]');
+  await vp.click('#decorate [data-buy="teapot"]', { force: true }); // greyed out, but tap it anyway
+  check(await vp.textContent('#hearts-count') === '2' && await vp.locator('#decor-sill svg').count() === 0, 'you can\'t buy what you can\'t afford');
+  await vp.keyboard.press('Escape');
+  await vp.screenshot({ path: SHOTS + 'decorated.png' });
+  await vp.waitForTimeout(500);
+  await vp.reload(); await vp.waitForSelector('body.ready'); await startGame(vp);
+  check(await vp.evaluate(() => document.body.classList.contains('th-seaside')) && await vp.locator('#decor-hang svg').count() === 1, 'decorations are saved');
+
   // ---------------- mobile (real touch events) ----------------
   console.log('Phone (touch):');
   const m = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 });

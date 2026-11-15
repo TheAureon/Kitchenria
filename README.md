@@ -39,6 +39,14 @@ Progress is saved separately for each way of playing (and each website), so the 
 * **Music & sound:** five gentle original songs play in the background, one after another with soft crossfades, starting with one that suits the time of day: *Morning Toast* (lazy electric piano), *Sunday Market* (bouncy ukulele and flute), *Rainy Window* (dreamy pads, kalimba and rain), *Lavender Tea* (a French café waltz with accordion) and *Night Bakery* (late-night jazz with vibraphone). The speaker button (top right, and a ♪ button on the title screen) opens a small menu with **Now playing** (skip back and forward, or **Stay on this song**), separate **Music** and **Sound effects** volumes, and **Mute everything**.
 * Drag food onto the pantry to put it away. **Tidy counter** clears everything. Progress saves automatically.
 
+### 🦔 Friends, hearts & decorating
+* Every few minutes a **friend knocks at the window**: Hazel the Hedgehog, Rosie the Robin, Milo the Mouse, Bibi the Bunny, Felix the Fox, Fern the Frog, Dot the Duck or Bruno the Bear. Their speech bubble says what they'd love ("Something warm, please!", "Something with apple!"). On a phone they sit at the corner of the counter.
+* **Drag a dish onto them** (or tap the dish, then tap them). If it fits, they're delighted and leave **hearts ♥**. If not, they give you a gentle hint. They wait as long as you like.
+* Make a friend happy **three times** and they bring you a **special present** for your kitchen (a mushroom lamp, a rubber duck, a cheese clock…). The **Friends** page in the Recipe Book shows everyone you've met.
+* The **♥ button** (top right) opens the **Decorate** shop. Spend hearts on **themes** (Cottage, Seaside Café, Snowy Cabin, Tea House, each with its own view from the window), **wallpaper**, **counter tops**, a **hanging** plant or lamp, something for the **window sill**, **wall art** (one is a clock that shows the real time) and **string lights**. Everything you buy is yours to keep and swap whenever you like.
+* The **📝 button** is **today's recipe card**: one small goal a day (e.g. "Cook something with honey" or "Use the whisk"). Finish it for 5 hearts. A red dot means it's still waiting.
+* **Madame Purrline has a favourite flavour each week** (sweet, salty, sour, rich, fresh, spicy or umami). It's a secret: serve her something strongly of that flavour and she gives extra stars, mentions it in her review and gives you bonus hearts. Once found, the Recipe Book shows it until next week.
+
 ## ✨ The Kitchen Helper AI (optional)
 
 Press **✨ AI** in the top bar. The Kitchen Helper AI gives the food you make creative names and cute descriptions, and lets Madame Purrline write her own reviews. The game itself still decides what physically happens to the food (chopped, fried, burnt…); the AI only writes the words.
@@ -72,7 +80,13 @@ Kitchenria/
 │   │   ├── appliances.js      ←   the pot, pan, oven… and the serving plate
 │   │   ├── shelf.js           ←   the pantry: sections and search
 │   │   ├── review.js          ←   the critic's review card
-│   │   ├── book.js            ←   the Recipe Book window
+│   │   ├── book.js            ←   the Recipe Book window (dishes, classics, friends)
+│   │   ├── cozy.js            ←   hearts, what friends wish for, the daily card, the critic's weekly favourite
+│   │   ├── visitors.js        ←   the friends at the window
+│   │   ├── animals.js         ←   the friends' faces, drawn in code
+│   │   ├── decorate.js        ←   the Decorate shop and putting decorations in the kitchen
+│   │   ├── decor-art.js       ←   doodles of every decoration and window view
+│   │   ├── daily.js           ←   today's recipe card
 │   │   ├── ai.js              ←   the optional Kitchen Helper AI (runs the model, checks and saves its answers)
 │   │   ├── ai-ui.js           ←   the AI panel, its button and the one-time offer
 │   │   ├── music.js           ←   the music "studio": instruments, echo, playlist and crossfades
@@ -88,7 +102,8 @@ Kitchenria/
 │   ├── data/
 │   │   ├── ingredients.json   ← every ingredient and its taste/cooking properties
 │   │   ├── signatures.json    ← the classic dishes the game recognises
-│   │   └── kitchen.json       ← hand tools, appliances and pantry sections
+│   │   ├── kitchen.json       ← hand tools, appliances and pantry sections
+│   │   └── cozy.json          ← friends and their wishes & presents, decoration prices, themes, how many hearts things give
 │   ├── lang/en.json           ← every piece of text: dish name patterns, critic phrases, buttons
 │   ├── art/items/             ← put your own pictures here (see below)
 │   └── fonts/                 ← the Fredoka font and its licence
@@ -155,7 +170,7 @@ That's it. The picture replaces the doodle everywhere. Delete the `image` line t
 | **1. Kitchen & core play** | Stacking, hand tools (hands with 9 actions), appliances, the food engine (any combination works), burning/freezing/marinating/ageing, plating, the critic with 0.0–5.0 stars and reviews, painted dish portraits, the Recipe Book, 52 ingredients, 75 classic dishes, sounds, auto-save, mouse/touch/keyboard | ✅ done |
 | **2. Bigger world** | Many more ingredients and classic dishes (aim: 500+ across Italian, French, Japanese, Mexican, Indian, Middle Eastern…), smarter naming, more doodle shapes, better critic variety | next |
 | **3. Kitchen helper AI** | Optional Qwen3.5 4B / 2B (or Chrome's built-in AI) on the player's own device, writing creative names, descriptions and critic reviews. Asks first, shows download size and progress, can be deleted, answers checked and saved forever, works offline | ✅ built (needs testing on a real Mac) |
-| **4. Visitors & decorating** | Animal visitors who ask for dishes ("something warm") and leave gifts, decorating the kitchen | |
+| **4. Friends & decorating** | 8 animal friends with wishes and presents, hearts, the Decorate shop with 4 themes and 6 kinds of decoration, the daily recipe card, the critic's weekly favourite flavour | ✅ done |
 | **5. Atmosphere** | Optional lighting effects (lamp glow, real-time sunlight, candle flicker, steam, soft shadows), Low Power mode, ~~music~~ (done early), rain, the kitchen cat, seasons | |
 | **6. Full game & app** | ~~Title screen~~ (done early), settings, pause, credits, save export/import/reset, accessibility options, installable app that works fully offline, final testing | |
 

@@ -54,11 +54,12 @@ export function bookSummary() {
 
 function dishes() {
   const recs = Object.values(state.dishes);
-  if (!recs.length) return `<p class="book-empty">${criticFace(3)}<span>${esc(t('book.empty'))}</span></p>`;
+  const fav = favouriteFound() ? t(`flavour.${weeklyFavourite()}`) : '???';
+  const favLine = `<p class="book-fav">${criticFace(4)}<span>${esc(t('book.favourite', { flavour: fav }))}</span></p>`;
+  if (!recs.length) return `${favLine}<p class="book-empty">${criticFace(3)}<span>${esc(t('book.empty'))}</span></p>`;
   recs.sort((a, b) => (sort === 'best' ? b.stars - a.stars : b.last - a.last));
   const { count, avg } = bookSummary();
-  const fav = favouriteFound() ? t(`flavour.${weeklyFavourite()}`) : '???';
-  return `<p class="book-fav">${criticFace(4)}<span>${esc(t('book.favourite', { flavour: fav }))}</span></p>
+  return `${favLine}
     <div class="book-bar"><span>${esc(t(count === 1 ? 'book.summaryOne' : 'book.summary', { n: count, avg: avg.toFixed(1) }))}</span>
       <span class="book-sort">${['newest', 'best'].map((k) => `<button type="button" data-sort="${k}" aria-pressed="${sort === k}">${esc(t(`book.sort.${k}`))}</button>`).join('')}</span></div>
     <div class="dish-grid">${recs.map(({ dish, stars, review }) => `
