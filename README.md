@@ -47,6 +47,16 @@ Progress is saved separately for each way of playing (and each website), so the 
 * The **📝 button** is **today's recipe card**: one small goal a day (e.g. "Cook something with honey" or "Use the whisk"). Finish it for 5 hearts. A red dot means it's still waiting.
 * **Madame Purrline has a favourite flavour each week** (sweet, salty, sour, rich, fresh, spicy or umami). It's a secret: serve her something strongly of that flavour and she gives extra stars, mentions it in her review and gives you bonus hearts. Once found, the Recipe Book shows it until next week.
 
+### 🐈 Kitchen life
+* **Mochi the kitchen cat** naps, sits, washes her paws and wanders along the front of the counter. **Tap her** for a purr (and 1 ♥ the first time each day). Drop a **treat** on her (fish, chicken, milk, cream or cheese) and she's thrilled: 2 ♥ once a day. She politely refuses things that are bad for cats, like chocolate, onion or garlic.
+* **Seasons follow your calendar.** The view from the window changes (spring blossom, summer butterflies, autumn leaves, winter snow) and the pantry gets an **In season** section with 4 seasonal ingredients: pumpkin, pear, cranberries and chestnuts in autumn; clementine, parsnip, kale and pomegranate in winter; asparagus, peas, rhubarb and radish in spring; watermelon, zucchini, cherries and apricot in summer. There are seasonal classics to find too (Pumpkin Soup, Roasted Parsnips, Cherry Pie…). The Recipe Book hints which season a missing classic needs.
+* **Cooking animations:** food drops into the pot and bubbles, the pan sizzles and sparks, the oven glows, the blender whirls, the freezer frosts. Hand tools do their job over the food (the knife chops, the whisk whirls), and hot food steams.
+* **♥ → Weather & light** has the switches:
+  * **Rain outside:** a grey sky, raindrops on the window and a soft patter
+  * **Lighting effects** (on at first): sunlight slants in through the window and moves with the real time of day; in the evening the room dims and a warm lamp glows (from your hanging lamp, if you bought one)
+  * **Low Power mode:** stops the lighting, moving decorations and Mochi's wandering, to save battery on a laptop
+  * **I live south of the equator:** flips the seasons
+
 ## ✨ The Kitchen Helper AI (optional)
 
 Press **✨ AI** in the top bar. The Kitchen Helper AI gives the food you make creative names and cute descriptions, and lets Madame Purrline write her own reviews. The game itself still decides what physically happens to the food (chopped, fried, burnt…); the AI only writes the words.
@@ -87,6 +97,9 @@ Kitchenria/
 │   │   ├── decorate.js        ←   the Decorate shop and putting decorations in the kitchen
 │   │   ├── decor-art.js       ←   doodles of every decoration and window view
 │   │   ├── daily.js           ←   today's recipe card
+│   │   ├── cat.js             ←   Mochi the kitchen cat
+│   │   ├── season.js          ←   which season it is
+│   │   ├── atmosphere.js      ←   rain, lighting effects, Low Power mode and the Weather & light switches
 │   │   ├── ai.js              ←   the optional Kitchen Helper AI (runs the model, checks and saves its answers)
 │   │   ├── ai-ui.js           ←   the AI panel, its button and the one-time offer
 │   │   ├── music.js           ←   the music "studio": instruments, echo, playlist and crossfades
@@ -171,7 +184,7 @@ That's it. The picture replaces the doodle everywhere. Delete the `image` line t
 | **2. Bigger world** | Many more ingredients and classic dishes (aim: 500+ across Italian, French, Japanese, Mexican, Indian, Middle Eastern…), smarter naming, more doodle shapes, better critic variety | next |
 | **3. Kitchen helper AI** | Optional Qwen3.5 4B / 2B (or Chrome's built-in AI) on the player's own device, writing creative names, descriptions and critic reviews. Asks first, shows download size and progress, can be deleted, answers checked and saved forever, works offline | ✅ built (needs testing on a real Mac) |
 | **4. Friends & decorating** | 8 animal friends with wishes and presents, hearts, the Decorate shop with 4 themes and 6 kinds of decoration, the daily recipe card, the critic's weekly favourite flavour | ✅ done |
-| **5. Atmosphere** | Optional lighting effects (lamp glow, real-time sunlight, candle flicker, steam, soft shadows), Low Power mode, ~~music~~ (done early), rain, the kitchen cat, seasons | |
+| **5. Kitchen life** | Mochi the cat, seasons with a seasonal pantry and classics, rain, lighting effects (real-time sunlight, evening lamp glow, steam, shadows), Low Power mode, cooking animations, ~~music~~ (done early) | ✅ done |
 | **6. Full game & app** | ~~Title screen~~ (done early), settings, pause, credits, save export/import/reset, accessibility options, installable app that works fully offline, final testing | |
 
 ## Credits & licences
