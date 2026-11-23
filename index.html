@@ -27450,6 +27450,7 @@ function updateLight() {
 // ---------- the sound of rain (soft filtered noise, made on the spot) ----------
 function startRainSound() {
   if (rainSound) return;
+  if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return; // wait for the first click
   const parts = audioParts();
   if (!parts || parts.ctx.state !== 'running') return;
   const { ctx, musicBus } = parts;

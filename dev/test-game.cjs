@@ -28,6 +28,19 @@ const tool = (id) => `.hand-tool[data-tool="${id}"]`;
 const appliance = (id) => `.appliance[data-tool="${id}"] .appliance-drop`;
 const chip = (page, name) => page.locator('#table .chip:not(.vanish)', { has: page.locator('.chip-name', { hasText: new RegExp(`^${name}$`) }) });
 const chipAt = async (page, name) => center(page, chip(page, name).first());
+/** A spot on the counter with no food (or cat) nearby, so dropped food doesn't stack by accident. */
+async function clearSpot(page) {
+  return page.evaluate(() => {
+    const t = document.getElementById('table').getBoundingClientRect();
+    const busy = [...document.querySelectorAll('#table .chip, #cat')].map((c) => c.getBoundingClientRect());
+    let best = null, bestD = -1;
+    for (let y = t.top + 120; y < t.bottom - 110; y += 30) for (let x = t.left + 70; x < t.right - 70; x += 30) {
+      const d = Math.min(...busy.map((r) => Math.hypot(x - (r.left + r.width / 2), y - (r.top + r.height / 2))), 999);
+      if (d > bestD) { bestD = d; best = [x, y]; }
+    }
+    return best;
+  });
+}
 /** Presses Start on the title screen and waits for it to slide away. */
 async function startGame(page) {
   await page.waitForSelector('#title .t-start');
@@ -41,7 +54,7 @@ async function startGame(page) {
   const watch = (p, tag) => {
     p.on('pageerror', (e) => errors.push(`${tag}: ${e.message}`));
     // (the test computer has no graphics chip; Chrome warns about that when the game checks for WebGPU)
-    p.on('console', (m) => { if ((m.type() === 'error' || m.type() === 'warning') && !/WebGPU Context Provider/.test(m.text())) errors.push(`${tag}: ${m.text()}`); });
+    p.on('console', (m) => { if ((m.type() === 'error' || m.type() === 'warning') && !/WebGPU Context Provider|No available adapters/.test(m.text())) errors.push(`${tag}: ${m.text()}`); });
   };
 
   // ---------------- desktop ----------------
@@ -109,8 +122,8 @@ async function startGame(page) {
   check(await page.locator('.ai-offer').count() === 0, '"No thanks" closes the offer');
   check(/AI off/.test(await page.textContent('#ai-status')), 'the AI stays off');
 
-  check(await page.locator('.tile').count() === 52, 'all 52 ingredients are in the pantry from the start (no unlocks)');
-  check(await page.locator('.shelf-section').count() === 8, 'the pantry is sorted into 8 sections');
+  check(await page.locator('.tile').count() === 56, 'all 52 ingredients + 4 seasonal ones are in the pantry from the start (no unlocks)');
+  check(await page.locator('.shelf-section').count() === 9, 'the pantry is sorted into 9 sections (one is "in season")');
   check(await page.locator('.hand-tool').count() === 8, '8 hand tools hang on the wall rail');
   check(await page.locator('.appliance').count() === 10, '10 appliances on the counter (with the plate first)');
 
@@ -198,7 +211,7 @@ async function startGame(page) {
   await chip(page, 'Herbs').focus(); await page.keyboard.press('Enter');
   await page.focus(tool('hands')); await page.keyboard.press('Enter');
   check(await chip(page, 'Torn Herbs').count() === 1, 'keyboard: herbs + hands → Torn Herbs');
-  await mouseDrag(page, await center(page, tile('cheese')), [420, 680]);
+  await mouseDrag(page, await center(page, tile('cheese')), await clearSpot(page)); // (the counter layout is a little random)
   await mouseDrag(page, await center(page, tool('hands')), await chipAt(page, 'Cheese'));
   check(await page.locator('.hand-menu').count() === 1, 'hands on cheese open the menu (tear or crumble)');
   await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter');
@@ -293,7 +306,7 @@ async function startGame(page) {
   await mouseDrag(vp, await chipAt(vp, 'Fried Egg'), await center(vp, '.visitor-btn'));
   await vp.waitForTimeout(400);
   check(/Thank you/.test(await vp.textContent('.visitor-bubble')), 'a fried egg makes the friend happy');
-  check(await vp.textContent('#hearts-count') === '4', 'they leave 4 hearts');
+  check(/\+4 ♥/.test(await vp.textContent('#toasts')) && +(await vp.textContent('#hearts-count')) >= 4, 'they leave 4 hearts');
   check(await chip(vp, 'Fried Egg').count() === 0, 'the dish was given away');
   await vp.waitForTimeout(4200);
   check(await vp.locator('#visitor').isHidden(), 'then they wave goodbye');
@@ -328,6 +341,57 @@ async function startGame(page) {
   await vp.waitForTimeout(500);
   await vp.reload(); await vp.waitForSelector('body.ready'); await startGame(vp);
   check(await vp.evaluate(() => document.body.classList.contains('th-seaside')) && await vp.locator('#decor-hang svg').count() === 1, 'decorations are saved');
+
+  // ---------------- kitchen life: seasons, Mochi, weather, cooking animations ----------------
+  console.log('Kitchen life:');
+  const lctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const lp = await lctx.newPage();
+  watch(lp, 'life');
+  await lp.goto(BASE + '?season=winter');
+  await lp.waitForSelector('body.ready'); await startGame(lp);
+  if (await lp.locator('.ai-offer').count()) await lp.click('.ai-offer [data-a="no"]');
+  check(/Winter/.test(await lp.textContent('.shelf-section.in-season')), 'the pantry has a Winter section in winter');
+  check(await lp.locator(tile('clementine')).count() === 1 && await lp.locator(tile('pumpkin')).count() === 0, 'clementines are in season; pumpkins wait for autumn');
+  check(await lp.locator('#window-slot .faller').count() > 0, 'snow falls past the window');
+  // cooking animations
+  await lp.click(tile('parsnip')); await lp.locator('#table .chip').last().click({ force: true });
+  await lp.click(appliance('oven'));
+  await lp.waitForTimeout(300);
+  check(await lp.locator('.appliance[data-tool="oven"] .cook-fx.fx-bake').count() === 1, 'the oven glows while it bakes');
+  await lp.waitForTimeout(1000);
+  check(await chip(lp, 'Roasted Parsnips').count() === 1, 'parsnip in the oven → Roasted Parsnips (a winter classic)');
+  check(await lp.locator('#table .chip.is-hot .chip-steam').count() === 1, 'hot food steams');
+  await lp.click(tile('carrot')); await lp.locator('#table .chip').last().click({ force: true }); await lp.click(tool('knife'));
+  check(await lp.locator('.tool-show.act-chop').count() === 1, 'the knife does a little chop over the food');
+  // Mochi
+  check(await lp.locator('#cat').count() === 1, 'Mochi the cat lives in the kitchen');
+  const h0 = +(await lp.textContent('#hearts-count'));
+  await lp.evaluate(() => document.getElementById('cat').click());
+  check(await lp.getAttribute('#cat', 'data-pose') === 'happy' && +(await lp.textContent('#hearts-count')) === h0 + 1, 'petting Mochi makes her purr (+1 heart, once a day)');
+  await lp.evaluate(() => document.getElementById('cat').click());
+  check(+(await lp.textContent('#hearts-count')) === h0 + 1, 'petting again is lovely, but no extra heart today');
+  await lp.click(tile('chocolate')); await lp.locator('#table .chip').last().click({ force: true });
+  await lp.evaluate(() => document.getElementById('cat').click());
+  check(await chip(lp, 'Chocolate').count() === 1 && +(await lp.textContent('#hearts-count')) === h0 + 1, 'Mochi refuses chocolate (not good for cats)');
+  await lp.keyboard.press('Escape');
+  await lp.click(tile('milk')); await lp.locator('#table .chip').last().click({ force: true });
+  await lp.evaluate(() => document.getElementById('cat').click());
+  check(await chip(lp, 'Milk').count() === 0 && +(await lp.textContent('#hearts-count')) === h0 + 3, 'a saucer of milk: Mochi is thrilled (+2 hearts)');
+  // weather & light
+  await lp.click('#btn-hearts'); await lp.click('#decorate [data-tab="weather"]');
+  check(/winter/.test(await lp.textContent('.season-now')), 'Decorate → Weather & light says which season it is');
+  await lp.click('.switch-row:has([data-set="rain"])');
+  check(await lp.evaluate(() => document.body.classList.contains('raining')) && await lp.locator('#window-slot .rainfall').count() === 1, 'rain can be switched on: rain falls past the window');
+  check(await lp.locator('#lighting').isVisible(), 'lighting effects are on by default');
+  await lp.click('.switch-row:has([data-set="lowPower"])');
+  check(await lp.evaluate(() => document.body.classList.contains('low-power')) && !(await lp.locator('#lighting').isVisible()), 'Low Power mode turns the lighting effects off');
+  await lp.click('.switch-row:has([data-set="south"])');
+  check(/summer/.test(await lp.textContent('.season-now')) && await lp.locator(tile('watermelon')).count() === 1, 'south of the equator, winter becomes summer (watermelon in the pantry)');
+  await lp.keyboard.press('Escape');
+  await lp.screenshot({ path: SHOTS + 'kitchen-life.png' });
+  await lp.waitForTimeout(500);
+  await lp.goto(BASE); await lp.waitForSelector('body.ready'); await startGame(lp);
+  check(await lp.evaluate(() => document.body.classList.contains('raining') && document.body.classList.contains('low-power')), 'weather and Low Power are remembered');
 
   // ---------------- mobile (real touch events) ----------------
   console.log('Phone (touch):');
@@ -377,7 +441,7 @@ async function startGame(page) {
   watch(fp, 'file');
   await fp.goto('file://' + path.resolve(__dirname, '..', 'index.html'));
   await fp.waitForSelector('body.ready', { timeout: 5000 }); await startGame(fp);
-  check(await fp.locator('.tile').count() === 52, 'opens from disk with all 52 ingredients');
+  check(await fp.locator('.tile').count() === 56, 'opens from disk with all 56 ingredients');
   check(await fp.locator('#boot-error').isHidden(), 'no "didn\'t open" message');
   await mouseDrag(fp, await center(fp, tile('tomato')), [500, 560]);
   await mouseDrag(fp, await center(fp, tool('knife')), await chipAt(fp, 'Tomato'));
