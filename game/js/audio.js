@@ -96,6 +96,7 @@ const SOUNDS = {
   rankup:  () => { [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => { tone({ f0: f, dur: 0.4, type: 'triangle', vol: 0.15, at: i * 0.11 }); }); },
   click:   () => tone({ f0: 880, f1: 700, dur: 0.05, vol: 0.08 }),
   knock:   () => { [0, 0.16, 0.42].forEach((at) => { tone({ f0: 190, f1: 120, dur: 0.07, type: 'triangle', vol: 0.3, at }); puff({ dur: 0.04, freq: 900, vol: 0.12, at }); }); },
+  purr:    () => { for (let i = 0; i < 3; i++) { tone({ f0: 46, f1: 42, dur: 0.42, type: 'sawtooth', vol: 0.05, at: i * 0.5 }); puff({ dur: 0.4, freq: 220, vol: 0.05, at: i * 0.5 }); } },
   coin:    () => { tone({ f0: 988, dur: 0.08, type: 'triangle', vol: 0.12 }); tone({ f0: 1319, dur: 0.25, type: 'triangle', vol: 0.12, at: 0.07 }); },
 };
 

@@ -7,6 +7,7 @@ import { state, save } from './state.js';
 import { renderArt } from './doodle.js';
 import { t } from './i18n.js';
 import { esc } from './effects.js';
+import { currentSeason } from './season.js';
 
 let gridEl, searchEl, tabsEl;
 let handlers = {};
@@ -22,7 +23,7 @@ export function initShelf(h) {
   tabsEl = document.getElementById('shelf-tabs');
 
   tabsEl.innerHTML = ['all', ...db.kitchen.pantry.map((s) => s.id)]
-    .map((id) => `<button type="button" data-section="${id}">${esc(t(`pantry.${id}`))}</button>`).join('');
+    .map((id) => `<button type="button" data-section="${id}"${id === 'season' ? ' class="season-tab"' : ''}>${esc(id === 'season' ? t(`pantry.season.${currentSeason()}`) : t(`pantry.${id}`))}</button>`).join('');
   tabsEl.addEventListener('click', (e) => {
     const b = e.target.closest('[data-section]');
     if (!b) return;
@@ -78,12 +79,17 @@ export function render() {
   const sections = db.kitchen.pantry.filter((s) => current === 'all' || query || s.id === current);
   const frag = document.createDocumentFragment();
   let count = 0;
+  const season = currentSeason();
+  const seasonTab = tabsEl.querySelector('[data-section="season"]');
+  if (seasonTab) seasonTab.textContent = t(`pantry.season.${season}`);
   for (const sec of sections) {
-    const list = db.ingredients.filter((g) => sec.cats.includes(g.cat) && (!query || g.name.toLowerCase().includes(query)));
+    // the seasonal section holds what's in season now; out-of-season things wait for their time
+    const list = db.ingredients.filter((g) => (sec.season ? g.season === season : !g.season && sec.cats.includes(g.cat))
+      && (!query || g.name.toLowerCase().includes(query)));
     if (!list.length) continue;
     const head = document.createElement('h3');
-    head.className = 'shelf-section';
-    head.textContent = t(`pantry.${sec.id}`);
+    head.className = `shelf-section${sec.season ? ' in-season' : ''}`;
+    head.textContent = sec.season ? t(`pantry.season.${season}`) : t(`pantry.${sec.id}`);
     frag.appendChild(head);
     for (const g of list) {
       const it = getItem(g.id);

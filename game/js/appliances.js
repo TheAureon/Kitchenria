@@ -107,8 +107,15 @@ export function drop(toolId, ids) {
   const el = stripEl.querySelector(`[data-tool="${toolId}"]`);
   el.classList.add('cooking');
   play(SOUND[tool.op] || 'combine');
+  // a little show while it cooks: the food drops in, then bubbles, sparks, glow, frost…
+  const fx = document.createElement('span');
+  fx.className = `cook-fx fx-${tool.op}`;
+  fx.setAttribute('aria-hidden', 'true');
+  fx.innerHTML = `<span class="food-in">${items[0] ? renderArt(items[0]) : ''}</span>${Array.from({ length: 7 }, (_, i) => `<i style="--i:${i}"></i>`).join('')}`;
+  el.querySelector('.appliance-drop').appendChild(fx);
   setTimeout(() => {
     busy.delete(toolId);
+    fx.remove();
     el.classList.remove('cooking');
     hooks.cook?.(toolId, tool.op, items);
   }, 850);

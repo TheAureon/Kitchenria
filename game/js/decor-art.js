@@ -108,15 +108,40 @@ const VIEWS = {
     ${[[104, 38], [112, 32], [124, 28], [132, 22], [118, 44], [140, 20]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="5" fill="#f6c2d0" ${S(1.2)}/>`).join('')}`,
 };
 
-export function windowSvg(view = 'meadow', skyTop = '#bfe3f2', skyBottom = '#fbe9cf') {
-  return `<svg class="window" aria-hidden="true" viewBox="0 0 160 110">
-    <defs><linearGradient id="sky-${view}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${skyTop}"/><stop offset="1" stop-color="${skyBottom}"/></linearGradient>
-    <clipPath id="glass-${view}"><rect x="8" y="8" width="144" height="94" rx="10"/></clipPath></defs>
-    <rect x="8" y="8" width="144" height="94" rx="10" fill="url(#sky-${view})"/>
-    <g clip-path="url(#glass-${view})">
-      <circle cx="128" cy="28" r="9" fill="#ffd77a" opacity=".9"/>
-      <g class="cloud"><ellipse cx="44" cy="36" rx="16" ry="7" fill="#fff"/><ellipse cx="54" cy="31" rx="10" ry="7" fill="#fff"/></g>
+// ---------- what the season, the weather and the time of day add to the view ----------
+const fallers = (n, draw) => Array.from({ length: n }, (_, i) => `<g class="faller" style="--i:${i}">${draw(14 + ((i * 47) % 132), 6 + ((i * 29) % 40), i)}</g>`).join('');
+const SEASON_LAYER = {
+  spring: () => fallers(7, (x, y) => `<ellipse cx="${x}" cy="${y}" rx="2.6" ry="1.6" fill="#f6c2d0"/>`),
+  summer: () => `<g class="butterfly"><path d="M100 46 q-6 -8 -9 -1 q3 5 9 1 q6 -8 9 -1 q-3 5 -9 1" fill="#f2b33a" ${S(1.2)}/></g>`,
+  autumn: () => `<path d="M22 102 V70" stroke="#7a4a2e" stroke-width="4"/><circle cx="16" cy="62" r="10" fill="#e8843c" ${S(1.4)}/><circle cx="28" cy="58" r="9" fill="#d9412e" ${S(1.4)}/><circle cx="24" cy="70" r="8" fill="#f2b33a" ${S(1.4)}/>
+    ${fallers(6, (x, y, i) => `<ellipse cx="${x}" cy="${y}" rx="3" ry="1.8" fill="${['#e8843c', '#d9412e', '#f2b33a'][i % 3]}"/>`)}`,
+  winter: (view) => `${view === 'snow' ? '' : '<path d="M8 92 Q60 84 152 90 V102 H8 Z" fill="#f4fafb"/>'}
+    ${fallers(9, (x, y) => `<circle cx="${x}" cy="${y}" r="1.7" fill="#fff"/>`)}`,
+};
+
+/**
+ * The kitchen window. opts: { season, rain, night } add falling leaves, snow, rain or the moon.
+ */
+export function windowSvg(view = 'meadow', skyTop = '#bfe3f2', skyBottom = '#fbe9cf', opts = {}) {
+  const { season, rain, night } = opts;
+  const id = `${view}-${season || 'x'}-${rain ? 'r' : ''}${night ? 'n' : ''}`;
+  const sun = night
+    ? `<circle cx="128" cy="26" r="8" fill="#fff6d0"/><circle cx="132" cy="23" r="7" fill="${skyTop}"/>${[[30, 20], [56, 14], [96, 30], [70, 34], [144, 44]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.2" fill="#fff" class="twinkle"/>`).join('')}`
+    : rain ? '' : `<circle cx="128" cy="28" r="${season === 'summer' ? 11 : 9}" fill="#ffd77a" opacity=".9"/>`;
+  const cloud = rain ? '#c9ced8' : '#fff';
+  return `<svg class="window${rain ? ' rainy' : ''}" aria-hidden="true" viewBox="0 0 160 110">
+    <defs><linearGradient id="sky-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${skyTop}"/><stop offset="1" stop-color="${skyBottom}"/></linearGradient>
+    <clipPath id="glass-${id}"><rect x="8" y="8" width="144" height="94" rx="10"/></clipPath></defs>
+    <rect x="8" y="8" width="144" height="94" rx="10" fill="url(#sky-${id})"/>
+    <g clip-path="url(#glass-${id})">
+      ${sun}
+      <g class="cloud"><ellipse cx="44" cy="36" rx="16" ry="7" fill="${cloud}"/><ellipse cx="54" cy="31" rx="10" ry="7" fill="${cloud}"/></g>
+      ${rain ? `<g class="cloud slow"><ellipse cx="110" cy="24" rx="22" ry="8" fill="${cloud}"/><ellipse cx="122" cy="18" rx="12" ry="8" fill="${cloud}"/></g>` : ''}
       ${(VIEWS[view] || VIEWS.meadow)()}
+      ${season && SEASON_LAYER[season] ? SEASON_LAYER[season](view) : ''}
+      ${night ? '<rect x="8" y="8" width="144" height="94" fill="#1d2550" opacity=".28"/>' : ''}
+      ${rain ? `<g class="rainfall">${Array.from({ length: 26 }, (_, i) => `<path d="M${10 + ((i * 37) % 146)} ${4 + ((i * 53) % 90)} l-3 9" stroke="#e8f2fb" stroke-width="1.4" stroke-linecap="round" opacity=".8"/>`).join('')}</g>
+        ${[[30, 70], [62, 40], [110, 76], [132, 52], [92, 22]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.4" fill="#fff" opacity=".45"/>`).join('')}` : ''}
     </g>
     <rect x="8" y="8" width="144" height="94" rx="10" fill="none" stroke="${INK}" stroke-width="3.5"/>
     <path d="M80 9 V101 M9 55 H151" stroke="${INK}" stroke-width="3.5"/>

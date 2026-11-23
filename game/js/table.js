@@ -75,7 +75,9 @@ function makeChipEl(ids) {
   const name = one ? one.name : nameOf(ids);
   el.setAttribute('aria-label', t(one ? 'chip.label' : 'chip.stackLabel', { name }));
   el.title = one ? `${one.name} — ${one.desc}` : name;
-  el.innerHTML = `<span class="chip-art">${one ? renderArt(one) : stackArt(ids)}</span><span class="chip-name">${esc(one ? name : t('chip.stackName', { n: ids.length }))}</span>`
+  if (one?.hot && !one.burnt) el.classList.add('is-hot');
+  if (one?.frozen) el.classList.add('is-frozen');
+  el.innerHTML = `${one?.hot && !one.burnt ? '<span class="chip-steam" aria-hidden="true"><i></i><i></i><i></i></span>' : ''}<span class="chip-art">${one ? renderArt(one) : stackArt(ids)}</span><span class="chip-name">${esc(one ? name : t('chip.stackName', { n: ids.length }))}</span>`
     + (one ? '' : `<span class="stack-list">${ids.map((id) => `<span>${esc(getItem(id).name)}</span>`).join('')}</span>`);
   el.dataset.newLabel = t('shelf.new');
   el.style.setProperty('--blink', `${(-Math.random() * 6).toFixed(2)}s`); // faces don't all blink together
@@ -261,8 +263,23 @@ function applyTool(toolId, chip, op) {
   const { _x: x, _y: y } = chip;
   removeChip(chip, false);
   const el = addChip([res.item.id], x, y, 'pop');
+  toolShow(toolId, op, x, y);
   persist();
   hooks.celebrate?.(res, el);
+}
+
+/** The tool doing its job for a moment over the food: the knife chops, the whisk whirls… */
+function toolShow(toolId, op, x, y) {
+  const tool = db.handTools.find((h) => h.id === toolId);
+  if (!tool || document.body.classList.contains('low-power')) return;
+  const fx = document.createElement('div');
+  fx.className = `tool-show act-${op}`;
+  fx.setAttribute('aria-hidden', 'true');
+  fx.style.left = `${x}px`;
+  fx.style.top = `${y}px`;
+  fx.innerHTML = `<span class="tool-show-art">${renderArtRaw(tool.art, tool.id, 'tool')}</span>${Array.from({ length: 6 }, (_, i) => `<i style="--i:${i}"></i>`).join('')}`;
+  tableEl.appendChild(fx);
+  setTimeout(() => fx.remove(), 750);
 }
 
 let menuEl = null;
@@ -481,10 +498,10 @@ function onUp(e) {
   if (e.type === 'pointercancel') return;
 
   // 0. given to a friend at the window?
+  // (or to Mochi the cat). Refused food from the pantry just lands on the counter instead.
   if (hooks.visitorAt?.(e.clientX, e.clientY)) {
-    if (hooks.giveToVisitor?.(d.ids)) { if (d.src) { removeChip(d.src, false); persist(); } }
-    else if (d.src) bounce(d.src, 'wiggle');
-    return;
+    if (hooks.giveToVisitor?.(d.ids, e.clientX, e.clientY)) { if (d.src) { removeChip(d.src, false); persist(); } return; }
+    if (d.src) { bounce(d.src, 'wiggle'); return; }
   }
 
   // 1. into an appliance (or onto the plate)?

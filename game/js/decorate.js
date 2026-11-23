@@ -9,6 +9,7 @@ import { windowSvg, decorSvg } from './decor-art.js';
 import { t } from './i18n.js';
 import { play } from './audio.js';
 import { esc, toast } from './effects.js';
+import { currentSeason } from './season.js';
 
 const SLOTS = ['wallpaper', 'counter', 'hang', 'sill', 'frame', 'lights'];
 const DEFAULTS = { theme: 'cottage', wallpaper: 'stripes', counter: 'oak', hang: 'fern', sill: 'none', frame: 'noframe', lights: 'nolights' };
@@ -24,14 +25,20 @@ export function owns(id) {
   return !!d && ((d.price === 0 && !d.giftFrom) || (state.owned || []).includes(id));
 }
 
-// the sky outside follows the time of day
+// the sky outside follows the time of day (and turns grey when it rains)
+export const isNight = (h = new Date().getHours()) => h >= 21 || h < 5;
 function sky() {
   const h = new Date().getHours();
-  if (h >= 21 || h < 5) return ['#2b3a67', '#5a5f8f'];
+  if (state.settings.rain) return isNight(h) ? ['#283048', '#4a5068'] : ['#9aa7b8', '#cdd3dc'];
+  if (isNight(h)) return ['#2b3a67', '#5a5f8f'];
   if (h < 8) return ['#f6c6a8', '#fbe9cf'];
   if (h >= 18) return ['#f2a07a', '#f8d6a8'];
   return ['#bfe3f2', '#fbe9cf'];
 }
+
+// extra pages for the Decorate window (e.g. "Weather & light" from atmosphere.js)
+const extraTabs = new Map();
+export function addShopTab(id, render) { extraTabs.set(id, render); }
 
 /** Draws the chosen decorations into the kitchen. */
 export function applyDecor() {
@@ -41,7 +48,7 @@ export function applyDecor() {
   body.classList.add(`wp-${c.wallpaper}`, `ct-${c.counter}`, `th-${c.theme}`);
   const theme = themeById(c.theme) || db.cozy.themes[0];
   const [top, bottom] = sky();
-  document.getElementById('window-slot').innerHTML = windowSvg(theme.view, top, bottom);
+  document.getElementById('window-slot').innerHTML = windowSvg(theme.view, top, bottom, { season: currentSeason(), rain: !!state.settings.rain, night: isNight() });
   for (const slot of ['hang', 'sill', 'frame', 'lights']) {
     const el = document.getElementById(`decor-${slot}`);
     if (el) el.innerHTML = decorSvg(slot, c[slot]);
@@ -87,7 +94,8 @@ function card(slot, d) {
 
 export function openDecorate() {
   const dlg = document.getElementById('decorate');
-  const list = tab === 'themes' ? db.cozy.themes : db.cozy.decor.filter((d) => d.slot === tab);
+  const extra = extraTabs.get(tab);
+  const list = extra ? [] : tab === 'themes' ? db.cozy.themes : db.cozy.decor.filter((d) => d.slot === tab);
   dlg.innerHTML = `
     <div class="book shop">
       <header class="book-head">
@@ -97,14 +105,15 @@ export function openDecorate() {
       </header>
       <p class="shop-intro">${esc(t('decorate.intro'))}</p>
       <div class="book-tabs" role="tablist">
-        ${['themes', ...SLOTS].map((k) => `<button role="tab" type="button" data-tab="${k}" aria-selected="${tab === k}">${esc(t(`decorate.${k}`))}</button>`).join('')}
+        ${['themes', ...SLOTS, ...extraTabs.keys()].map((k) => `<button role="tab" type="button" data-tab="${k}" aria-selected="${tab === k}">${esc(t(`decorate.${k}`))}</button>`).join('')}
       </div>
-      <div class="book-body shop-grid" role="tabpanel">${list.map((d) => card(tab, d)).join('')}</div>
+      <div class="book-body ${extra ? 'shop-extra' : 'shop-grid'}" role="tabpanel">${extra ? '' : list.map((d) => card(tab, d)).join('')}</div>
     </div>`;
   dlg.setAttribute('aria-labelledby', 'decorate-title');
   dlg.querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => { tab = b.dataset.tab; openDecorate(); dlg.querySelector(`[data-tab="${tab}"]`)?.focus(); }));
   dlg.querySelectorAll('[data-use]').forEach((b) => b.addEventListener('click', () => use(tab, b.dataset.use)));
   dlg.querySelectorAll('[data-buy]').forEach((b) => b.addEventListener('click', () => buy(tab, b.dataset.buy)));
+  if (extra) extra(dlg.querySelector('.shop-extra'), openDecorate);
   if (!dlg.open) dlg.showModal();
 }
 

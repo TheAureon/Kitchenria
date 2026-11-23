@@ -46,6 +46,7 @@ function arrive(force) {
   mood = 'wait'; say = null;
   render();
   play('knock');
+  hooks.onArrive?.();
   bounce(el, 'pop');
   toast({ kind: 'soft', body: esc(t('visitor.arrived', { name: nameOf(state.visitor.id) })), ms: 3000 });
 }

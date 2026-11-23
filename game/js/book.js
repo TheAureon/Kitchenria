@@ -83,7 +83,7 @@ function classics() {
       const found = state.signatures.includes(s.id);
       // undiscovered classics show only their first letters as a hint: "M_________ P____"
       const hint = s.name.replace(/\p{L}+/gu, (w) => w[0] + '_'.repeat(w.length - 1));
-      return `<div class="classic ${found ? 'found' : ''}"><span class="classic-name" ${found ? '' : `aria-label="${esc(t('book.hidden'))}"`}>${esc(found ? s.name : hint)}</span>${found ? `<span class="classic-desc">${esc(s.desc || '')}</span>` : ''}</div>`;
+      return `<div class="classic ${found ? 'found' : ''}"><span class="classic-name" ${found ? '' : `aria-label="${esc(t('book.hidden'))}"`}>${esc(found ? s.name : hint)}</span>${found ? `<span class="classic-desc">${esc(s.desc || '')}</span>` : s.season ? `<span class="classic-season">${esc(t('book.seasonHint', { season: t(`season.${s.season}`) }))}</span>` : ''}</div>`;
     }).join('')}</div>`;
 }
 

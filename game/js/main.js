@@ -23,6 +23,8 @@ import { dailyEvent, weeklyFavourite } from './cozy.js';
 import { initVisitors, visitorAt, give as giveToVisitor } from './visitors.js';
 import { initDecor } from './decorate.js';
 import { initDaily, dailyDone } from './daily.js';
+import { initCat, catAt, catNotice, give as giveToCat } from './cat.js';
+import { initAtmosphere } from './atmosphere.js';
 
 async function boot() {
   await Promise.all([loadLanguage('en'), loadData()]);
@@ -41,8 +43,8 @@ async function boot() {
       if (res && dailyEvent({ type: 'cook', item: res.item, tool: toolId })) setTimeout(dailyDone, 600);
       return res;
     },
-    visitorAt,
-    giveToVisitor,
+    visitorAt: (x, y) => visitorAt(x, y) || catAt(x, y),
+    giveToVisitor: (ids, x, y) => (visitorAt(x, y) ? giveToVisitor(ids) : giveToCat(ids)),
     handActions: (ids) => db.engine.handActions(ids.map(getItem).filter(Boolean)),
     celebrate,
     applianceAt,
@@ -57,7 +59,7 @@ async function boot() {
       const res = cookItems(op, items);
       if (!res) return;
       if (dailyEvent({ type: 'cook', item: res.item, tool: applianceId })) setTimeout(dailyDone, 600);
-      const el = placeBelow(applianceRect(applianceId), [res.item.id]);
+      const el = placeBelow(applianceRect(applianceId), [res.item.id], 'drop-in');
       celebrate(res, el);
     },
     serve: async (ids) => {
@@ -82,13 +84,16 @@ async function boot() {
   document.getElementById('btn-book').addEventListener('click', () => { play('click'); openBook(); });
   initSound();
   initDecor();
+  initAtmosphere();
   initDaily();
   initVisitors({
     selectedIds: peekSelected,
     removeSelected: takeSelected,
     isPaused: () => !document.getElementById('title').hidden,
     onDaily: dailyDone,
+    onArrive: catNotice,
   });
+  initCat({ selectedIds: peekSelected, removeSelected: takeSelected });
 
   // On phones the pantry can be folded away to make room for the counter.
   document.getElementById('shelf-toggle').addEventListener('click', () => {

@@ -96,6 +96,44 @@ export const SHAPES = {
     s += k.shine(36, 48, 6, 4, -40);
     return { body: s, face: [50, 62, 1], top: [50, 36, 34] };
   },
+  pumpkin(k, o) {
+    let s = k.line([[50, 34], [52, 24], [58, 18]], { color: '#6b4a2a', sw: 5 });
+    s += k.shape(k.ellipsePts(32, 60, 20, 25, 12), k.shade(o.c, -0.08), { wob: 1.2 });
+    s += k.shape(k.ellipsePts(68, 60, 20, 25, 12), k.shade(o.c, -0.08), { wob: 1.2 });
+    s += k.shape(k.ellipsePts(50, 60, 19, 27, 12), o.c, { wob: 1.2 });
+    s += k.shape([[54, 26], [66, 20], [74, 26], [64, 31]], o.a, { wob: 0.8, sw: 2.4, sketch: false });
+    s += k.shine(44, 46, 4, 6, -10);
+    return { body: s, face: [50, 64, 1], top: [50, 36, 40] };
+  },
+  pear(k, o) {
+    const pts = [];
+    for (let i = 0; i < 16; i++) {
+      const t = (i / 16) * PI * 2;
+      const r = sin(t) > 0 ? 1 : 0.62; // round bottom, slim top
+      pts.push([50 + cos(t) * 26 * (0.75 + 0.25 * (sin(t) + 1) / 2) * (sin(t) > 0 ? 1.05 : 0.8), 62 + sin(t) * 28 * r]);
+    }
+    let s = k.line([[50, 40], [49, 30], [53, 22]], { color: '#7a5230', sw: 3.6 });
+    s += k.shape([[53, 28], [63, 20], [72, 23], [63, 30]], o.a, { wob: 0.8, sw: 2.4, sketch: false });
+    s += k.shape(pts, o.c, { wob: 1.2 });
+    s += k.fill([[30, 72], [40, 86], [50, 89], [62, 86], [72, 72], [50, 82]], k.shade(o.c, -0.16), { opacity: 0.5 });
+    s += k.shine(40, 56, 4, 6, -20);
+    return { body: s, face: [50, 68, 0.95], top: [50, 42, 30] };
+  },
+  melon(k, o) {
+    // a cheerful wedge of watermelon
+    let s = k.shape([[14, 46], [86, 46], [80, 62], [66, 76], [50, 81], [34, 76], [20, 62]], o.a, { wob: 1 });
+    s += k.shape([[20, 46], [80, 46], [75, 59], [63, 70], [50, 74], [37, 70], [25, 59]], '#fff6e0', { wob: 0.8, sw: 0, sketch: false });
+    s += k.shape([[23, 46], [77, 46], [72, 57], [61, 67], [50, 70], [39, 67], [28, 57]], o.c, { wob: 0.8, sw: 2.2, sketch: false });
+    for (const [x, y] of [[36, 52], [48, 56], [60, 52], [44, 63], [56, 63]]) s += `<ellipse cx="${x}" cy="${y}" rx="1.8" ry="2.8" fill="#4a3426"/>`;
+    s += k.line([[14, 46], [86, 46]], { color: '#4a3426', sw: 3 });
+    return { body: s, face: null, top: [50, 44, 50] };
+  },
+  pod(k, o) {
+    let s = k.shape([[16, 62], [26, 50], [50, 44], [74, 46], [86, 38], [84, 52], [72, 64], [48, 70], [26, 70]], o.c, { wob: 1 });
+    for (const x of [32, 45, 58, 70]) s += k.circle(x, 56 - (x - 32) * 0.12, 6.2, k.shade(o.c, 0.18), { sw: 2 });
+    s += k.line([[86, 38], [90, 30]], { color: k.shade(o.c, -0.3), sw: 3 });
+    return { body: s, face: null, top: [50, 44, 40] };
+  },
   tomato(k, o) {
     let s = k.shape(k.ellipsePts(50, 58, 34, 28, 14), o.c, { wob: 1.4 });
     s += k.fill([[22, 66], [36, 82], [50, 85], [64, 82], [78, 66], [50, 78]], k.shade(o.c, -0.18), { opacity: 0.5 });
