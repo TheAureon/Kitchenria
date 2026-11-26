@@ -1602,5 +1602,29 @@
   "book.hintMore": "💡 Another hint",
   "book.hintLabel": "Get a hint for {name}",
   "book.hintTool": "Finished with: {tool}",
-  "book.hintIngredients": "Uses: {list}"
+  "book.hintIngredients": "Uses: {list}",
+  "refuse.liquid": "You can't {tool} a liquid. Try the pot, the blender or the freezer.",
+  "refuse.powder": "{x} would fall straight through the grill!",
+  "refuse.tooHard": "The whisk just bounces off {x}. Whisk eggs, cream, milk or batter.",
+  "refuse.cookFirst": "{x} is too hard to mash raw. Boil it first!",
+  "refuse.nothingToMash": "There's nothing to mash in {x}.",
+  "refuse.tooSoft": "{x} is too soft to grate.",
+  "refuse.crackIt": "Eggs crack, they don’t peel! (Boil it first, then peel.)",
+  "refuse.noSkin": "{x} has no skin to peel.",
+  "refuse.notSoft": "Only soft things fit through the piping bag (cream, mash, batter…).",
+  "refuse.noMarinade": "A marinade needs something to soak in: oil, lemon, soy sauce, yogurt, spices…",
+  "food.mess": "{x} Muddle",
+  "desc.mess": [
+    "Some things are just not meant to be together.",
+    "Brave. Very brave. But no.",
+    "Even the cat looks worried."
+  ],
+  "critic.bad.mess": [
+    "This is a muddle, darling. A tragic, confused muddle.",
+    "Some ingredients should never meet. These two met. In my mouth.",
+    "My whiskers are trembling. Please keep sweet and savoury apart."
+  ],
+  "refuse.nothingToRoll": "The rolling pin needs something to flatten: dough, meat, a cookie…",
+  "refuse.noWrapper": "The sushi mat needs a wrapper: cooked rice and seaweed, a pancake, a sponge cake, dough or a big leaf.",
+  "refuse.needsWater": "The pot is dry! Add some water, milk or stock, or it will just burn."
 }

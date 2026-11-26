@@ -40,7 +40,7 @@ async function boot() {
     useTool: (toolId, ids, op) => {
       play(HAND_SOUND[op] || TOOL_SOUND[toolId] || 'stir');
       const res = cookItems(op || toolById(toolId).op, ids);
-      if (res && dailyEvent({ type: 'cook', item: res.item, tool: toolId })) setTimeout(dailyDone, 600);
+      if (res && !res.refused && dailyEvent({ type: 'cook', item: res.item, tool: toolId })) setTimeout(dailyDone, 600);
       return res;
     },
     visitorAt: (x, y) => visitorAt(x, y) || catAt(x, y),
@@ -58,6 +58,13 @@ async function boot() {
     cook: (applianceId, op, items) => {
       const res = cookItems(op, items);
       if (!res) return;
+      if (res.refused) { // it can't cook that: the food comes straight back out, with a friendly note
+        for (const it of items) if (it.kind !== 'ingredient') state.creations[it.id] = it;
+        placeBelow(applianceRect(applianceId), items.map((i) => i.id), 'squash');
+        play('nope');
+        toast({ kind: 'soft', body: esc(res.reason), ms: 3200 });
+        return;
+      }
       if (dailyEvent({ type: 'cook', item: res.item, tool: applianceId })) setTimeout(dailyDone, 600);
       const el = placeBelow(applianceRect(applianceId), [res.item.id], 'drop-in');
       celebrate(res, el);

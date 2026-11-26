@@ -26,6 +26,7 @@ for (const s of sigs) {
   if (!s.how) { console.log(`✗ ${s.id}: has no "how" recipe note`); bad++; continue; }
   let it;
   try { it = cookHow(E, s.how); } catch (e) { console.log(`✗ ${s.id}: ${e.message}`); bad++; continue; }
+  if (it.refused) { console.log(`✗ ${s.id}: "${s.how}" is refused: ${it.reason}`); bad++; continue; }
   // every step must be something a player can really do in the kitchen
   const problems = [];
   const walk = (n) => {
@@ -37,6 +38,7 @@ for (const s of sigs) {
       if (!HAND_OPS.has(n.op)) problems.push(`"${n.op}" is not a tool action`);
       else if (!E.handActions(items).includes(n.op)) problems.push(`the hands don't offer "${n.op}" for ${items.map((i) => i.name).join(' + ')}`);
     }
+    if (items.some((i) => i.refused)) return items.find((i) => i.refused);
     return E.cook(n.op, items);
   };
   try { walk(parseHow(s.how)); } catch { /* reported above */ }

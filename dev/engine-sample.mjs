@@ -15,7 +15,7 @@ const E = createEngine({ ingredients: json('data/ingredients.json').ingredients,
 
 const B = (id) => E.baseItem(id);
 const show = (it) => `${it.name}${it.sig ? ' ★' : ''}  [${it.arch}/${it.form}${it.burnt ? ' burnt' : ''}${it.frozen ? ' frozen' : ''}]`;
-export const cook = (op, ...items) => E.cook(op, items.map((i) => (typeof i === 'string' ? B(i) : i)));
+export const cook = (op, ...items) => { const its = items.map((i) => (typeof i === 'string' ? B(i) : i)); return its.find((i) => i.refused) || E.cook(op, its); };
 
 if (process.argv[2] === 'random') {
   const ids = [...E.ING.keys()];
@@ -29,6 +29,7 @@ if (process.argv[2] === 'random') {
     const ins = Array.from({ length: n }, () => pool[Math.floor(rnd() * pool.length)]);
     try {
       const r = E.cook(op, ins);
+      if (r.refused) continue;
       pool.push(r);
       names.set(r.name, `${op}(${ins.map((x) => x.name).join(' + ')})`);
       if (/undefined|\{|\}|NaN|  |^ | $/.test(r.name) || r.name.length > 42) console.log('ODD NAME:', r.name, '<=', op, ins.map((x) => x.name).join(' + '));
@@ -119,6 +120,7 @@ if (process.argv[2] === 'random') {
     ['sweet milk', cook('mix', 'milk', 'sugar')],
   ];
   for (const [label, it] of samples) {
+    if (it.refused) { console.log(label.padEnd(24), `(the tool says no: ${it.reason})`); continue; }
     const s = scoreDish(E.plate([it]), { t, pick, ING: E.ING });
     console.log(label.padEnd(24), show(it).padEnd(56), `${s.stars.toFixed(1)}★`, '·', it.desc);
   }

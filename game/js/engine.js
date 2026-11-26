@@ -164,6 +164,18 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
   // "food.<arch>" in the language file, x/y fill it in, and form picks the drawing.
 
   const R = (arch, form, x = '', extra = {}) => ({ arch, form, x, ...extra });
+  /** Little flavourings that don't count as a main thing: lemon, herbs, garlic, spices, sauces… */
+  const flavourish = (i) => i.kind === 'ingredient' && (
+    (flag(i.id, 'acid') && ING.get(i.id).cat === 'fruit') || ['herb', 'spice', 'seasoning', 'condiment', 'garnish'].includes(ING.get(i.id).cat)
+    || ['garlic', 'oil', 'butter', 'honey', 'maple_syrup', 'sugar', 'water', 'flour', 'breadcrumbs'].includes(i.id));
+  /** "Chicken" + lemon & herbs → "Lemon Herb Chicken". */
+  function flavoured(main, extras) {
+    const words = extras.filter((i) => flavourish(i) && !['salt', 'black_pepper', 'oil', 'water', 'butter', 'flour', 'breadcrumbs', 'sugar', 'honey', 'maple_syrup', 'vinegar'].includes(i.id)).map((i) => ING.get(i.id).mod);
+    const base = main.noun || main.kind === 'ingredient' ? main.name : subj(main);
+    return [...new Set(words)].slice(0, 2).concat(base).join(' ');
+  }
+  /** Mostly savoury (vegetables, meat, fish…) rather than fruit, cheese and sweets? */
+  const savoury = (c) => { const sv = c.catW('veg') + c.catW('protein'); return sv > 0 && sv >= c.catW('fruit') + c.catW('dairy') + c.catW('sweet'); };
   /** What kind of dough something is, even after it was rolled flat ("Pie Crust" is still pastry). */
   const dk = (i) => i.doughKind || i.arch;
 
@@ -173,6 +185,69 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     const hot = c.items.find((i) => i.heat >= 2 && !LIQUID_FORMS.has(i.form));
     if (hot) return R('burnt', hot.form in FORM_ART ? hot.form : 'lump', subj(hot), { burnt: 1 });
     return null;
+  }
+
+  // ---------- common sense: when a tool says "no thanks", and things that don't belong together ----------
+  const isLiquid = (i) => LIQUID_FORMS.has(i.form);
+  const baseId = (i) => (i.kind === 'ingredient' ? i.id : null);
+  const HARD_RAW = ['potato', 'carrot', 'parsnip', 'sweet_potato', 'pumpkin', 'chestnut', 'beans', 'lentils', 'corn', 'rice', 'oats', 'brussels_sprouts'];
+  const SOFT_ING = ['banana', 'avocado', 'yogurt', 'miso', 'cream_cheese', 'egg', 'tofu', 'mozzarella', 'honey', 'butter', 'cream', 'tomato'];
+  const softForPiping = (i) => ['whipped', 'mash', 'melted', 'jam', 'custard', 'custardBase', 'compote', 'caramel', 'mayo', 'nutButter', 'compoundButter', 'puree', 'paste', 'meringueMix', 'crème', 'pesto', 'syrup', 'sauce'].includes(i.arch)
+    || ['paste', 'sauce', 'batter', 'dough'].includes(i.form)
+    || (i.kind === 'ingredient' && ['cream_cheese', 'cream', 'yogurt', 'honey', 'maple_syrup', 'mustard', 'chocolate', 'butter'].includes(i.id));
+  const marinade = (i) => isLiquid(i) || (i.kind === 'ingredient' && (flag(i.id, 'acid') || flag(i.id, 'seasoning') || flag(i.id, 'sweetener') || flag(i.id, 'fat') || ['herbs', 'garlic', 'ginger', 'chili', 'mint', 'yogurt', 'curry_powder'].includes(i.id)));
+  const hasSkin = (i) => {
+    if (i.kind === 'ingredient') { const g = ING.get(i.id); return g.form === 'whole' && ['fruit', 'veg', 'spice'].includes(g.cat) || ['shrimp', 'chocolate', 'cheese'].includes(i.id); }
+    return i.form === 'whole' || i.arch === 'boiledEgg';
+  };
+  const grateable = (i) => i.frozen || (i.kind === 'ingredient' ? !SOFT_ING.includes(i.id) && ['whole', 'block'].includes(ING.get(i.id).form) : ['whole', 'block', 'loaf', 'slices', 'cookie', 'lump'].includes(i.form) && !i.heat);
+
+  /** Returns why a tool can't do anything useful with this food, or null if it can. */
+  function refusal(op, c) {
+    const one = c.n === 1 ? c.items[0] : null;
+    const label = one ? (one.noun || one.kind === 'ingredient' ? one.name : subj(one)) : names(c.mains);
+    const no = (key, x = label) => ({ key, x });
+    const eggy = c.has('egg'); // whisked eggs and omelette mix are runny, but they fry and steam beautifully
+    const thick = c.items.every((i) => ['soup', 'sauce'].includes(i.form) && Object.keys(i.parts).some((id) => ['potato', 'sweet_potato', 'pumpkin', 'beans', 'chickpeas', 'lentils', 'parsnip', 'carrot'].includes(id)));
+    const liquidOnly = c.items.every(isLiquid) && !(eggy && ['fry', 'wok', 'steam', 'waffle', 'grill'].includes(op)) && !(thick && op === 'mash');
+    if (['chop', 'grate', 'grind', 'roll', 'peel', 'rollup', 'mash', 'grill', 'steam', 'waffle', 'marinate'].includes(op) && liquidOnly) return no('liquid');
+    if ((op === 'fry' || op === 'wok') && liquidOnly && !c.only('water')) return no('liquid');
+    if (op === 'age' && liquidOnly && !c.has('milk', 'cream', 'yogurt') && !c.items.some((i) => i.form === 'drink' && Object.keys(i.parts).some((id) => ING.get(id).cat === 'fruit'))) return no('liquid');
+    if (op === 'grill' && c.items.every((i) => isLiquid(i) || i.form === 'powder')) return no('powder');
+    if (op === 'whisk' && !c.items.some((i) => isLiquid(i) || ['paste', 'batter', 'powder'].includes(i.form) || ['egg', 'cream'].includes(baseId(i)) || ['cracked', 'whisked'].includes(i.arch))) return no('tooHard');
+    if (op === 'mash') {
+      const hard = c.items.find((i) => i.kind === 'ingredient' && HARD_RAW.includes(i.id));
+      if (hard) return no('cookFirst', hard.name);
+      if (!thick && c.items.every((i) => (i.kind === 'ingredient' && ['powder', 'block', 'grains'].includes(i.form) && i.id !== 'chickpeas') || isLiquid(i))) return no('nothingToMash');
+    }
+    if (op === 'grate' && !c.items.every(grateable)) return no('tooSoft', c.items.find((i) => !grateable(i)).name);
+    if (op === 'peel') {
+      if (c.items.some((i) => baseId(i) === 'egg')) return no('crackIt');
+      if (!c.items.every(hasSkin)) return no('noSkin', c.items.find((i) => !hasSkin(i)).name);
+    }
+    if (op === 'pipe') {
+      if (c.items.every((i) => ['liquid', 'drink', 'soup'].includes(i.form))) return no('liquid');
+      if (!c.items.some(softForPiping)) return no('notSoft');
+    }
+    if (op === 'roll' && c.items.every((i) => i.form === 'powder' || isLiquid(i) || (i.kind === 'ingredient' && (SOFT_ING.includes(i.id) || ['spice', 'seasoning'].includes(ING.get(i.id).cat))))) return no('nothingToRoll');
+    if (op === 'rollup') {
+      // the sushi mat needs a wrapper: rice & seaweed, a sponge, dough, a big leaf, a pancake or flatbread
+      const wrapper = c.items.some((i) => ['rice', 'risotto', 'cake', 'flavCake', 'ladyfingers'].includes(i.arch) || i.parts.rice && i.heat > 0 || ['dough', 'flat', 'stack', 'wrap', 'cake'].includes(i.form)
+        || ['seaweed', 'cabbage', 'lettuce', 'kale', 'spinach'].includes(baseId(i)));
+      if (!wrapper) return no('noWrapper');
+    }
+    if (op === 'marinate' && (!c.items.some(marinade) || c.items.every(marinade) && c.n === 1)) return no('noMarinade');
+    return null;
+  }
+
+  // strong savoury things and sweet treats: they don't go into the same pot
+  const SAVOURY = ['fish', 'shrimp', 'chicken', 'beef', 'sausage', 'bacon', 'ham', 'garlic', 'onion', 'miso', 'mustard', 'curry_powder', 'soy_sauce'];
+  const TREAT = ['chocolate', 'sprinkles', 'icing_sugar', 'cocoa', 'strawberry', 'raspberry', 'blueberry', 'vanilla'];
+  const PREP_OPS = new Set(['chop', 'peel', 'grate', 'crack', 'tear', 'plate']);
+  function clash(op, c) {
+    if (PREP_OPS.has(op)) return null;
+    const a = SAVOURY.find((id) => c.parts[id]), b = TREAT.find((id) => c.parts[id]);
+    return a && b ? [a, b] : null;
   }
 
   const RULES = {
@@ -340,7 +415,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       if (fruit > 0) {
         const fl = mods(mains(c.parts).filter((id) => ING.get(id).cat === 'fruit' || ING.get(id).cat === 'veg'));
         if (c.has('milk', 'yogurt', 'cream', 'coconut_milk', 'banana') || c.items.some((i) => i.frozen) || c.count((i) => ING.get(Object.keys(i.parts)[0])?.cat === 'fruit') >= 2) return R('smoothie', 'drink', fl);
-        if (c.ids.every((id) => (ING.get(id).cat === 'fruit' && flag(id, 'juicy')) || ['water', 'sugar', 'honey', 'mint', 'maple_syrup'].includes(id))) return R('juice', 'drink', fl);
+        if (c.liquids.length && c.ids.every((id) => (ING.get(id).cat === 'fruit' && flag(id, 'juicy')) || ['water', 'sugar', 'honey', 'mint', 'maple_syrup'].includes(id))) return R('juice', 'drink', fl);
         return R('puree', 'paste', fl);
       }
       if (c.catW('veg') > 0 || c.has('beans', 'chickpeas', 'lentils')) {
@@ -428,8 +503,9 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       // salads: several fresh raw things
       const fresh = c.solids.filter((i) => i.heat === 0 && !i.frozen && (i.parts && Object.keys(i.parts).some((id) => ['veg', 'fruit', 'herb'].includes(ING.get(id).cat))));
       if (fresh.length >= 2 || (fresh.length >= 1 && c.items.some((i) => i.arch === 'dressing'))) {
-        if (c.catW('fruit') >= c.catW('veg') && !c.has('cheese', 'onion')) return R('fruitSalad', 'salad', mods(c.mains.filter((id) => ING.get(id).cat === 'fruit')), { noun: true });
-        return R('salad', 'salad', mods(c.mains.filter((id) => !['oil', 'lemon', 'vinegar'].includes(id))));
+        const fruitW = c.catW('fruit') - (c.parts.lemon || 0) - (c.parts.lime || 0);
+        if (fruitW > 0 && fruitW >= c.catW('veg') && !c.catW('protein') && !c.catW('dairy') && !c.has('onion')) return R('fruitSalad', 'salad', mods(c.mains.filter((id) => ING.get(id).cat === 'fruit')), { noun: true });
+        return R('salad', 'salad', mods(c.mains.filter((id) => !['oil', 'lemon', 'lime', 'vinegar'].includes(id))));
       }
       // one big thing with a little extra
       const sorted = [...c.items].sort((a, b) => b.depth - a.depth || Object.keys(b.parts).length - Object.keys(a.parts).length);
@@ -441,15 +517,17 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       const liquid = c.liquids.length > 0;
       const solids = c.solids;
       if (c.n === 1 && c.isBase(c.items[0], 'water')) return R('boilingWater', 'liquid', '', { noun: true });
-      const tea = c.items.filter((i) => i.kind === 'ingredient' && (flag(i.id, 'tea') || i.id === 'herbs' || i.id === 'ginger'));
+      if (c.water && c.only('water', 'salt')) return R('boilingWater', 'liquid', '', { noun: true });
+      if (c.water && c.only('water', 'sugar', 'honey', 'maple_syrup')) return R('syrup', 'sauce', c.has('honey') ? ING.get('honey').mod : '', { noun: true });
+      const tea = c.items.filter((i) => i.kind === 'ingredient' && (flag(i.id, 'tea') || ['herbs', 'ginger', 'lemon', 'lime'].includes(i.id)));
       if (liquid && tea.length && c.only('water', 'milk', 'sugar', 'honey', 'lemon', 'lime', 'herbs', 'mint', 'tea_leaves', 'coffee', 'ginger', 'cinnamon', 'cream', 'chocolate', 'vanilla', 'elderflower', 'maple_syrup')) {
         if (c.has('coffee')) return R('coffee', 'drink', c.has('milk', 'cream') ? t('food.withMilk') : '', { noun: true, hot: true });
-        if (c.only('water', 'tea_leaves', 'sugar', 'honey', 'milk', 'lemon')) return R('cupOfTea', 'drink', '', { noun: true, hot: true });
+        if (c.has('tea_leaves') && c.only('water', 'tea_leaves', 'sugar', 'honey', 'milk', 'lemon')) return R('cupOfTea', 'drink', '', { noun: true, hot: true });
         return R('tea', 'drink', mods(tea.map((i) => i.id).filter((id) => id !== 'tea_leaves').concat(tea.some((i) => i.id === 'tea_leaves') ? [] : [])), { hot: true });
       }
       if (!liquid) {
-        if (c.only('sugar', 'butter', 'cream', 'honey')) return R('caramel', 'sauce', '', { noun: true });
-        if (c.only('chocolate', 'butter', 'cream', 'sugar')) return R('melted', 'sauce', ING.get('chocolate').name);
+        if (c.only('sugar', 'butter', 'cream', 'honey') && c.has('sugar', 'honey')) return R('caramel', 'sauce', '', { noun: true });
+        if (c.only('chocolate', 'butter', 'cream', 'sugar') && c.has('chocolate')) return R('melted', 'sauce', ING.get('chocolate').name);
         if (c.items.some((i) => i.arch === 'roux')) return R('roux', 'paste', '', { noun: true });
         if (c.has('flour') && c.has('butter') && c.only('flour', 'butter', 'salt')) return R('roux', 'paste', '', { noun: true });
         if (c.catW('fruit') > 0 && c.solids.every((i) => i.kind !== 'ingredient' || ['fruit'].includes(ING.get(i.id).cat) || flag(i.id, 'sweetener') || flag(i.id, 'seasoning'))) {
@@ -459,7 +537,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
         if (c.has('tomato', 'bell_pepper') || c.items.some((i) => i.form === 'sauce')) return R('sauce', 'sauce', mods(c.mains));
         if (c.items.some((i) => i.parts && Object.keys(i.parts).some((id) => flag(id, 'juicy'))) && c.items.some((i) => PIECE_FORMS.has(i.form))) return R('stewed', 'soup', names(c.mains));
         if (c.only('butter')) return R('melted', 'sauce', ING.get('butter').name);
-        return R('scorched', solids[0]?.form in FORM_ART ? solids[0].form : 'lump', subj(solids[0] || c.items[0]), { burnt: 1 });
+        return { refuse: 'needsWater' };
       }
       // with liquid
       if (solids.length === 0) {
@@ -493,6 +571,13 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       if (c.has('milk', 'cream') && c.has('egg') && (c.sweetish || c.has('sugar', 'honey'))) return R('custard', 'custard', c.flavour(['milk', 'cream', 'egg', 'sugar', 'vanilla']), { noun: true });
       if (c.has('curry_powder')) return R('curry', 'soup', c.flavour(['curry_powder', 'coconut_milk', 'water']));
       const realSolids = solids.filter((i) => !(i.kind === 'ingredient' && flag(i.id, 'seasoning')));
+      // one soft vegetable simmered in water is a soup; fruit simmered in water is a compote
+      const SOUPY = ['tomato', 'pumpkin', 'peas', 'mushroom', 'onion', 'leek', 'zucchini', 'bell_pepper', 'cabbage', 'chestnut', 'lentils'];
+      if (realSolids.length === 1 && c.onlyWaterLiquid && Object.keys(realSolids[0].parts).every((id) => SOUPY.includes(id) || flag(id, 'medium') || flag(id, 'seasoning')) && realSolids[0].form !== 'sauce') return R('soup', 'soup', mods(c.mains));
+      if (realSolids.length && c.onlyWaterLiquid && (realSolids.length > 1 || c.has('sugar', 'honey') || realSolids[0].kind !== 'ingredient') && realSolids.every((i) => Object.keys(i.parts).every((id) => ING.get(id).cat === 'fruit' || flag(id, 'sweetener') || flag(id, 'medium')))) {
+        const fl = mods(c.mains.filter((id) => ING.get(id).cat === 'fruit'));
+        return c.has('sugar', 'honey') ? R('jam', 'sauce', fl) : R('compote', 'sauce', fl);
+      }
       if (realSolids.length === 1 && c.onlyWaterLiquid && !c.liquids.some((i) => i.form !== 'liquid')) return R('boiled', realSolids[0].form === 'whole' ? 'whole' : realSolids[0].form, subj(realSolids[0]), { keepArt: realSolids[0] });
       if (c.catW('fruit') > c.catW('veg') && c.sweetish) return R('compote', 'sauce', mods(c.mains.filter((id) => ING.get(id).cat === 'fruit')));
       if (c.catW('protein') >= 1 || c.has('beans')) return R('stew', 'soup', mods(c.mains.filter((id) => !['water'].includes(id))));
@@ -536,12 +621,13 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       if (c.only('corn', 'oil', 'butter', 'salt', 'sugar')) return R('popcorn', 'crumbs', '', { noun: true });
       if (solids.length === 1 && solids[0].heat >= 1 && !solids[0].noun) return R('twice', solids[0].form, solids[0].subject);
       if (solids.length === 1 && solids[0].noun && solids[0].states.includes('fry')) return R('crispy', solids[0].form in FORM_ART ? solids[0].form : 'plated', solids[0].name);
-      if (solids.length >= 2 && (c.has('soy_sauce') || solids.length >= 3)) return R('stirfry', 'plated', mods(c.mains.filter((id) => id !== 'soy_sauce')));
+      if (solids.length >= 2 && (c.has('soy_sauce') || solids.length >= 3) && savoury(c)) return R('stirfry', 'plated', mods(c.mains.filter((id) => id !== 'soy_sauce')));
       if (c.only('onion', 'oil', 'butter', 'salt', 'sugar')) return R('caramelized', 'plated', t('food.onions'));
       if (c.has('cheese') && c.only('cheese', 'oil', 'butter', 'flour', 'breadcrumbs')) return R('friedCheese', 'plated', '', { noun: true });
-      const x = solids[0] || c.items[0];
+      const chunky = solids.filter((i) => !flavourish(i));
+      const x = chunky[0] || solids[0] || c.items[0];
       const cat = x.kind === 'ingredient' ? ING.get(x.id).cat : '';
-      const label = solids.length > 1 ? names(c.mains) : subj(x);
+      const label = chunky.length === 1 ? flavoured(x, c.items.filter((i) => i !== x)) : solids.length > 1 ? names(c.mains) : subj(x);
       if (cat === 'protein' || x.parts.chicken || x.parts.fish) return R('panFried', 'plated', label);
       if (cat === 'veg' || PIECE_FORMS.has(x.form) || x.form === 'whole') return R('sauteed', 'plated', label);
       return R('fried', x.form in FORM_ART ? x.form : 'plated', label);
@@ -590,7 +676,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       const batter = c.items.find((i) => i.form === 'batter');
       if (batter) {
         if (batter.arch === 'cakeBatter' || c.sweetish) return fl() ? R('flavCake', 'cake', fl(), { noun: true }) : R('cake', 'cake', '', { noun: true });
-        return R('muffins', 'cake', fl() || mods(c.mains));
+        return R('muffins', 'cake', fl(), { noun: !fl() });
       }
       if (c.items.some((i) => i.arch === 'custardBase')) return R('bakedCustard', 'custard', '', { noun: true });
       if (c.items.some((i) => i.arch === 'omeletteMix' || i.arch === 'whisked')) return R('frittata', 'flat', c.flavour(['egg', 'milk', 'cream', 'salt', 'black_pepper']) || mods(['egg']));
@@ -606,7 +692,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       const x = solids[0] || c.items[0];
       if (solids.length === 1 && c.isBase(x, 'potato')) return R('bakedPotato', 'whole', '', { noun: true, keepArt: x });
       if (solids.length === 1 && x.heat >= 1 && !x.noun) return R('twice', x.form, x.subject);
-      if (c.catW('protein') > 0) return R('roast', 'plated', mods(c.mains));
+      if (c.catW('protein') > 0) { const meat = c.mains.filter((id) => !['flour', 'breadcrumbs'].includes(id)); return R('roast', 'plated', mods(meat)); }
       if (c.catW('fruit') > c.catW('veg')) return R('baked', solids.length === 1 && x.form === 'whole' ? 'whole' : 'plated', solids.length > 1 ? names(c.mains) : subj(x), { keepArt: solids.length === 1 && x.form === 'whole' ? x : null });
       if (solids.length >= 3 && c.catW('veg') > 0) return R('roastVeg', 'plated', '', { noun: true });
       return R('roasted', 'plated', solids.length > 1 ? names(c.mains) : subj(x));
@@ -618,9 +704,11 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       if (bread && c.n === 1) return R('toast', 'slices', '', { noun: true });
       if (c.only('corn', 'butter', 'salt', 'oil')) return R('cornCob', 'whole', '', { noun: true, keepArt: c.base('corn') });
       const solids = c.solids.filter((i) => !(i.kind === 'ingredient' && (flag(i.id, 'seasoning') || flag(i.id, 'fat'))));
-      if (solids.length >= 2) return R('skewers', 'skewer', mods(c.mains));
-      const x = solids[0] || c.items[0];
-      return R('grilled', x.form === 'whole' ? 'whole' : 'plated', subj(x), { keepArt: x.form === 'whole' ? x : null });
+      // only chunky things go on a skewer; lemon, herbs and spices just flavour it
+      const chunky = solids.filter((i) => !flavourish(i));
+      if (chunky.length >= 2) return R('skewers', 'skewer', mods(mains(mergeParts(chunky))));
+      const x = chunky[0] || solids[0] || c.items[0];
+      return R('grilled', x.form === 'whole' ? 'whole' : 'plated', flavoured(x, c.items.filter((i) => i !== x)), { keepArt: x.form === 'whole' ? x : null });
     },
 
     steam(c) {
@@ -723,6 +811,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       if (c.items.some(eggy) && c.items.every((i) => eggy(i) || (i.kind === 'ingredient' && (['milk', 'cream', 'butter', 'oil', 'chives', 'salt', 'black_pepper'].includes(i.id))))) return R('scrambled', 'plated', '', { noun: true });
       if (c.has('curry_powder') && c.liquids.length) return R('curry', 'soup', c.flavour(['curry_powder', 'coconut_milk', 'water']));
       const solids = c.solids.filter((i) => !(i.kind === 'ingredient' && (flag(i.id, 'seasoning') || flag(i.id, 'fat') || flag(i.id, 'sweetener') || flag(i.id, 'garnish'))));
+      if (!savoury(c)) return RULES.fry(c);
       if (solids.length >= 2) return R('stirfry', 'plated', mods(c.mains.filter((id) => id !== 'soy_sauce')));
       if (solids.length === 1) return R('wokTossed', 'plated', subj(solids[0]));
       return R('sizzled', c.items[0].form, subj(c.items[0]));
@@ -932,8 +1021,15 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     const c = context(sorted);
     const rule = RULES[op];
     if (!rule) throw new Error(`Unknown tool action: ${op}`);
+    const no = refusal(op, c);
+    if (no) return { refused: true, reason: t(`refuse.${no.key}`, { x: no.x, tool: t(`verb.${op}`) }), op, key };
     const charcoal = sorted.some((i) => i.arch === 'charcoal' || i.arch === 'stillCharcoal');
-    const r = charcoal ? R('stillCharcoal', 'lump', '', { noun: true, burnt: 2 }) : burnCheck(c, op) || rule(c);
+    const bad = clash(op, c);
+    const mess = sorted.some((i) => i.arch === 'mess') || bad;
+    let r = charcoal ? R('stillCharcoal', 'lump', '', { noun: true, burnt: 2 })
+      : mess ? R('mess', 'lump', bad ? joinNames(bad.map((id) => ING.get(id).name)) : subj(sorted.find((i) => i.arch === 'mess')))
+      : burnCheck(c, op) || rule(c);
+    if (r.refuse) return { refused: true, reason: t(`refuse.${r.refuse}`, { x: names(c.mains), tool: t(`verb.${op}`) }), op, key };
     return finish(op, sorted, r, key);
   }
 

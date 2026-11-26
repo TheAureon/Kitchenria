@@ -24,6 +24,7 @@ export function cook(op, foods) {
   const items = foods.map((f) => (typeof f === 'string' ? getItem(f) : f)).filter(Boolean);
   if (!items.length) return null;
   let item = db.engine.cook(op, items);
+  if (item.refused) return { refused: true, reason: item.reason, inputs: items }; // the tool said no: nothing changes
   const named = savedName(item.key); // a name the AI gave this recipe before
   if (named) item = { ...item, name: named.name, desc: named.desc, aiNamed: true, noun: true, subject: named.name };
   state.creations[item.id] = item;

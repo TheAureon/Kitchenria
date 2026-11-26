@@ -33,6 +33,8 @@ export function cookHow(engine, text) {
       return engine.baseItem(n);
     }
     const items = n.args.map(run);
+    const no = items.find((i) => i.refused); // a step the kitchen said no to
+    if (no) return no;
     return n.op === 'plate' ? engine.plate(items) : engine.cook(n.op, items);
   };
   return run(parseHow(text));

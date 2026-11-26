@@ -260,6 +260,12 @@ function applyTool(toolId, chip, op) {
   if (!chips.has(chip)) return;
   const res = hooks.useTool?.(toolId, idsOf(chip), op);
   if (!res) return;
+  if (res.refused) { // the tool can't do anything sensible with this: say why and leave the food alone
+    bounce(chip, 'wiggle');
+    play('nope');
+    toast({ kind: 'soft', body: esc(res.reason), ms: 3200 });
+    return;
+  }
   const { _x: x, _y: y } = chip;
   removeChip(chip, false);
   const el = addChip([res.item.id], x, y, 'pop');

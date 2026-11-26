@@ -56,6 +56,7 @@ export function scoreDish(dish, { t, pick, ING, favourite }) {
   }
   if (dish.burnt) { const pen = dish.burnt >= 2 ? 2.8 : 1.9; score -= pen; bad.push(['burnt', pen]); }
   if (dish.arch === 'lonely') { score -= 0.9; bad.push(['lonely', 1.5]); }
+  if (dish.states.includes('arch:mess')) { score -= 1.8; bad.push(['mess', 2]); }
 
   // --- classics ---
   const sigName = dish.sig ? dish.name : dish.mainSig ? dish.components?.[0]?.name : null;
