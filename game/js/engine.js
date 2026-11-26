@@ -423,7 +423,8 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       if (rice && c.n > 1) return R('riceBowl', 'mixbowl', fill(rice));
       if (c.has('yogurt') && c.catW('fruit') > 0) return R('parfait', 'custard', c.flavour(['yogurt', 'sugar', 'honey']));
       // fruit coated in sugar
-      if (c.has('sugar', 'honey') && c.solids.every((i) => i.kind !== 'ingredient' || ING.get(i.id).cat === 'fruit' || flag(i.id, 'sweetener')) && c.catW('fruit') > 0) return R('sugared', 'wedges', names(c.mains));
+      const fruitPrep = (i) => i.prep && Object.keys(i.parts).every((id) => ING.get(id).cat === 'fruit');
+      if (c.has('sugar', 'honey') && c.solids.every((i) => (i.kind === 'ingredient' && (ING.get(i.id).cat === 'fruit' || flag(i.id, 'sweetener'))) || fruitPrep(i)) && c.catW('fruit') > 0) return R('sugared', 'wedges', names(c.mains));
       // salads: several fresh raw things
       const fresh = c.solids.filter((i) => i.heat === 0 && !i.frozen && (i.parts && Object.keys(i.parts).some((id) => ['veg', 'fruit', 'herb'].includes(ING.get(id).cat))));
       if (fresh.length >= 2 || (fresh.length >= 1 && c.items.some((i) => i.arch === 'dressing'))) {
@@ -702,7 +703,8 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       const dough = c.items.find((i) => i.form === 'dough');
       if (dough && c.n > 1) { const fill = others(dough); return R('rolledDough', 'dough', fillName(fill), { noun: true, doughKind: dk(dough), artForm: 'roulade', fillColor: fillColor(fill) }); }
       const leaf = c.items.find((i) => ['cabbage', 'lettuce', 'kale', 'spinach'].some((id) => isOnly(i, id)));
-      if (leaf && c.n > 1) { const fill = others(leaf); return R('leafRolls', 'roulade', ING.get(Object.keys(leaf.parts)[0]).mod, { y: fillName(fill), fillColor: fillColor(fill) }); }
+      const wrapper = c.items.find((i) => ['flat', 'stack', 'wrap'].includes(i.form));
+      if (leaf && c.n > 1 && !wrapper) { const fill = others(leaf); return R('leafRolls', 'roulade', ING.get(Object.keys(leaf.parts)[0]).mod, { y: fillName(fill), fillColor: fillColor(fill) }); }
       if (nori && c.n > 1) { const fill = others(nori); return R('sushiRoll', 'sushi', fillName(fill), { fillColor: fillColor(fill) }); }
       const flat = c.items.find((i) => ['flat', 'stack', 'wrap'].includes(i.form));
       if (flat && c.n > 1) { const fill = others(flat); return R('rolledWith', 'roulade', label(flat), { y: fillName(fill), fillColor: fillColor(fill), keepSig: flat.sig }); }

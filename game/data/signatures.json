@@ -13,6 +13,5113 @@
   ],
   "signatures": [
     {
+      "id": "pea_mint_soup",
+      "name": "Pea & Mint Soup",
+      "arch": [
+        "soup",
+        "creamySoup"
+      ],
+      "need": [
+        "peas",
+        "mint"
+      ],
+      "season": "spring",
+      "desc": "Sweet peas and cool mint. Spring in a spoon.",
+      "how": "boil(peas,mint,onion,water)"
+    },
+    {
+      "id": "leek_potato_soup",
+      "name": "Leek & Potato Soup",
+      "arch": [
+        "soup",
+        "creamySoup"
+      ],
+      "need": [
+        "leek",
+        "potato"
+      ],
+      "season": "winter",
+      "desc": "Silky, gentle and very comforting.",
+      "how": "boil(leek,potato,water)"
+    },
+    {
+      "id": "parsnip_soup",
+      "name": "Spiced Parsnip Soup",
+      "arch": [
+        "soup",
+        "creamySoup"
+      ],
+      "need": [
+        "parsnip"
+      ],
+      "season": "winter",
+      "desc": "Sweet, earthy and warming.",
+      "how": "boil(parsnip,onion,water)"
+    },
+    {
+      "id": "chestnut_soup",
+      "name": "Chestnut Soup",
+      "arch": [
+        "soup",
+        "creamySoup"
+      ],
+      "need": [
+        "chestnut"
+      ],
+      "season": "autumn",
+      "desc": "Nutty, velvety and wonderfully autumnal.",
+      "how": "boil(chestnut,onion,water)"
+    },
+    {
+      "id": "carrot_ginger_soup",
+      "name": "Carrot & Ginger Soup",
+      "arch": [
+        "soup",
+        "creamySoup"
+      ],
+      "need": [
+        "carrot",
+        "ginger"
+      ],
+      "desc": "Bright orange with a gentle zing.",
+      "how": "boil(carrot,ginger,onion,water)"
+    },
+    {
+      "id": "mushroom_soup",
+      "name": "Cream of Mushroom Soup",
+      "arch": [
+        "creamySoup"
+      ],
+      "need": [
+        "mushroom",
+        [
+          "cream",
+          "milk"
+        ]
+      ],
+      "desc": "Earthy, creamy and cosy.",
+      "how": "boil(mushroom,onion,cream)"
+    },
+    {
+      "id": "corn_chowder",
+      "name": "Corn Chowder",
+      "arch": [
+        "creamySoup",
+        "soup"
+      ],
+      "need": [
+        "corn",
+        "potato"
+      ],
+      "desc": "Chunky, sweet and creamy.",
+      "how": "boil(corn,potato,milk)"
+    },
+    {
+      "id": "cheese_fondue",
+      "name": "Cheese Fondue",
+      "arch": [
+        "creamySoup"
+      ],
+      "need": [
+        "cheese"
+      ],
+      "only": [
+        "cheese",
+        "milk",
+        "cream",
+        "garlic",
+        "black_pepper",
+        "salt"
+      ],
+      "desc": "A pot of melted cheese. Dip everything!",
+      "how": "boil(cheese,milk)"
+    },
+    {
+      "id": "egg_drop_soup",
+      "name": "Egg Drop Soup",
+      "arch": [
+        "soup"
+      ],
+      "need": [
+        "egg",
+        "soy_sauce"
+      ],
+      "desc": "Silky ribbons of egg in a light broth.",
+      "how": "boil(egg,water,soy_sauce)"
+    },
+    {
+      "id": "miso_soup",
+      "name": "Miso Soup",
+      "arch": [
+        "soup",
+        "stew"
+      ],
+      "need": [
+        "miso",
+        [
+          "tofu",
+          "seaweed"
+        ]
+      ],
+      "desc": "A warm, savoury hug in a little bowl.",
+      "how": "boil(miso,tofu,seaweed,water)"
+    },
+    {
+      "id": "bouillabaisse",
+      "name": "Bouillabaisse",
+      "arch": [
+        "stew",
+        "soup"
+      ],
+      "need": [
+        "fish",
+        "shrimp",
+        "tomato"
+      ],
+      "desc": "A sunny seaside stew from Marseille.",
+      "how": "boil(fish,shrimp,tomato,water)"
+    },
+    {
+      "id": "tom_yum",
+      "name": "Tom Yum Soup",
+      "arch": [
+        "stew",
+        "soup"
+      ],
+      "need": [
+        "shrimp",
+        [
+          "lime",
+          "lemon"
+        ],
+        "chili"
+      ],
+      "desc": "Hot, sour and full of zing.",
+      "how": "boil(shrimp,lime,chili,water)"
+    },
+    {
+      "id": "fish_chowder",
+      "name": "Fish Chowder",
+      "arch": [
+        "stew",
+        "creamySoup"
+      ],
+      "need": [
+        "fish",
+        "potato",
+        [
+          "milk",
+          "cream"
+        ]
+      ],
+      "desc": "Creamy, chunky and full of the sea.",
+      "how": "boil(fish,potato,milk)"
+    },
+    {
+      "id": "caldo_verde",
+      "name": "Caldo Verde",
+      "arch": [
+        "stew",
+        "soup"
+      ],
+      "need": [
+        "kale",
+        "sausage"
+      ],
+      "season": "winter",
+      "desc": "Portuguese green soup with smoky sausage.",
+      "how": "boil(kale,potato,sausage,water)"
+    },
+    {
+      "id": "lentil_soup",
+      "name": "Lentil Soup",
+      "arch": [
+        "stew",
+        "soup"
+      ],
+      "need": [
+        "lentils"
+      ],
+      "desc": "Humble, hearty and good for you.",
+      "how": "boil(lentils,carrot,onion,water)"
+    },
+    {
+      "id": "goulash",
+      "name": "Goulash",
+      "arch": [
+        "stew"
+      ],
+      "need": [
+        "beef",
+        "bell_pepper"
+      ],
+      "desc": "A paprika-red stew from Hungary.",
+      "how": "boil(beef,bell_pepper,onion,water)"
+    },
+    {
+      "id": "beef_stew",
+      "name": "Beef Stew",
+      "arch": [
+        "stew"
+      ],
+      "need": [
+        "beef",
+        "potato"
+      ],
+      "desc": "Slow, rich and made for cold days.",
+      "how": "boil(beef,potato,carrot,water)"
+    },
+    {
+      "id": "chicken_stew",
+      "name": "Chicken Casserole",
+      "arch": [
+        "stew"
+      ],
+      "need": [
+        "chicken",
+        "carrot"
+      ],
+      "desc": "Tender chicken in a gentle broth.",
+      "how": "boil(chicken,carrot,potato,water)"
+    },
+    {
+      "id": "chili_con_carne",
+      "name": "Chili con Carne",
+      "arch": [
+        "stew",
+        "sauce"
+      ],
+      "need": [
+        "beef",
+        "beans"
+      ],
+      "desc": "Beefy, beany and a little bit fiery.",
+      "how": "boil(beef,beans,chili,tomato)"
+    },
+    {
+      "id": "albondigas",
+      "name": "Albóndigas",
+      "arch": [
+        "sauce",
+        "stew"
+      ],
+      "need": [
+        "beef",
+        "arch:patty",
+        "tomato"
+      ],
+      "desc": "Little meatballs in tomato sauce.",
+      "how": "boil(shape(beef),tomato)"
+    },
+    {
+      "id": "marinara",
+      "name": "Marinara Sauce",
+      "arch": [
+        "sauce"
+      ],
+      "need": [
+        "tomato",
+        "garlic",
+        "herbs"
+      ],
+      "desc": "A bright, garlicky tomato sauce.",
+      "how": "boil(tomato,garlic,herbs)"
+    },
+    {
+      "id": "caponata",
+      "name": "Caponata",
+      "arch": [
+        "sauce",
+        "stewed"
+      ],
+      "need": [
+        "eggplant",
+        "tomato"
+      ],
+      "desc": "Sweet and sour Sicilian eggplant.",
+      "how": "boil(eggplant,tomato)"
+    },
+    {
+      "id": "chana_masala",
+      "name": "Chana Masala",
+      "arch": [
+        "curry"
+      ],
+      "need": [
+        "chickpeas"
+      ],
+      "desc": "Spiced chickpeas in a rich tomato sauce.",
+      "how": "boil(chickpeas,curry_powder,tomato,water)"
+    },
+    {
+      "id": "saag_paneer",
+      "name": "Saag Paneer",
+      "arch": [
+        "curry"
+      ],
+      "need": [
+        "spinach",
+        "arch:cheeseMade"
+      ],
+      "desc": "Soft cheese in a velvety spinach sauce.",
+      "how": "boil(spinach,curry_powder,age(milk,lemon),water)"
+    },
+    {
+      "id": "butter_chicken",
+      "name": "Butter Chicken",
+      "arch": [
+        "curry"
+      ],
+      "need": [
+        "chicken",
+        "butter",
+        [
+          "cream",
+          "yogurt"
+        ]
+      ],
+      "desc": "Mild, creamy and impossible to stop eating.",
+      "how": "boil(chicken,curry_powder,butter,cream)"
+    },
+    {
+      "id": "prawn_curry",
+      "name": "Thai Prawn Curry",
+      "arch": [
+        "curry"
+      ],
+      "need": [
+        "shrimp",
+        "coconut_milk"
+      ],
+      "desc": "Fragrant coconut curry with juicy prawns.",
+      "how": "boil(shrimp,curry_powder,coconut_milk)"
+    },
+    {
+      "id": "pumpkin_curry",
+      "name": "Pumpkin Curry",
+      "arch": [
+        "curry"
+      ],
+      "need": [
+        "pumpkin"
+      ],
+      "season": "autumn",
+      "desc": "Golden pumpkin in a gentle spiced sauce.",
+      "how": "boil(pumpkin,curry_powder,coconut_milk)"
+    },
+    {
+      "id": "laksa",
+      "name": "Laksa",
+      "arch": [
+        "noodleSoup"
+      ],
+      "need": [
+        "coconut_milk",
+        [
+          "curry_powder",
+          "chili"
+        ]
+      ],
+      "desc": "Spicy coconut noodle soup from Malaysia.",
+      "how": "boil(chop(mix(flour,egg)),coconut_milk,curry_powder,shrimp)"
+    },
+    {
+      "id": "ramen",
+      "name": "Ramen",
+      "arch": [
+        "noodleSoup"
+      ],
+      "need": [
+        [
+          "miso",
+          "soy_sauce"
+        ]
+      ],
+      "desc": "A steaming bowl of noodles to slurp loudly.",
+      "how": "boil(chop(mix(flour,egg)),water,miso,mushroom)"
+    },
+    {
+      "id": "pho",
+      "name": "Pho",
+      "arch": [
+        "noodleSoup"
+      ],
+      "need": [
+        "beef"
+      ],
+      "desc": "A fragrant Vietnamese noodle soup.",
+      "how": "boil(chop(mix(flour,egg)),water,beef,herbs)"
+    },
+    {
+      "id": "yakisoba",
+      "name": "Yakisoba",
+      "arch": [
+        "wokNoodles",
+        "friedNoodles"
+      ],
+      "need": [
+        "cabbage"
+      ],
+      "desc": "Sticky, savoury noodles from a sizzling griddle.",
+      "how": "wok(boil(chop(mix(flour,egg)),water),cabbage,sausage)"
+    },
+    {
+      "id": "singapore_noodles",
+      "name": "Singapore Noodles",
+      "arch": [
+        "wokNoodles",
+        "friedNoodles"
+      ],
+      "need": [
+        "curry_powder",
+        "shrimp"
+      ],
+      "desc": "Curry-scented noodles with prawns.",
+      "how": "wok(boil(chop(mix(flour,egg)),water),curry_powder,shrimp)"
+    },
+    {
+      "id": "chow_mein",
+      "name": "Chow Mein",
+      "arch": [
+        "wokNoodles",
+        "friedNoodles"
+      ],
+      "need": [
+        [
+          "carrot",
+          "bell_pepper"
+        ]
+      ],
+      "desc": "Crispy-edged noodles with crunchy veg.",
+      "how": "wok(boil(chop(mix(flour,egg)),water),carrot,soy_sauce)"
+    },
+    {
+      "id": "lo_mein",
+      "name": "Lo Mein",
+      "arch": [
+        "wokNoodles"
+      ],
+      "desc": "Soft, glossy noodles tossed in a wok.",
+      "how": "wok(boil(chop(mix(flour,egg)),water),soy_sauce)"
+    },
+    {
+      "id": "spaghetti_meatballs",
+      "name": "Spaghetti & Meatballs",
+      "arch": [
+        "pastaDish"
+      ],
+      "need": [
+        "beef",
+        "arch:patty"
+      ],
+      "desc": "Big round meatballs on a tangle of pasta.",
+      "how": "mix(boil(chop(mix(flour,egg)),water),boil(tomato),fry(shape(beef)))"
+    },
+    {
+      "id": "bolognese",
+      "name": "Spaghetti Bolognese",
+      "arch": [
+        "pastaDish"
+      ],
+      "need": [
+        "beef",
+        "tomato"
+      ],
+      "desc": "A rich, meaty sauce from Bologna.",
+      "how": "mix(boil(chop(mix(flour,egg)),water),boil(beef,tomato))"
+    },
+    {
+      "id": "shrimp_scampi",
+      "name": "Shrimp Scampi",
+      "arch": [
+        "pastaDish"
+      ],
+      "need": [
+        "shrimp",
+        "garlic"
+      ],
+      "desc": "Garlicky butter prawns and pasta.",
+      "how": "mix(boil(chop(mix(flour,egg)),water),fry(shrimp,garlic,butter))"
+    },
+    {
+      "id": "alla_norma",
+      "name": "Pasta alla Norma",
+      "arch": [
+        "pastaDish"
+      ],
+      "need": [
+        "eggplant",
+        "tomato"
+      ],
+      "desc": "Fried eggplant in tomato sauce, Sicilian style.",
+      "how": "mix(boil(chop(mix(flour,egg)),water),boil(tomato),fry(eggplant))"
+    },
+    {
+      "id": "arrabbiata",
+      "name": "Penne all’Arrabbiata",
+      "arch": [
+        "pastaDish"
+      ],
+      "need": [
+        "tomato",
+        "chili"
+      ],
+      "desc": "“Angry” pasta with a spicy tomato sauce.",
+      "how": "mix(boil(chop(mix(flour,egg)),water),boil(tomato,chili))"
+    },
+    {
+      "id": "alfredo",
+      "name": "Fettuccine Alfredo",
+      "arch": [
+        "pastaDish"
+      ],
+      "need": [
+        "cream",
+        "cheese",
+        "butter"
+      ],
+      "desc": "Buttery, creamy, cheesy ribbons.",
+      "how": "mix(boil(chop(mix(flour,egg)),water),cream,cheese,butter)"
+    },
+    {
+      "id": "cacio_e_pepe",
+      "name": "Cacio e Pepe",
+      "arch": [
+        "pastaDish"
+      ],
+      "need": [
+        "cheese",
+        "black_pepper"
+      ],
+      "only": [
+        "flour",
+        "egg",
+        "water",
+        "cheese",
+        "black_pepper",
+        "butter",
+        "salt"
+      ],
+      "desc": "Just cheese and pepper. Simple and perfect.",
+      "how": "mix(boil(chop(mix(flour,egg)),water),cheese,black_pepper)"
+    },
+    {
+      "id": "aglio_olio",
+      "name": "Aglio e Olio",
+      "arch": [
+        "pastaDish"
+      ],
+      "need": [
+        "garlic",
+        "oil"
+      ],
+      "not": [
+        "tomato",
+        "cheese"
+      ],
+      "desc": "Garlic, oil and a pinch of chili.",
+      "how": "mix(boil(chop(mix(flour,egg)),water),garlic,oil,chili)"
+    },
+    {
+      "id": "primavera",
+      "name": "Pasta Primavera",
+      "arch": [
+        "pastaDish"
+      ],
+      "need": [
+        [
+          "asparagus",
+          "peas"
+        ]
+      ],
+      "season": "spring",
+      "desc": "Pasta full of fresh spring greens.",
+      "how": "mix(boil(chop(mix(flour,egg)),water),asparagus,cheese)"
+    },
+    {
+      "id": "pumpkin_ravioli",
+      "name": "Pumpkin Ravioli",
+      "arch": [
+        "dumplings"
+      ],
+      "need": [
+        "pumpkin"
+      ],
+      "season": "autumn",
+      "desc": "Little pillows of pasta with sweet pumpkin.",
+      "how": "boil(mix(mix(flour,water),pumpkin,cheese),water)"
+    },
+    {
+      "id": "ravioli",
+      "name": "Spinach & Cheese Ravioli",
+      "arch": [
+        "dumplings"
+      ],
+      "need": [
+        "spinach",
+        "cheese"
+      ],
+      "desc": "Little pasta pillows with a green filling.",
+      "how": "boil(mix(mix(flour,water),spinach,cheese),water)"
+    },
+    {
+      "id": "pierogi",
+      "name": "Pierogi",
+      "arch": [
+        "dumplings"
+      ],
+      "need": [
+        "potato"
+      ],
+      "desc": "Polish dumplings stuffed with potato.",
+      "how": "boil(mix(mix(flour,water),mash(boil(potato,water)),cheese),water)"
+    },
+    {
+      "id": "wontons",
+      "name": "Wontons",
+      "arch": [
+        "dumplings"
+      ],
+      "need": [
+        "shrimp"
+      ],
+      "desc": "Silky little parcels that float like clouds.",
+      "how": "boil(mix(mix(flour,water),shrimp,ginger),water)"
+    },
+    {
+      "id": "har_gow",
+      "name": "Har Gow",
+      "arch": [
+        "steamedDumplings"
+      ],
+      "need": [
+        "shrimp"
+      ],
+      "desc": "Translucent prawn dumplings, a dim sum star.",
+      "how": "steam(boil(mix(mix(flour,water),shrimp),water))"
+    },
+    {
+      "id": "momos",
+      "name": "Momos",
+      "arch": [
+        "steamedDumplings"
+      ],
+      "need": [
+        [
+          "cabbage",
+          "onion"
+        ]
+      ],
+      "desc": "Steamy Himalayan dumplings.",
+      "how": "steam(boil(mix(mix(flour,water),cabbage,onion),water))"
+    },
+    {
+      "id": "baked_ziti",
+      "name": "Baked Ziti",
+      "arch": [
+        "pastaBake"
+      ],
+      "need": [
+        "tomato",
+        "mozzarella"
+      ],
+      "desc": "Bubbling pasta with melty mozzarella.",
+      "how": "bake(boil(chop(mix(flour,egg)),water),boil(tomato),mozzarella)"
+    },
+    {
+      "id": "pasta_bake",
+      "name": "Tuna Pasta Bake",
+      "arch": [
+        "pastaBake"
+      ],
+      "need": [
+        "fish"
+      ],
+      "desc": "A cheesy, cosy family favourite.",
+      "how": "bake(boil(chop(mix(flour,egg)),water),fish,cheese)"
+    },
+    {
+      "id": "paella",
+      "name": "Paella",
+      "arch": [
+        "risotto"
+      ],
+      "need": [
+        "shrimp"
+      ],
+      "desc": "Golden Spanish rice with prawns and chicken.",
+      "how": "boil(rice,water,shrimp,chicken)"
+    },
+    {
+      "id": "biryani",
+      "name": "Biryani",
+      "arch": [
+        "risotto"
+      ],
+      "need": [
+        "curry_powder"
+      ],
+      "desc": "Fragrant, spiced rice with tender chicken.",
+      "how": "boil(rice,water,curry_powder,chicken)"
+    },
+    {
+      "id": "mujadara",
+      "name": "Mujadara",
+      "arch": [
+        "risotto"
+      ],
+      "need": [
+        "lentils"
+      ],
+      "desc": "Rice and lentils with sweet golden onions.",
+      "how": "boil(rice,water,lentils,onion)"
+    },
+    {
+      "id": "congee",
+      "name": "Congee",
+      "arch": [
+        "risotto"
+      ],
+      "need": [
+        "ginger"
+      ],
+      "desc": "A soft, gentle rice porridge.",
+      "how": "boil(rice,water,ginger)"
+    },
+    {
+      "id": "asparagus_risotto",
+      "name": "Asparagus Risotto",
+      "arch": [
+        "risotto"
+      ],
+      "need": [
+        "asparagus"
+      ],
+      "season": "spring",
+      "desc": "Creamy rice with tender green spears.",
+      "how": "boil(rice,water,asparagus,cheese)"
+    },
+    {
+      "id": "pumpkin_risotto",
+      "name": "Pumpkin Risotto",
+      "arch": [
+        "risotto"
+      ],
+      "need": [
+        "pumpkin"
+      ],
+      "season": "autumn",
+      "desc": "Creamy, golden and autumn-cosy.",
+      "how": "boil(rice,water,pumpkin,cheese)"
+    },
+    {
+      "id": "mango_sticky_rice",
+      "name": "Mango Sticky Rice",
+      "arch": [
+        "ricePudding"
+      ],
+      "need": [
+        "mango",
+        "coconut_milk"
+      ],
+      "desc": "Sweet coconut rice with ripe mango.",
+      "how": "boil(rice,coconut_milk,sugar,mango)"
+    },
+    {
+      "id": "kheer",
+      "name": "Kheer",
+      "arch": [
+        "ricePudding"
+      ],
+      "need": [
+        "nuts"
+      ],
+      "desc": "A creamy rice pudding with nuts.",
+      "how": "boil(rice,milk,sugar,nuts)"
+    },
+    {
+      "id": "rice_pudding",
+      "name": "Rice Pudding",
+      "arch": [
+        "ricePudding"
+      ],
+      "need": [
+        "milk"
+      ],
+      "desc": "Creamy, sweet and very nostalgic.",
+      "how": "boil(rice,milk,sugar)"
+    },
+    {
+      "id": "pineapple_fried_rice",
+      "name": "Pineapple Fried Rice",
+      "arch": [
+        "friedRice"
+      ],
+      "need": [
+        "pineapple"
+      ],
+      "desc": "Sweet, savoury and served with a smile.",
+      "how": "wok(boil(rice,water),pineapple,egg)"
+    },
+    {
+      "id": "kimchi_fried_rice",
+      "name": "Kimchi Fried Rice",
+      "arch": [
+        "friedRice"
+      ],
+      "need": [
+        "arch:fermented"
+      ],
+      "desc": "Spicy, tangy and very moreish.",
+      "how": "wok(boil(rice,water),age(cabbage,salt,chili))"
+    },
+    {
+      "id": "nasi_goreng",
+      "name": "Nasi Goreng",
+      "arch": [
+        "friedRice"
+      ],
+      "need": [
+        [
+          "shrimp",
+          "chili"
+        ]
+      ],
+      "not": [
+        "egg"
+      ],
+      "desc": "Indonesian fried rice with a sweet soy glaze.",
+      "how": "wok(boil(rice,water),shrimp,soy_sauce)"
+    },
+    {
+      "id": "bibimbap",
+      "name": "Bibimbap",
+      "arch": [
+        "riceBowl"
+      ],
+      "need": [
+        "egg",
+        [
+          "spinach",
+          "carrot"
+        ]
+      ],
+      "desc": "A colourful rice bowl topped with an egg.",
+      "how": "mix(boil(rice,water),fry(egg),spinach,carrot)"
+    },
+    {
+      "id": "poke",
+      "name": "Poke Bowl",
+      "arch": [
+        "riceBowl"
+      ],
+      "need": [
+        "fish",
+        "avocado"
+      ],
+      "desc": "Marinated fish on rice, Hawaiian style.",
+      "how": "mix(boil(rice,water),marinate(fish,soy_sauce),avocado)"
+    },
+    {
+      "id": "gyudon",
+      "name": "Gyudon",
+      "arch": [
+        "riceBowl"
+      ],
+      "need": [
+        "beef",
+        "onion"
+      ],
+      "desc": "A Japanese beef and onion rice bowl.",
+      "how": "mix(boil(rice,water),fry(beef,onion))"
+    },
+    {
+      "id": "burrito_bowl",
+      "name": "Burrito Bowl",
+      "arch": [
+        "riceBowl"
+      ],
+      "need": [
+        "beans",
+        "corn"
+      ],
+      "desc": "Everything good about a burrito, in a bowl.",
+      "how": "mix(boil(rice,water),boil(beans,water),corn)"
+    },
+    {
+      "id": "philadelphia_roll",
+      "name": "Philadelphia Roll",
+      "arch": [
+        "sushiRoll",
+        "insideOut"
+      ],
+      "need": [
+        "fish",
+        "cream_cheese"
+      ],
+      "desc": "Fish and cream cheese, rolled up tight.",
+      "how": "rollup(boil(rice,water),seaweed,fish,cream_cheese)"
+    },
+    {
+      "id": "dragon_roll",
+      "name": "Dragon Roll",
+      "arch": [
+        "insideOut",
+        "sushiRoll"
+      ],
+      "need": [
+        "shrimp",
+        "avocado"
+      ],
+      "desc": "Prawn and avocado with scales of green.",
+      "how": "rollup(boil(rice,water),shrimp,avocado)"
+    },
+    {
+      "id": "california_roll",
+      "name": "California Roll",
+      "arch": [
+        "insideOut"
+      ],
+      "need": [
+        "avocado",
+        "cucumber"
+      ],
+      "desc": "An inside-out roll with creamy avocado.",
+      "how": "rollup(boil(rice,water),avocado,cucumber)"
+    },
+    {
+      "id": "kimbap",
+      "name": "Kimbap",
+      "arch": [
+        "sushiRoll"
+      ],
+      "need": [
+        [
+          "spinach",
+          "carrot"
+        ],
+        [
+          "egg",
+          "ham"
+        ]
+      ],
+      "desc": "Korean seaweed rolls packed with colour.",
+      "how": "rollup(boil(rice,water),seaweed,spinach,ham)"
+    },
+    {
+      "id": "futomaki",
+      "name": "Futomaki",
+      "arch": [
+        "sushiRoll"
+      ],
+      "need": [
+        "egg",
+        "cucumber"
+      ],
+      "desc": "A fat, generous roll with omelette inside.",
+      "how": "rollup(boil(rice,water),seaweed,fry(whisk(egg)),cucumber)"
+    },
+    {
+      "id": "kappa_maki",
+      "name": "Kappa Maki",
+      "arch": [
+        "sushiRoll"
+      ],
+      "need": [
+        "cucumber"
+      ],
+      "not": [
+        "fish",
+        "avocado",
+        "shrimp"
+      ],
+      "desc": "Crisp cucumber rolled in rice and seaweed.",
+      "how": "rollup(boil(rice,water),seaweed,cucumber)"
+    },
+    {
+      "id": "tekka_maki",
+      "name": "Tekka Maki",
+      "arch": [
+        "sushiRoll"
+      ],
+      "need": [
+        "fish"
+      ],
+      "desc": "A neat little roll with fish in the middle.",
+      "how": "rollup(boil(rice,water),seaweed,fish)"
+    },
+    {
+      "id": "cabbage_rolls",
+      "name": "Cabbage Rolls",
+      "arch": [
+        "leafRolls"
+      ],
+      "need": [
+        "cabbage"
+      ],
+      "desc": "Tender leaves wrapped around a savoury filling.",
+      "how": "rollup(cabbage,boil(rice,water),beef)"
+    },
+    {
+      "id": "lettuce_wraps",
+      "name": "Lettuce Wraps",
+      "arch": [
+        "leafRolls"
+      ],
+      "need": [
+        "lettuce"
+      ],
+      "desc": "Crunchy cups of lettuce with a tasty filling.",
+      "how": "rollup(lettuce,fry(chicken),carrot)"
+    },
+    {
+      "id": "kung_pao",
+      "name": "Kung Pao Chicken",
+      "arch": [
+        "stirfry"
+      ],
+      "need": [
+        "chicken",
+        "nuts",
+        "chili"
+      ],
+      "desc": "Tingly, nutty and a bit spicy.",
+      "how": "wok(chicken,nuts,chili)"
+    },
+    {
+      "id": "sweet_sour",
+      "name": "Sweet & Sour Chicken",
+      "arch": [
+        "stirfry"
+      ],
+      "need": [
+        "chicken",
+        "pineapple"
+      ],
+      "desc": "Sticky, tangy and bright.",
+      "how": "wok(chicken,pineapple,bell_pepper)"
+    },
+    {
+      "id": "mapo_tofu",
+      "name": "Mapo Tofu",
+      "arch": [
+        "stirfry"
+      ],
+      "need": [
+        "tofu",
+        "chili"
+      ],
+      "desc": "Silky tofu in a fiery, tingly sauce.",
+      "how": "wok(tofu,beef,chili)"
+    },
+    {
+      "id": "pepper_steak",
+      "name": "Pepper Steak",
+      "arch": [
+        "stirfry"
+      ],
+      "need": [
+        "beef",
+        "bell_pepper"
+      ],
+      "desc": "Seared beef and peppers, fast and hot.",
+      "how": "wok(beef,bell_pepper,onion)"
+    },
+    {
+      "id": "chop_suey",
+      "name": "Chop Suey",
+      "arch": [
+        "stirfry"
+      ],
+      "need": [
+        "cabbage",
+        "carrot"
+      ],
+      "desc": "A crunchy mix of vegetables.",
+      "how": "wok(cabbage,carrot,soy_sauce)"
+    },
+    {
+      "id": "bulgogi",
+      "name": "Bulgogi",
+      "arch": [
+        "wokTossed"
+      ],
+      "need": [
+        "beef",
+        "soy_sauce"
+      ],
+      "desc": "Sweet, savoury Korean barbecue beef.",
+      "how": "wok(marinate(beef,soy_sauce,sugar))"
+    },
+    {
+      "id": "scrambled_eggs",
+      "name": "Scrambled Eggs",
+      "arch": [
+        "scrambled"
+      ],
+      "need": [
+        [
+          "butter",
+          "milk",
+          "cream"
+        ]
+      ],
+      "desc": "Soft and creamy, cooked low and slow.",
+      "how": "wok(egg,butter)"
+    },
+    {
+      "id": "shawarma",
+      "name": "Chicken Shawarma",
+      "arch": [
+        "wrap"
+      ],
+      "need": [
+        "chicken",
+        "yogurt"
+      ],
+      "desc": "Spiced chicken wrapped up warm.",
+      "how": "mix(fry(mix(flour,water)),grill(marinate(chicken,yogurt)),lettuce)"
+    },
+    {
+      "id": "doner",
+      "name": "Doner Kebab",
+      "arch": [
+        "wrap"
+      ],
+      "need": [
+        "beef"
+      ],
+      "desc": "A late-night legend, wrapped up.",
+      "how": "mix(fry(mix(flour,water)),grill(beef),lettuce,tomato)"
+    },
+    {
+      "id": "fajitas",
+      "name": "Fajitas",
+      "arch": [
+        "wrap"
+      ],
+      "need": [
+        "chicken",
+        "bell_pepper"
+      ],
+      "desc": "Sizzling chicken and peppers in a soft wrap.",
+      "how": "mix(fry(mix(flour,water)),wok(chicken,bell_pepper))"
+    },
+    {
+      "id": "falafel_wrap",
+      "name": "Falafel Wrap",
+      "arch": [
+        "wrap"
+      ],
+      "need": [
+        "chickpeas",
+        "op:fry"
+      ],
+      "desc": "Crispy falafel tucked into a soft wrap.",
+      "how": "mix(fry(mix(flour,water)),fry(shape(mash(chickpeas))),lettuce)"
+    },
+    {
+      "id": "huevos_rancheros",
+      "name": "Huevos Rancheros",
+      "arch": [
+        "wrap"
+      ],
+      "need": [
+        "egg",
+        "beans"
+      ],
+      "desc": "A ranch-style breakfast on a tortilla.",
+      "how": "mix(fry(mix(flour,water,corn)),fry(egg),boil(tomato),boil(beans,water))"
+    },
+    {
+      "id": "breakfast_burrito",
+      "name": "Breakfast Burrito",
+      "arch": [
+        "wrap"
+      ],
+      "need": [
+        "arch:scrambled"
+      ],
+      "desc": "Scrambled eggs wrapped up for the road.",
+      "how": "mix(fry(mix(flour,water)),wok(egg,butter),cheese)"
+    },
+    {
+      "id": "quesadilla",
+      "name": "Quesadilla",
+      "arch": [
+        "wrap"
+      ],
+      "need": [
+        "cheese"
+      ],
+      "desc": "A folded tortilla with gooey cheese.",
+      "how": "mix(fry(mix(flour,water,corn)),cheese)"
+    },
+    {
+      "id": "spring_rolls",
+      "name": "Spring Rolls",
+      "arch": [
+        "rolledWith"
+      ],
+      "need": [
+        "cabbage",
+        "carrot"
+      ],
+      "desc": "Crisp little rolls full of vegetables.",
+      "how": "rollup(fry(mix(flour,water)),cabbage,carrot)"
+    },
+    {
+      "id": "crepes_suzette",
+      "name": "Crêpes Suzette",
+      "arch": [
+        "rolledWith"
+      ],
+      "need": [
+        "arch:pancakes",
+        "orange"
+      ],
+      "desc": "Thin pancakes with a buttery orange sauce.",
+      "how": "rollup(fry(mix(flour,egg,milk)),squeeze(orange),sugar)"
+    },
+    {
+      "id": "blintzes",
+      "name": "Blintzes",
+      "arch": [
+        "rolledWith"
+      ],
+      "need": [
+        "arch:pancakes",
+        "cream_cheese"
+      ],
+      "desc": "Thin pancakes rolled around sweet cheese.",
+      "how": "rollup(fry(mix(flour,egg,milk)),cream_cheese,sugar)"
+    },
+    {
+      "id": "crepes",
+      "name": "Crêpes",
+      "arch": [
+        "rolledWith"
+      ],
+      "need": [
+        "arch:pancakes"
+      ],
+      "desc": "Thin, lacy pancakes with lemon and sugar.",
+      "how": "rollup(fry(mix(flour,egg,milk)),squeeze(lemon),sugar)"
+    },
+    {
+      "id": "tamagoyaki",
+      "name": "Tamagoyaki",
+      "arch": [
+        "rolledUp"
+      ],
+      "need": [
+        [
+          "arch:omelette",
+          "arch:flavOmelette"
+        ]
+      ],
+      "desc": "A sweet Japanese rolled omelette.",
+      "how": "rollup(fry(whisk(egg)))"
+    },
+    {
+      "id": "cheeseburger",
+      "name": "Cheeseburger",
+      "arch": [
+        "burger"
+      ],
+      "need": [
+        "beef",
+        "cheese"
+      ],
+      "desc": "A juicy patty with melty cheese.",
+      "how": "mix(bake(shape(mix(flour,water,yeast))),fry(shape(beef)),cheese,lettuce)"
+    },
+    {
+      "id": "hamburger",
+      "name": "Hamburger",
+      "arch": [
+        "burger"
+      ],
+      "need": [
+        "beef"
+      ],
+      "desc": "The classic: a patty in a soft bun.",
+      "how": "mix(bake(shape(mix(flour,water,yeast))),fry(shape(beef)),lettuce,tomato)"
+    },
+    {
+      "id": "chicken_burger",
+      "name": "Chicken Burger",
+      "arch": [
+        "burger"
+      ],
+      "need": [
+        "chicken"
+      ],
+      "desc": "Crispy chicken in a fluffy bun.",
+      "how": "mix(bake(shape(mix(flour,water,yeast))),fry(chicken,breadcrumbs),lettuce)"
+    },
+    {
+      "id": "veggie_burger",
+      "name": "Veggie Burger",
+      "arch": [
+        "burger"
+      ],
+      "need": [
+        [
+          "chickpeas",
+          "beans",
+          "lentils"
+        ]
+      ],
+      "desc": "A hearty bean patty with all the trimmings.",
+      "how": "mix(bake(shape(mix(flour,water,yeast))),fry(shape(mash(boil(beans,water)))),lettuce)"
+    },
+    {
+      "id": "hot_dog",
+      "name": "Hot Dog",
+      "arch": [
+        "burger"
+      ],
+      "need": [
+        "sausage"
+      ],
+      "desc": "A sausage in a bun with a squiggle of mustard.",
+      "how": "mix(bake(shape(mix(flour,water,yeast))),fry(sausage),mustard)"
+    },
+    {
+      "id": "croque_madame",
+      "name": "Croque Madame",
+      "arch": [
+        "pressedSandwich"
+      ],
+      "need": [
+        "ham",
+        "cheese",
+        "egg"
+      ],
+      "desc": "A croque monsieur wearing an egg hat.",
+      "how": "waffle(mix(chop(bake(mix(flour,water,yeast))),ham,cheese,fry(egg)))"
+    },
+    {
+      "id": "cuban",
+      "name": "Cuban Sandwich",
+      "arch": [
+        "pressedSandwich"
+      ],
+      "need": [
+        "ham",
+        "arch:pickled"
+      ],
+      "desc": "Pressed ham, cheese and pickles.",
+      "how": "waffle(mix(chop(bake(mix(flour,water,yeast))),ham,cheese,marinate(cucumber,vinegar,salt)))"
+    },
+    {
+      "id": "croque_monsieur",
+      "name": "Croque Monsieur",
+      "arch": [
+        "pressedSandwich"
+      ],
+      "need": [
+        "ham",
+        "cheese"
+      ],
+      "desc": "A toasty French ham and cheese sandwich.",
+      "how": "waffle(mix(chop(bake(mix(flour,water,yeast))),ham,cheese))"
+    },
+    {
+      "id": "panini",
+      "name": "Caprese Panini",
+      "arch": [
+        "pressedSandwich"
+      ],
+      "need": [
+        "mozzarella",
+        "tomato"
+      ],
+      "desc": "Pressed with melty mozzarella and tomato.",
+      "how": "waffle(mix(chop(bake(mix(flour,water,yeast))),mozzarella,tomato))"
+    },
+    {
+      "id": "reuben",
+      "name": "Reuben",
+      "arch": [
+        "sandwich",
+        "pressedSandwich"
+      ],
+      "need": [
+        "beef",
+        "arch:fermented"
+      ],
+      "desc": "Beef, cheese and sauerkraut on rye.",
+      "how": "mix(chop(bake(mix(flour,water,yeast))),beef,cheese,age(cabbage,salt))"
+    },
+    {
+      "id": "cheese_toastie",
+      "name": "Cheese Toastie",
+      "arch": [
+        "pressedSandwich"
+      ],
+      "need": [
+        "cheese"
+      ],
+      "desc": "Crispy outside, molten inside.",
+      "how": "waffle(mix(chop(bake(mix(flour,water,yeast))),cheese))"
+    },
+    {
+      "id": "club_sandwich",
+      "name": "Club Sandwich",
+      "arch": [
+        "sandwich",
+        "onToast"
+      ],
+      "need": [
+        "chicken",
+        "bacon"
+      ],
+      "desc": "A tall, proud triple-decker.",
+      "how": "mix(chop(bake(mix(flour,water,yeast))),fry(chicken),fry(bacon),lettuce)"
+    },
+    {
+      "id": "banh_mi",
+      "name": "Bánh Mì",
+      "arch": [
+        "sandwich"
+      ],
+      "need": [
+        "arch:pickled",
+        "carrot"
+      ],
+      "desc": "A crusty roll with pickles and herbs.",
+      "how": "mix(chop(bake(mix(flour,water,yeast))),ham,marinate(carrot,vinegar,salt),herbs)"
+    },
+    {
+      "id": "pbj",
+      "name": "PB&J Sandwich",
+      "arch": [
+        "sandwich"
+      ],
+      "need": [
+        "arch:nutButter",
+        "arch:jam"
+      ],
+      "desc": "Peanut butter and jelly, best friends forever.",
+      "how": "mix(chop(bake(mix(flour,water,yeast))),grind(nuts),boil(strawberry,sugar))"
+    },
+    {
+      "id": "ham_cheese",
+      "name": "Ham & Cheese Sandwich",
+      "arch": [
+        "sandwich"
+      ],
+      "need": [
+        "ham",
+        "cheese"
+      ],
+      "desc": "A lunchbox hero.",
+      "how": "mix(chop(bake(mix(flour,water,yeast))),ham,cheese)"
+    },
+    {
+      "id": "fish_finger_sandwich",
+      "name": "Fish Finger Sandwich",
+      "arch": [
+        "sandwich"
+      ],
+      "need": [
+        "fish",
+        "breadcrumbs"
+      ],
+      "desc": "Crispy fish fingers between soft bread.",
+      "how": "mix(chop(bake(mix(flour,water,yeast))),fry(fish,breadcrumbs))"
+    },
+    {
+      "id": "chip_butty",
+      "name": "Chip Butty",
+      "arch": [
+        "sandwich"
+      ],
+      "need": [
+        "arch:fries"
+      ],
+      "desc": "A chip sandwich. Gloriously silly.",
+      "how": "mix(chop(bake(mix(flour,water,yeast))),fry(chop(potato)))"
+    },
+    {
+      "id": "cucumber_sandwich",
+      "name": "Cucumber Sandwiches",
+      "arch": [
+        "sandwich"
+      ],
+      "need": [
+        "cucumber"
+      ],
+      "desc": "Dainty, crisp and very proper.",
+      "how": "mix(chop(bake(mix(flour,water,yeast))),cucumber,butter)"
+    },
+    {
+      "id": "bacon_sandwich",
+      "name": "Bacon Sandwich",
+      "arch": [
+        "sandwich"
+      ],
+      "need": [
+        "bacon"
+      ],
+      "not": [
+        "tomato"
+      ],
+      "desc": "Simple, salty and very satisfying.",
+      "how": "mix(chop(bake(mix(flour,water,yeast))),fry(bacon))"
+    },
+    {
+      "id": "beans_toast",
+      "name": "Beans on Toast",
+      "arch": [
+        "onToast"
+      ],
+      "need": [
+        "beans"
+      ],
+      "desc": "A cosy, saucy classic.",
+      "how": "mix(fry(chop(bake(mix(flour,water,yeast)))),boil(beans,tomato))"
+    },
+    {
+      "id": "welsh_rarebit",
+      "name": "Welsh Rarebit",
+      "arch": [
+        "onToast"
+      ],
+      "need": [
+        "cheese",
+        "mustard"
+      ],
+      "desc": "A tangy cheese sauce on toast.",
+      "how": "mix(fry(chop(bake(mix(flour,water,yeast)))),cheese,mustard)"
+    },
+    {
+      "id": "mushrooms_toast",
+      "name": "Mushrooms on Toast",
+      "arch": [
+        "onToast"
+      ],
+      "need": [
+        "mushroom"
+      ],
+      "desc": "Buttery mushrooms on crunchy toast.",
+      "how": "mix(fry(chop(bake(mix(flour,water,yeast)))),fry(mushroom,butter))"
+    },
+    {
+      "id": "eggs_toast",
+      "name": "Scrambled Eggs on Toast",
+      "arch": [
+        "onToast"
+      ],
+      "need": [
+        "arch:scrambled"
+      ],
+      "desc": "Fluffy eggs on golden toast.",
+      "how": "mix(fry(chop(bake(mix(flour,water,yeast)))),wok(egg,butter))"
+    },
+    {
+      "id": "lox_toast",
+      "name": "Salmon & Cream Cheese Toast",
+      "arch": [
+        "onToast"
+      ],
+      "need": [
+        "fish",
+        "cream_cheese"
+      ],
+      "desc": "Smoky fish and cool cream cheese.",
+      "how": "mix(fry(chop(bake(mix(flour,water,yeast)))),fish,cream_cheese)"
+    },
+    {
+      "id": "cinnamon_toast",
+      "name": "Cinnamon Toast",
+      "arch": [
+        "onToast"
+      ],
+      "need": [
+        "cinnamon",
+        [
+          "sugar",
+          "honey"
+        ]
+      ],
+      "desc": "Sweet, spicy and crunchy.",
+      "how": "mix(fry(chop(bake(mix(flour,water,yeast)))),cinnamon,sugar)"
+    },
+    {
+      "id": "denver_omelette",
+      "name": "Denver Omelette",
+      "arch": [
+        "flavOmelette"
+      ],
+      "need": [
+        "ham",
+        "bell_pepper"
+      ],
+      "desc": "A diner omelette with ham and peppers.",
+      "how": "fry(mix(egg,ham,bell_pepper))"
+    },
+    {
+      "id": "mushroom_omelette",
+      "name": "Mushroom Omelette",
+      "arch": [
+        "flavOmelette"
+      ],
+      "need": [
+        "mushroom"
+      ],
+      "desc": "Fluffy egg folded over mushrooms.",
+      "how": "fry(mix(egg,mushroom))"
+    },
+    {
+      "id": "herb_omelette",
+      "name": "Omelette aux Fines Herbes",
+      "arch": [
+        "flavOmelette"
+      ],
+      "need": [
+        "herbs"
+      ],
+      "desc": "A soft French omelette with fresh herbs.",
+      "how": "fry(mix(egg,herbs))"
+    },
+    {
+      "id": "cheese_souffle",
+      "name": "Cheese Soufflé",
+      "arch": [
+        "frittata"
+      ],
+      "need": [
+        "cheese",
+        "milk"
+      ],
+      "not": [
+        "bacon"
+      ],
+      "desc": "Puffed up, wobbly and proud.",
+      "how": "bake(whisk(egg,cheese,milk))"
+    },
+    {
+      "id": "spinach_frittata",
+      "name": "Spinach Frittata",
+      "arch": [
+        "frittata"
+      ],
+      "need": [
+        "spinach"
+      ],
+      "desc": "A thick, golden omelette baked in the oven.",
+      "how": "bake(mix(egg,spinach))"
+    },
+    {
+      "id": "chawanmushi",
+      "name": "Chawanmushi",
+      "arch": [
+        "steamed"
+      ],
+      "need": [
+        "egg",
+        "soy_sauce"
+      ],
+      "desc": "A silky steamed egg custard.",
+      "how": "steam(mix(egg,water,soy_sauce))"
+    },
+    {
+      "id": "banana_pancakes",
+      "name": "Banana Pancakes",
+      "arch": [
+        "flavPancakes"
+      ],
+      "need": [
+        "banana"
+      ],
+      "desc": "Fluffy pancakes with sweet banana.",
+      "how": "fry(mix(flour,egg,milk,banana))"
+    },
+    {
+      "id": "belgian_waffles",
+      "name": "Belgian Waffles",
+      "arch": [
+        "waffles",
+        "flavWaffles"
+      ],
+      "not": [
+        "blueberry",
+        "chocolate",
+        "banana"
+      ],
+      "desc": "Deep pockets, crispy edges.",
+      "how": "waffle(mix(flour,egg,milk))"
+    },
+    {
+      "id": "blueberry_waffles",
+      "name": "Blueberry Waffles",
+      "arch": [
+        "flavWaffles"
+      ],
+      "need": [
+        "blueberry"
+      ],
+      "desc": "Waffles studded with juicy berries.",
+      "how": "waffle(mix(flour,egg,milk,blueberry))"
+    },
+    {
+      "id": "choc_waffles",
+      "name": "Chocolate Waffles",
+      "arch": [
+        "flavWaffles"
+      ],
+      "need": [
+        "chocolate"
+      ],
+      "desc": "Chocolate in every crispy square.",
+      "how": "waffle(mix(flour,egg,milk,chocolate))"
+    },
+    {
+      "id": "hash_waffle",
+      "name": "Hash Brown Waffle",
+      "arch": [
+        "potatoWaffle"
+      ],
+      "need": [
+        "potato"
+      ],
+      "desc": "Grated potato pressed crisp and golden.",
+      "how": "waffle(grate(potato))"
+    },
+    {
+      "id": "stroopwafel",
+      "name": "Stroopwafel",
+      "arch": [
+        "waffleCookies"
+      ],
+      "need": [
+        [
+          "honey",
+          "maple_syrup"
+        ]
+      ],
+      "desc": "A thin waffle cookie with a sticky heart.",
+      "how": "waffle(mix(flour,butter,honey))"
+    },
+    {
+      "id": "apple_porridge",
+      "name": "Apple & Cinnamon Porridge",
+      "arch": [
+        "porridge"
+      ],
+      "need": [
+        "apple",
+        "cinnamon"
+      ],
+      "desc": "Warm oats with apple and spice.",
+      "how": "boil(oats,milk,apple,cinnamon)"
+    },
+    {
+      "id": "porridge_honey",
+      "name": "Porridge with Honey",
+      "arch": [
+        "porridge"
+      ],
+      "need": [
+        "honey"
+      ],
+      "desc": "A warm bowl of oats with golden honey.",
+      "how": "boil(oats,milk,honey)"
+    },
+    {
+      "id": "parfait",
+      "name": "Yogurt Parfait",
+      "arch": [
+        "parfait"
+      ],
+      "need": [
+        "arch:granola"
+      ],
+      "desc": "Layers of yogurt, fruit and crunch.",
+      "how": "mix(yogurt,strawberry,bake(oats,honey))"
+    },
+    {
+      "id": "rosti",
+      "name": "Rösti",
+      "arch": [
+        "hashBrowns"
+      ],
+      "need": [
+        "potato"
+      ],
+      "desc": "A crispy Swiss potato cake.",
+      "how": "fry(grate(potato))"
+    },
+    {
+      "id": "latkes",
+      "name": "Latkes",
+      "arch": [
+        "sauteed",
+        "fried"
+      ],
+      "need": [
+        "potato",
+        "onion",
+        "arch:grated"
+      ],
+      "desc": "Crispy potato pancakes, golden and lacy.",
+      "how": "fry(grate(potato),onion)"
+    },
+    {
+      "id": "focaccia",
+      "name": "Focaccia",
+      "arch": [
+        "flavBread"
+      ],
+      "need": [
+        "herbs"
+      ],
+      "desc": "A dimpled, olive-oily Italian bread.",
+      "how": "bake(mix(flour,yeast,herbs,oil))"
+    },
+    {
+      "id": "sourdough",
+      "name": "Sourdough Loaf",
+      "arch": [
+        "bread",
+        "flavBread"
+      ],
+      "need": [
+        "arch:sourdough"
+      ],
+      "desc": "Tangy, chewy and full of holes.",
+      "how": "bake(age(mix(flour,water,yeast)))"
+    },
+    {
+      "id": "brioche",
+      "name": "Brioche",
+      "arch": [
+        "bread",
+        "flavBread"
+      ],
+      "need": [
+        "egg",
+        "butter",
+        "yeast"
+      ],
+      "desc": "Soft, rich and golden.",
+      "how": "bake(mix(flour,yeast,egg,butter))"
+    },
+    {
+      "id": "bao",
+      "name": "Bao Buns",
+      "arch": [
+        "buns"
+      ],
+      "only": [
+        "flour",
+        "water",
+        "yeast",
+        "sugar",
+        "salt",
+        "milk"
+      ],
+      "desc": "Pillowy white steamed buns.",
+      "how": "steam(mix(flour,water,yeast))"
+    },
+    {
+      "id": "tamales",
+      "name": "Tamales",
+      "arch": [
+        "flavBuns"
+      ],
+      "need": [
+        "corn"
+      ],
+      "desc": "Steamed corn dough parcels.",
+      "how": "steam(mix(flour,water,yeast),corn,chicken)"
+    },
+    {
+      "id": "dinner_rolls",
+      "name": "Dinner Rolls",
+      "arch": [
+        "rolls"
+      ],
+      "desc": "Soft little rolls, warm from the oven.",
+      "how": "bake(shape(mix(flour,water,yeast)))"
+    },
+    {
+      "id": "breadsticks",
+      "name": "Grissini",
+      "arch": [
+        "breadsticks"
+      ],
+      "desc": "Long, thin, crunchy Italian breadsticks.",
+      "how": "bake(pipe(mix(flour,water,yeast)))"
+    },
+    {
+      "id": "croissants",
+      "name": "Croissants",
+      "arch": [
+        "biscuits"
+      ],
+      "need": [
+        "arch:pieCrust"
+      ],
+      "desc": "Flaky, buttery crescents.",
+      "how": "bake(roll(mix(flour,butter)))"
+    },
+    {
+      "id": "scones",
+      "name": "Scones",
+      "arch": [
+        "biscuits"
+      ],
+      "desc": "Crumbly and perfect with jam and cream.",
+      "how": "bake(mix(flour,butter))"
+    },
+    {
+      "id": "shortbread",
+      "name": "Shortbread",
+      "arch": [
+        "cookies"
+      ],
+      "only": [
+        "flour",
+        "butter",
+        "sugar",
+        "egg",
+        "salt"
+      ],
+      "desc": "Buttery, crumbly Scottish biscuits.",
+      "how": "bake(mix(flour,butter,sugar,egg))"
+    },
+    {
+      "id": "scallion_pancakes",
+      "name": "Scallion Pancakes",
+      "arch": [
+        "flavFlatbread"
+      ],
+      "need": [
+        "spring_onion"
+      ],
+      "season": "spring",
+      "desc": "Flaky, chewy flatbreads with green onion.",
+      "how": "fry(mix(flour,water,spring_onion))"
+    },
+    {
+      "id": "polenta",
+      "name": "Polenta",
+      "arch": [
+        "boiled"
+      ],
+      "need": [
+        "corn",
+        "arch:flourOf"
+      ],
+      "desc": "Soft, golden cornmeal porridge.",
+      "how": "boil(grind(corn),water)"
+    },
+    {
+      "id": "hawaiian_pizza",
+      "name": "Hawaiian Pizza",
+      "arch": [
+        "pizza"
+      ],
+      "need": [
+        "ham",
+        "pineapple"
+      ],
+      "desc": "Ham and pineapple. People argue about this one.",
+      "how": "bake(mix(flour,water),boil(tomato),ham,pineapple,cheese)"
+    },
+    {
+      "id": "capricciosa",
+      "name": "Pizza Capricciosa",
+      "arch": [
+        "pizza"
+      ],
+      "need": [
+        "ham",
+        "mushroom"
+      ],
+      "desc": "A “capricious” pizza with a bit of everything.",
+      "how": "bake(mix(flour,water),boil(tomato),ham,mushroom)"
+    },
+    {
+      "id": "pepperoni_pizza",
+      "name": "Pepperoni Pizza",
+      "arch": [
+        "pizza"
+      ],
+      "need": [
+        "sausage"
+      ],
+      "desc": "Little spicy discs on melty cheese.",
+      "how": "bake(mix(flour,water),boil(tomato),sausage,cheese)"
+    },
+    {
+      "id": "beef_wellington",
+      "name": "Beef Wellington",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "beef",
+        "mushroom"
+      ],
+      "desc": "A fancy beef parcel wrapped in pastry.",
+      "how": "bake(mix(flour,butter),beef,mushroom)"
+    },
+    {
+      "id": "cornish_pasty",
+      "name": "Cornish Pasty",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "beef",
+        "potato"
+      ],
+      "desc": "A crimped pastry pocket for miners’ lunches.",
+      "how": "bake(mix(flour,butter),beef,potato,onion)"
+    },
+    {
+      "id": "empanadas",
+      "name": "Empanadas",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "beef",
+        "onion"
+      ],
+      "desc": "Little golden pastry half-moons.",
+      "how": "bake(mix(flour,butter),beef,onion)"
+    },
+    {
+      "id": "samosas",
+      "name": "Samosas",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "potato",
+        "curry_powder"
+      ],
+      "desc": "Crispy triangles of spiced potato.",
+      "how": "bake(mix(flour,butter),mash(boil(potato,water)),curry_powder)"
+    },
+    {
+      "id": "pot_pie",
+      "name": "Chicken Pot Pie",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "chicken"
+      ],
+      "desc": "A creamy chicken stew under a pastry lid.",
+      "how": "bake(mix(flour,butter),chicken,carrot)"
+    },
+    {
+      "id": "spanakopita",
+      "name": "Spanakopita",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "spinach",
+        "cheese"
+      ],
+      "not": [
+        "egg"
+      ],
+      "desc": "Crisp Greek pastry with spinach and cheese.",
+      "how": "bake(mix(flour,butter),spinach,cheese)"
+    },
+    {
+      "id": "leek_tart",
+      "name": "Leek Tart",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "leek"
+      ],
+      "season": "winter",
+      "desc": "Soft, sweet leeks in a buttery case.",
+      "how": "bake(mix(flour,butter),leek,cheese)"
+    },
+    {
+      "id": "cheesecake",
+      "name": "Cheesecake",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "cream_cheese"
+      ],
+      "desc": "Creamy, tangy and dense.",
+      "how": "bake(mix(flour,butter),cream_cheese,egg)"
+    },
+    {
+      "id": "tarte_tatin",
+      "name": "Tarte Tatin",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "apple",
+        "arch:caramel"
+      ],
+      "desc": "An upside-down caramel apple tart.",
+      "how": "bake(mix(flour,butter),apple,boil(sugar,butter))"
+    },
+    {
+      "id": "banoffee",
+      "name": "Banoffee Pie",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "banana",
+        "arch:caramel"
+      ],
+      "desc": "Banana, toffee and cream. Dreamy.",
+      "how": "bake(mix(flour,butter),banana,boil(sugar,butter))"
+    },
+    {
+      "id": "bakewell",
+      "name": "Bakewell Tart",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "nuts",
+        "arch:jam"
+      ],
+      "desc": "Almond sponge over a layer of jam.",
+      "how": "bake(mix(flour,butter),boil(strawberry,sugar),nuts)"
+    },
+    {
+      "id": "pecan_pie",
+      "name": "Pecan Pie",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "nuts",
+        "maple_syrup"
+      ],
+      "desc": "Gooey, nutty and very sweet.",
+      "how": "bake(mix(flour,butter),nuts,maple_syrup)"
+    },
+    {
+      "id": "baklava",
+      "name": "Baklava",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "nuts",
+        "honey"
+      ],
+      "desc": "Layers of pastry, nuts and honey.",
+      "how": "bake(mix(flour,butter),nuts,honey)"
+    },
+    {
+      "id": "custard_tart",
+      "name": "Custard Tart",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "arch:custard"
+      ],
+      "desc": "Wobbly custard in a crisp pastry case.",
+      "how": "bake(mix(flour,butter),boil(egg,milk,sugar))"
+    },
+    {
+      "id": "choc_tart",
+      "name": "Chocolate Tart",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "chocolate"
+      ],
+      "desc": "Dark, glossy and very grown-up.",
+      "how": "bake(mix(flour,butter),chocolate,egg)"
+    },
+    {
+      "id": "key_lime_pie",
+      "name": "Key Lime Pie",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "lime"
+      ],
+      "desc": "Tangy, creamy and pale green.",
+      "how": "bake(mix(flour,butter),lime,sugar)"
+    },
+    {
+      "id": "blueberry_pie",
+      "name": "Blueberry Pie",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "blueberry"
+      ],
+      "desc": "Purple, jammy and bursting.",
+      "how": "bake(mix(flour,butter),blueberry)"
+    },
+    {
+      "id": "strawberry_tart",
+      "name": "Strawberry Tart",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "strawberry"
+      ],
+      "not": [
+        "rhubarb"
+      ],
+      "desc": "Glossy berries in a crisp case.",
+      "how": "bake(mix(flour,butter),strawberry,cream)"
+    },
+    {
+      "id": "peach_pie",
+      "name": "Peach Pie",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "peach"
+      ],
+      "desc": "Sunny, juicy and golden.",
+      "how": "bake(mix(flour,butter),peach)"
+    },
+    {
+      "id": "strawberry_rhubarb_pie",
+      "name": "Strawberry Rhubarb Pie",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "strawberry",
+        "rhubarb"
+      ],
+      "season": "spring",
+      "desc": "Sweet and tart, the best of friends.",
+      "how": "bake(mix(flour,butter),strawberry,rhubarb)"
+    },
+    {
+      "id": "pear_tart",
+      "name": "Pear Tart",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "pear"
+      ],
+      "season": "autumn",
+      "desc": "Fanned pears in a buttery tart.",
+      "how": "bake(mix(flour,butter),pear)"
+    },
+    {
+      "id": "fig_tart",
+      "name": "Fig Tart",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "fig"
+      ],
+      "season": "autumn",
+      "desc": "Jammy figs on golden pastry.",
+      "how": "bake(mix(flour,butter),fig,honey)"
+    },
+    {
+      "id": "sweet_potato_pie",
+      "name": "Sweet Potato Pie",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "sweet_potato"
+      ],
+      "season": "autumn",
+      "desc": "Spiced, silky and sweet.",
+      "how": "bake(mix(flour,butter),sweet_potato,cinnamon)"
+    },
+    {
+      "id": "plum_tart",
+      "name": "Plum Tart",
+      "arch": [
+        "pie"
+      ],
+      "need": [
+        "plum"
+      ],
+      "season": "summer",
+      "desc": "Dark, juicy plums in pastry.",
+      "how": "bake(mix(flour,butter),plum)"
+    },
+    {
+      "id": "apple_crumble",
+      "name": "Apple Crumble",
+      "arch": [
+        "baked"
+      ],
+      "need": [
+        "apple",
+        "arch:crumble"
+      ],
+      "desc": "Soft fruit under a buttery crumble.",
+      "how": "bake(apple,mix(flour,butter,sugar))"
+    },
+    {
+      "id": "rhubarb_crumble",
+      "name": "Rhubarb Crumble",
+      "arch": [
+        "baked",
+        "roasted"
+      ],
+      "need": [
+        "rhubarb",
+        "arch:crumble"
+      ],
+      "season": "spring",
+      "desc": "Tart pink rhubarb under a sweet crumble.",
+      "how": "bake(rhubarb,mix(flour,butter,sugar))"
+    },
+    {
+      "id": "peach_cobbler",
+      "name": "Peach Cobbler",
+      "arch": [
+        "baked"
+      ],
+      "need": [
+        "peach",
+        "arch:crumble"
+      ],
+      "desc": "Warm peaches under a biscuity blanket.",
+      "how": "bake(peach,mix(flour,butter,sugar))"
+    },
+    {
+      "id": "sticky_toffee",
+      "name": "Sticky Toffee Pudding",
+      "arch": [
+        "cake",
+        "flavCake"
+      ],
+      "need": [
+        "arch:caramel"
+      ],
+      "desc": "A soft sponge drowning in toffee sauce.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter),boil(sugar,butter))"
+    },
+    {
+      "id": "lemon_drizzle",
+      "name": "Lemon Drizzle Cake",
+      "arch": [
+        "flavCake"
+      ],
+      "need": [
+        "lemon"
+      ],
+      "desc": "Zingy, sticky and sunny.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter,lemon))"
+    },
+    {
+      "id": "coffee_cake",
+      "name": "Coffee & Walnut Cake",
+      "arch": [
+        "flavCake"
+      ],
+      "need": [
+        "coffee"
+      ],
+      "desc": "A grown-up cake for afternoon tea.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter,coffee))"
+    },
+    {
+      "id": "gingerbread_cake",
+      "name": "Gingerbread",
+      "arch": [
+        "cake",
+        "flavCake"
+      ],
+      "need": [
+        "ginger"
+      ],
+      "desc": "Dark, sticky and full of spice.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter,ginger))"
+    },
+    {
+      "id": "pineapple_cake",
+      "name": "Pineapple Upside-Down Cake",
+      "arch": [
+        "flavCake"
+      ],
+      "need": [
+        "pineapple"
+      ],
+      "desc": "Caramelised fruit on top of a soft sponge.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter,pineapple))"
+    },
+    {
+      "id": "orange_cake",
+      "name": "Orange Cake",
+      "arch": [
+        "flavCake"
+      ],
+      "need": [
+        "orange"
+      ],
+      "desc": "Bright, moist and fragrant.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter,orange))"
+    },
+    {
+      "id": "apple_cake",
+      "name": "Apple Cake",
+      "arch": [
+        "flavCake"
+      ],
+      "need": [
+        "apple"
+      ],
+      "desc": "Soft sponge with tender apple pieces.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter,apple))"
+    },
+    {
+      "id": "clementine_cake",
+      "name": "Clementine Cake",
+      "arch": [
+        "flavCake"
+      ],
+      "need": [
+        "clementine"
+      ],
+      "season": "winter",
+      "desc": "A sunny cake for dark winter days.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter,clementine))"
+    },
+    {
+      "id": "pumpkin_bread",
+      "name": "Pumpkin Bread",
+      "arch": [
+        "flavCake",
+        "flavBread"
+      ],
+      "need": [
+        "pumpkin"
+      ],
+      "season": "autumn",
+      "desc": "Moist, spiced and very autumnal.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter,pumpkin))"
+    },
+    {
+      "id": "zucchini_bread",
+      "name": "Zucchini Bread",
+      "arch": [
+        "flavCake",
+        "flavBread"
+      ],
+      "need": [
+        "zucchini"
+      ],
+      "season": "summer",
+      "desc": "A sneaky vegetable cake that tastes amazing.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter,zucchini))"
+    },
+    {
+      "id": "plum_cake",
+      "name": "Plum Cake",
+      "arch": [
+        "flavCake"
+      ],
+      "need": [
+        "plum"
+      ],
+      "season": "summer",
+      "desc": "Purple plums sunk into soft sponge.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter,plum))"
+    },
+    {
+      "id": "clafoutis",
+      "name": "Cherry Clafoutis",
+      "arch": [
+        "muffins",
+        "flavCake",
+        "cake"
+      ],
+      "need": [
+        "cherry"
+      ],
+      "season": "summer",
+      "desc": "A custardy French batter cake with cherries.",
+      "how": "bake(mix(flour,egg,milk,cherry))"
+    },
+    {
+      "id": "blueberry_muffins",
+      "name": "Blueberry Muffins",
+      "arch": [
+        "muffins",
+        "flavCake"
+      ],
+      "need": [
+        "blueberry"
+      ],
+      "desc": "Domed, golden and full of berries.",
+      "how": "bake(mix(flour,egg,milk,blueberry))"
+    },
+    {
+      "id": "toad_hole",
+      "name": "Toad in the Hole",
+      "arch": [
+        "muffins"
+      ],
+      "need": [
+        "sausage"
+      ],
+      "desc": "Sausages peeking out of a puffy batter.",
+      "how": "bake(mix(flour,egg,milk),sausage)"
+    },
+    {
+      "id": "yorkshire",
+      "name": "Yorkshire Puddings",
+      "arch": [
+        "muffins"
+      ],
+      "only": [
+        "flour",
+        "egg",
+        "milk",
+        "salt",
+        "water"
+      ],
+      "desc": "Puffy, crispy cups for gravy.",
+      "how": "bake(mix(flour,egg,milk))"
+    },
+    {
+      "id": "tres_leches",
+      "name": "Tres Leches Cake",
+      "arch": [
+        "mix",
+        "with"
+      ],
+      "need": [
+        "arch:cake",
+        "milk",
+        "cream"
+      ],
+      "not": [
+        "arch:custard",
+        "arch:jam"
+      ],
+      "desc": "A sponge soaked in three kinds of milk.",
+      "how": "mix(bake(mix(flour,egg,milk,sugar,butter)),milk,cream)"
+    },
+    {
+      "id": "tiramisu",
+      "name": "Tiramisu",
+      "arch": [
+        "mix"
+      ],
+      "need": [
+        "arch:ladyfingers",
+        "coffee"
+      ],
+      "desc": "Coffee-soaked sponge and cream. “Pick me up!”",
+      "how": "mix(bake(pipe(mix(flour,egg,milk,sugar,butter))),boil(coffee,water),cream_cheese)"
+    },
+    {
+      "id": "trifle",
+      "name": "Trifle",
+      "arch": [
+        "mix"
+      ],
+      "need": [
+        "arch:custard",
+        "arch:cake"
+      ],
+      "desc": "Layers of sponge, jam, custard and cream.",
+      "how": "mix(bake(mix(flour,egg,milk,sugar,butter)),boil(egg,milk,sugar),boil(strawberry,sugar),whisk(cream,sugar))"
+    },
+    {
+      "id": "eton_mess",
+      "name": "Eton Mess",
+      "arch": [
+        "mix"
+      ],
+      "need": [
+        "arch:meringues",
+        "strawberry"
+      ],
+      "desc": "Smashed meringue, cream and berries.",
+      "how": "mix(bake(pipe(whisk(egg,sugar))),whisk(cream,sugar),strawberry)"
+    },
+    {
+      "id": "macarons",
+      "name": "Macarons",
+      "arch": [
+        "macarons"
+      ],
+      "desc": "Dainty almond biscuits with frilly feet.",
+      "how": "bake(pipe(whisk(egg,sugar)),grind(nuts))"
+    },
+    {
+      "id": "meringue_kisses",
+      "name": "Meringue Kisses",
+      "arch": [
+        "meringues"
+      ],
+      "desc": "Light, crisp little clouds.",
+      "how": "bake(pipe(whisk(egg,sugar)))"
+    },
+    {
+      "id": "pavlova",
+      "name": "Pavlova",
+      "arch": [
+        "frosted",
+        "garnished"
+      ],
+      "need": [
+        "arch:meringueNest",
+        "cream"
+      ],
+      "desc": "A crisp meringue nest piled with cream.",
+      "how": "pipe(bake(whisk(egg,sugar)),whisk(cream,sugar))"
+    },
+    {
+      "id": "lemon_meringue",
+      "name": "Lemon Meringue Pie",
+      "arch": [
+        "frosted"
+      ],
+      "need": [
+        "lemon",
+        "arch:meringueMix"
+      ],
+      "desc": "Tangy lemon under a cloud of meringue.",
+      "how": "pipe(bake(mix(flour,butter),boil(egg,milk,sugar,lemon)),whisk(egg,sugar))"
+    },
+    {
+      "id": "profiteroles",
+      "name": "Profiteroles",
+      "arch": [
+        "filled"
+      ],
+      "need": [
+        "arch:choux",
+        "chocolate"
+      ],
+      "desc": "Cream puffs drizzled with chocolate.",
+      "how": "pipe(bake(pipe(mix(flour,butter))),whisk(cream,sugar),boil(chocolate))"
+    },
+    {
+      "id": "eclairs",
+      "name": "Éclairs",
+      "arch": [
+        "filled"
+      ],
+      "need": [
+        "arch:choux",
+        "arch:custard"
+      ],
+      "desc": "Long choux buns filled with custard.",
+      "how": "pipe(bake(pipe(mix(flour,butter))),boil(egg,milk,sugar))"
+    },
+    {
+      "id": "cream_puffs",
+      "name": "Cream Puffs",
+      "arch": [
+        "filled"
+      ],
+      "need": [
+        "arch:choux",
+        "cream"
+      ],
+      "desc": "Hollow golden puffs full of cream.",
+      "how": "pipe(bake(pipe(mix(flour,butter))),whisk(cream,sugar))"
+    },
+    {
+      "id": "jelly_doughnuts",
+      "name": "Jam Doughnuts",
+      "arch": [
+        "filled"
+      ],
+      "need": [
+        "arch:doughnuts",
+        "arch:jam"
+      ],
+      "desc": "A sugary doughnut with a jammy surprise.",
+      "how": "pipe(fry(mix(flour,butter,sugar,egg)),boil(strawberry,sugar))"
+    },
+    {
+      "id": "custard_doughnuts",
+      "name": "Bomboloni",
+      "arch": [
+        "filled"
+      ],
+      "need": [
+        "arch:doughnuts",
+        "arch:custard"
+      ],
+      "desc": "Italian doughnuts filled with custard.",
+      "how": "pipe(fry(mix(flour,butter,sugar,egg)),boil(egg,milk,sugar))"
+    },
+    {
+      "id": "deviled_eggs",
+      "name": "Deviled Eggs",
+      "arch": [
+        "filled"
+      ],
+      "need": [
+        "egg",
+        "arch:mayo"
+      ],
+      "desc": "Party eggs with a creamy piped filling.",
+      "how": "pipe(peel(boil(egg,water)),whisk(egg,oil))"
+    },
+    {
+      "id": "cupcakes",
+      "name": "Cupcakes",
+      "arch": [
+        "frosted"
+      ],
+      "need": [
+        "arch:muffins"
+      ],
+      "desc": "Little cakes with a swirl on top.",
+      "how": "pipe(bake(mix(flour,egg,milk)),whisk(cream,sugar))"
+    },
+    {
+      "id": "black_forest",
+      "name": "Black Forest Cake",
+      "arch": [
+        "frosted"
+      ],
+      "need": [
+        "chocolate",
+        "cherry"
+      ],
+      "season": "summer",
+      "desc": "Chocolate, cream and cherries.",
+      "how": "pipe(bake(mix(flour,egg,milk,sugar,butter,chocolate)),whisk(cream,sugar),boil(cherry,sugar))"
+    },
+    {
+      "id": "sachertorte",
+      "name": "Sachertorte",
+      "arch": [
+        "frosted"
+      ],
+      "need": [
+        "chocolate",
+        "apricot"
+      ],
+      "season": "summer",
+      "desc": "A dark chocolate cake with apricot jam.",
+      "how": "pipe(bake(mix(flour,egg,milk,sugar,butter,chocolate)),boil(apricot,sugar))"
+    },
+    {
+      "id": "victoria_sponge",
+      "name": "Victoria Sponge",
+      "arch": [
+        "frosted"
+      ],
+      "need": [
+        "arch:cake",
+        "arch:jam",
+        "cream"
+      ],
+      "desc": "Jam and cream sandwiched in a soft sponge.",
+      "how": "pipe(bake(mix(flour,egg,milk,sugar,butter)),boil(strawberry,sugar),whisk(cream,sugar))"
+    },
+    {
+      "id": "strawberry_shortcake",
+      "name": "Strawberry Shortcake",
+      "arch": [
+        "frosted"
+      ],
+      "need": [
+        "arch:biscuits",
+        "strawberry"
+      ],
+      "desc": "Crumbly biscuit, cream and strawberries.",
+      "how": "pipe(bake(mix(flour,butter)),whisk(cream,sugar),mash(strawberry))"
+    },
+    {
+      "id": "cannoli",
+      "name": "Cannoli",
+      "arch": [
+        "frosted",
+        "filled"
+      ],
+      "need": [
+        "arch:biscuits",
+        "cream_cheese"
+      ],
+      "desc": "Crisp shells piped with sweet cheese.",
+      "how": "pipe(bake(mix(flour,butter)),cream_cheese)"
+    },
+    {
+      "id": "carrot_cupcake",
+      "name": "Carrot Cake with Frosting",
+      "arch": [
+        "frosted"
+      ],
+      "need": [
+        "carrot",
+        "cream_cheese"
+      ],
+      "desc": "Spiced carrot cake with tangy frosting.",
+      "how": "pipe(bake(mix(flour,egg,milk,sugar,butter,carrot)),cream_cheese)"
+    },
+    {
+      "id": "duchess_potatoes",
+      "name": "Duchess Potatoes",
+      "arch": [
+        "duchessBake"
+      ],
+      "need": [
+        "potato"
+      ],
+      "desc": "Crispy swirls of piped mash.",
+      "how": "bake(pipe(mash(boil(potato,water))))"
+    },
+    {
+      "id": "churros",
+      "name": "Churros",
+      "arch": [
+        "churros"
+      ],
+      "desc": "Crispy ridged sticks of fried dough.",
+      "how": "fry(pipe(mix(flour,water)))"
+    },
+    {
+      "id": "ladyfingers",
+      "name": "Ladyfingers",
+      "arch": [
+        "ladyfingers"
+      ],
+      "desc": "Light sponge fingers, perfect for dunking.",
+      "how": "bake(pipe(mix(flour,egg,milk,sugar,butter)))"
+    },
+    {
+      "id": "butter_cookies",
+      "name": "Danish Butter Cookies",
+      "arch": [
+        "butterCookies"
+      ],
+      "desc": "Swirly butter cookies from a blue tin.",
+      "how": "bake(pipe(mix(flour,butter,sugar,egg)))"
+    },
+    {
+      "id": "choux_buns",
+      "name": "Choux Buns",
+      "arch": [
+        "choux"
+      ],
+      "desc": "Puffed-up golden buns, hollow inside.",
+      "how": "bake(pipe(mix(flour,butter)))"
+    },
+    {
+      "id": "cinnamon_rolls",
+      "name": "Cinnamon Rolls",
+      "arch": [
+        "swirlBuns"
+      ],
+      "need": [
+        "cinnamon"
+      ],
+      "desc": "Sticky spirals of cinnamon sugar.",
+      "how": "bake(rollup(mix(flour,water,yeast),cinnamon,sugar,butter))"
+    },
+    {
+      "id": "babka",
+      "name": "Babka",
+      "arch": [
+        "swirlBuns"
+      ],
+      "need": [
+        "chocolate"
+      ],
+      "desc": "A twisted loaf with chocolate swirls.",
+      "how": "bake(rollup(mix(flour,water,yeast),chocolate,butter))"
+    },
+    {
+      "id": "apple_strudel",
+      "name": "Apple Strudel",
+      "arch": [
+        "strudel"
+      ],
+      "need": [
+        "apple"
+      ],
+      "desc": "Flaky pastry rolled around spiced apples.",
+      "how": "bake(rollup(mix(flour,butter),apple,sugar,cinnamon))"
+    },
+    {
+      "id": "pain_au_chocolat",
+      "name": "Pain au Chocolat",
+      "arch": [
+        "strudel"
+      ],
+      "need": [
+        "chocolate"
+      ],
+      "desc": "Flaky pastry with chocolate inside.",
+      "how": "bake(rollup(mix(flour,butter),chocolate))"
+    },
+    {
+      "id": "sausage_rolls",
+      "name": "Sausage Rolls",
+      "arch": [
+        "strudel"
+      ],
+      "need": [
+        "sausage"
+      ],
+      "desc": "Golden pastry wrapped around sausage.",
+      "how": "bake(rollup(mix(flour,butter),sausage))"
+    },
+    {
+      "id": "pinwheels",
+      "name": "Spinach Pinwheels",
+      "arch": [
+        "strudel"
+      ],
+      "need": [
+        "spinach"
+      ],
+      "desc": "Pretty spirals of pastry and greens.",
+      "how": "bake(rollup(mix(flour,butter),spinach,cheese))"
+    },
+    {
+      "id": "buche_de_noel",
+      "name": "Bûche de Noël",
+      "arch": [
+        "swissRoll"
+      ],
+      "need": [
+        "chocolate"
+      ],
+      "desc": "A chocolate log for the holidays.",
+      "how": "rollup(bake(mix(flour,egg,milk,sugar,butter,chocolate)),whisk(cream,sugar))"
+    },
+    {
+      "id": "pumpkin_roll",
+      "name": "Pumpkin Roll",
+      "arch": [
+        "swissRoll"
+      ],
+      "need": [
+        "pumpkin"
+      ],
+      "season": "autumn",
+      "desc": "A spiced pumpkin sponge rolled with cream cheese.",
+      "how": "rollup(bake(mix(flour,egg,milk,sugar,butter,pumpkin)),cream_cheese)"
+    },
+    {
+      "id": "swiss_roll",
+      "name": "Swiss Roll",
+      "arch": [
+        "swissRoll"
+      ],
+      "need": [
+        [
+          "arch:jam",
+          "cream"
+        ]
+      ],
+      "desc": "A spiral of sponge and jam.",
+      "how": "rollup(bake(mix(flour,egg,milk,sugar,butter)),boil(strawberry,sugar))"
+    },
+    {
+      "id": "gingerbread_men",
+      "name": "Gingerbread Men",
+      "arch": [
+        "cookies",
+        "flavCookies"
+      ],
+      "need": [
+        "ginger",
+        "arch:rolledCookies"
+      ],
+      "desc": "Run, run, as fast as you can!",
+      "how": "bake(roll(mix(flour,butter,sugar,egg,ginger)))"
+    },
+    {
+      "id": "oatmeal_cookies",
+      "name": "Oatmeal Cookies",
+      "arch": [
+        "flavCookies"
+      ],
+      "need": [
+        "oats"
+      ],
+      "desc": "Chewy, wholesome and comforting.",
+      "how": "bake(mix(flour,butter,sugar,egg,oats))"
+    },
+    {
+      "id": "pb_cookies",
+      "name": "Peanut Butter Cookies",
+      "arch": [
+        "flavCookies"
+      ],
+      "need": [
+        "arch:nutButter"
+      ],
+      "desc": "Nutty cookies with fork marks on top.",
+      "how": "bake(mix(flour,butter,sugar,egg,grind(nuts)))"
+    },
+    {
+      "id": "snickerdoodles",
+      "name": "Snickerdoodles",
+      "arch": [
+        "cookies",
+        "flavCookies"
+      ],
+      "need": [
+        "cinnamon"
+      ],
+      "desc": "Soft cookies rolled in cinnamon sugar.",
+      "how": "bake(mix(flour,butter,sugar,egg,cinnamon))"
+    },
+    {
+      "id": "thumbprints",
+      "name": "Raspberry Thumbprints",
+      "arch": [
+        "flavCookies"
+      ],
+      "need": [
+        "raspberry"
+      ],
+      "season": "summer",
+      "desc": "Buttery cookies with a jammy dimple.",
+      "how": "bake(mix(flour,butter,sugar,egg,raspberry))"
+    },
+    {
+      "id": "choc_mousse",
+      "name": "Chocolate Mousse",
+      "arch": [
+        "frothy"
+      ],
+      "need": [
+        "chocolate",
+        "cream"
+      ],
+      "desc": "Light, airy and deeply chocolatey.",
+      "how": "whisk(boil(chocolate,cream),cream)"
+    },
+    {
+      "id": "creme_caramel",
+      "name": "Crème Caramel",
+      "arch": [
+        "bakedCustard"
+      ],
+      "need": [
+        "arch:caramel"
+      ],
+      "desc": "A wobbly custard with a caramel cap.",
+      "how": "bake(mix(egg,milk,sugar),boil(sugar,butter))"
+    },
+    {
+      "id": "crema_catalana",
+      "name": "Crema Catalana",
+      "arch": [
+        "bakedCustard"
+      ],
+      "need": [
+        "cinnamon"
+      ],
+      "desc": "A Spanish custard scented with cinnamon.",
+      "how": "bake(mix(egg,milk,sugar),cinnamon)"
+    },
+    {
+      "id": "bread_pudding",
+      "name": "Bread & Butter Pudding",
+      "arch": [
+        "bakedCustard"
+      ],
+      "need": [
+        "arch:slices"
+      ],
+      "desc": "A cosy pudding of custardy bread.",
+      "how": "bake(chop(bake(mix(flour,water,yeast))),mix(egg,milk,sugar))"
+    },
+    {
+      "id": "choc_strawberries",
+      "name": "Chocolate-Dipped Strawberries",
+      "arch": [
+        "mix",
+        "with"
+      ],
+      "need": [
+        "strawberry",
+        "chocolate"
+      ],
+      "desc": "Juicy berries in a chocolate coat.",
+      "how": "mix(strawberry,boil(chocolate))"
+    },
+    {
+      "id": "praline",
+      "name": "Praline",
+      "arch": [
+        "mix",
+        "with",
+        "sugared"
+      ],
+      "need": [
+        "nuts",
+        "arch:caramel"
+      ],
+      "desc": "Crunchy nuts in golden caramel.",
+      "how": "mix(nuts,boil(sugar,butter))"
+    },
+    {
+      "id": "caramel_popcorn",
+      "name": "Caramel Popcorn",
+      "arch": [
+        "with",
+        "mix"
+      ],
+      "need": [
+        "arch:popcorn",
+        "arch:caramel"
+      ],
+      "desc": "Sticky, crunchy and very snackable.",
+      "how": "mix(fry(corn,oil),boil(sugar,butter))"
+    },
+    {
+      "id": "affogato",
+      "name": "Affogato",
+      "arch": [
+        "mix",
+        "with"
+      ],
+      "need": [
+        "arch:iceCream",
+        "coffee"
+      ],
+      "desc": "Ice cream “drowned” in hot coffee.",
+      "how": "mix(freeze(milk,sugar,vanilla),boil(coffee,water))"
+    },
+    {
+      "id": "peach_melba",
+      "name": "Peach Melba",
+      "arch": [
+        "mix",
+        "with"
+      ],
+      "need": [
+        "peach",
+        "arch:iceCream",
+        "raspberry"
+      ],
+      "season": "summer",
+      "desc": "Peaches, raspberry and ice cream.",
+      "how": "mix(freeze(milk,sugar,vanilla),peach,boil(raspberry,sugar))"
+    },
+    {
+      "id": "mint_choc_chip",
+      "name": "Mint Choc Chip Ice Cream",
+      "arch": [
+        "iceCream"
+      ],
+      "need": [
+        "mint",
+        "chocolate"
+      ],
+      "desc": "Cool mint with chocolate flecks.",
+      "how": "freeze(milk,sugar,mint,chocolate)"
+    },
+    {
+      "id": "strawberry_ice_cream",
+      "name": "Strawberry Ice Cream",
+      "arch": [
+        "iceCream"
+      ],
+      "need": [
+        "strawberry"
+      ],
+      "not": [
+        "banana"
+      ],
+      "desc": "Pink, sweet and summery.",
+      "how": "freeze(milk,sugar,strawberry)"
+    },
+    {
+      "id": "choc_ice_cream",
+      "name": "Chocolate Ice Cream",
+      "arch": [
+        "iceCream"
+      ],
+      "need": [
+        "chocolate"
+      ],
+      "not": [
+        "banana",
+        "mint"
+      ],
+      "desc": "Rich, dark and creamy.",
+      "how": "freeze(milk,sugar,chocolate)"
+    },
+    {
+      "id": "vanilla_ice_cream",
+      "name": "Vanilla Ice Cream",
+      "arch": [
+        "iceCream"
+      ],
+      "need": [
+        "vanilla"
+      ],
+      "not": [
+        "banana"
+      ],
+      "desc": "Simple, creamy and perfect.",
+      "how": "freeze(milk,sugar,vanilla)"
+    },
+    {
+      "id": "pistachio_ice_cream",
+      "name": "Pistachio Ice Cream",
+      "arch": [
+        "iceCream"
+      ],
+      "need": [
+        "nuts"
+      ],
+      "not": [
+        "banana"
+      ],
+      "desc": "Pale green and nutty.",
+      "how": "freeze(milk,sugar,nuts)"
+    },
+    {
+      "id": "mango_ice_cream",
+      "name": "Mango Kulfi",
+      "arch": [
+        "iceCream"
+      ],
+      "need": [
+        "mango"
+      ],
+      "desc": "A dense, creamy mango ice cream.",
+      "how": "freeze(milk,sugar,mango)"
+    },
+    {
+      "id": "sundae",
+      "name": "Ice Cream Sundae",
+      "arch": [
+        "garnished"
+      ],
+      "need": [
+        "arch:iceCream",
+        "sprinkles"
+      ],
+      "desc": "A scoop of joy with sprinkles on top.",
+      "how": "garnish(freeze(milk,sugar,vanilla),sprinkles)"
+    },
+    {
+      "id": "mango_sorbet",
+      "name": "Mango Sorbet",
+      "arch": [
+        "sorbet"
+      ],
+      "need": [
+        "mango"
+      ],
+      "desc": "Smooth, fruity and refreshing.",
+      "how": "freeze(boil(mango))"
+    },
+    {
+      "id": "lemon_sorbet",
+      "name": "Lemon Sorbet",
+      "arch": [
+        "sorbet"
+      ],
+      "need": [
+        "lemon"
+      ],
+      "desc": "Sharp, icy and refreshing.",
+      "how": "freeze(boil(lemon,sugar))"
+    },
+    {
+      "id": "raspberry_sorbet",
+      "name": "Raspberry Sorbet",
+      "arch": [
+        "sorbet"
+      ],
+      "need": [
+        "raspberry"
+      ],
+      "season": "summer",
+      "desc": "Bright pink and tangy.",
+      "how": "freeze(boil(raspberry,sugar))"
+    },
+    {
+      "id": "granita",
+      "name": "Coffee Granita",
+      "arch": [
+        "shaved"
+      ],
+      "need": [
+        "coffee"
+      ],
+      "desc": "Icy coffee crystals, Sicilian style.",
+      "how": "grate(freeze(boil(coffee,water,sugar)))"
+    },
+    {
+      "id": "beignets",
+      "name": "Beignets",
+      "arch": [
+        "garnished"
+      ],
+      "need": [
+        "arch:doughnuts",
+        "icing_sugar"
+      ],
+      "desc": "Pillowy fried dough under a snowfall of sugar.",
+      "how": "garnish(fry(mix(flour,butter,sugar,egg)),icing_sugar)"
+    },
+    {
+      "id": "sprinkle_doughnuts",
+      "name": "Sprinkle Doughnuts",
+      "arch": [
+        "garnished"
+      ],
+      "need": [
+        "arch:doughnuts",
+        "sprinkles"
+      ],
+      "desc": "Doughnuts dressed for a party.",
+      "how": "garnish(fry(mix(flour,butter,sugar,egg)),sprinkles)"
+    },
+    {
+      "id": "kaiserschmarrn",
+      "name": "Kaiserschmarrn",
+      "arch": [
+        "garnished"
+      ],
+      "need": [
+        "arch:pancakes",
+        "icing_sugar"
+      ],
+      "desc": "Torn, fluffy pancake fit for an emperor.",
+      "how": "garnish(chop(fry(mix(flour,egg,milk))),icing_sugar)"
+    },
+    {
+      "id": "funfetti",
+      "name": "Funfetti Cake",
+      "arch": [
+        "garnished"
+      ],
+      "need": [
+        "arch:cake",
+        "sprinkles"
+      ],
+      "desc": "A cake that is basically a party.",
+      "how": "garnish(bake(mix(flour,egg,milk,sugar,butter)),sprinkles)"
+    },
+    {
+      "id": "lamingtons",
+      "name": "Lamingtons",
+      "arch": [
+        "garnished"
+      ],
+      "need": [
+        "arch:cake",
+        "cocoa"
+      ],
+      "desc": "Sponge squares dusted in chocolate.",
+      "how": "garnish(bake(mix(flour,egg,milk,sugar,butter)),cocoa)"
+    },
+    {
+      "id": "fairy_bread",
+      "name": "Fairy Bread",
+      "arch": [
+        "garnished"
+      ],
+      "need": [
+        "arch:slices",
+        "sprinkles"
+      ],
+      "desc": "Buttered bread covered in sprinkles!",
+      "how": "garnish(chop(bake(mix(flour,water,yeast))),sprinkles)"
+    },
+    {
+      "id": "cappuccino",
+      "name": "Cappuccino",
+      "arch": [
+        "coffee"
+      ],
+      "need": [
+        "arch:frothy"
+      ],
+      "desc": "Coffee under a cloud of milky foam.",
+      "how": "boil(coffee,water,whisk(milk))"
+    },
+    {
+      "id": "iced_coffee",
+      "name": "Iced Coffee",
+      "arch": [
+        "with"
+      ],
+      "need": [
+        "coffee",
+        "arch:ice"
+      ],
+      "desc": "Coffee, cold and clinking.",
+      "how": "mix(boil(coffee,water),freeze(water))"
+    },
+    {
+      "id": "iced_tea",
+      "name": "Iced Tea",
+      "arch": [
+        "with"
+      ],
+      "need": [
+        "tea_leaves",
+        "arch:ice"
+      ],
+      "desc": "Cool, refreshing tea with ice.",
+      "how": "mix(boil(tea_leaves,water),freeze(water))"
+    },
+    {
+      "id": "lemon_ginger_tea",
+      "name": "Lemon & Ginger Tea",
+      "arch": [
+        "tea"
+      ],
+      "need": [
+        "lemon",
+        "ginger"
+      ],
+      "desc": "A soothing cup for sniffly days.",
+      "how": "boil(lemon,ginger,water)"
+    },
+    {
+      "id": "elderflower_cordial",
+      "name": "Elderflower Cordial",
+      "arch": [
+        "tea"
+      ],
+      "need": [
+        "elderflower"
+      ],
+      "season": "spring",
+      "desc": "Fragrant, floral and very spring.",
+      "how": "boil(elderflower,water,sugar)"
+    },
+    {
+      "id": "horchata",
+      "name": "Horchata",
+      "arch": [
+        "blended"
+      ],
+      "need": [
+        "rice",
+        "cinnamon"
+      ],
+      "desc": "A sweet rice drink with cinnamon.",
+      "how": "blend(rice,water,cinnamon)"
+    },
+    {
+      "id": "green_smoothie",
+      "name": "Green Smoothie",
+      "arch": [
+        "smoothie"
+      ],
+      "need": [
+        "spinach"
+      ],
+      "desc": "Green, healthy and surprisingly tasty.",
+      "how": "blend(spinach,banana,milk)"
+    },
+    {
+      "id": "berry_smoothie",
+      "name": "Berry Smoothie",
+      "arch": [
+        "smoothie"
+      ],
+      "need": [
+        "strawberry",
+        "blueberry"
+      ],
+      "desc": "Purple, fruity and thick.",
+      "how": "blend(strawberry,blueberry,yogurt)"
+    },
+    {
+      "id": "mango_lassi",
+      "name": "Mango Lassi",
+      "arch": [
+        "smoothie"
+      ],
+      "need": [
+        "mango",
+        "yogurt"
+      ],
+      "desc": "A creamy, cooling yogurt drink.",
+      "how": "blend(mango,yogurt)"
+    },
+    {
+      "id": "pina_colada",
+      "name": "Piña Colada Smoothie",
+      "arch": [
+        "smoothie"
+      ],
+      "need": [
+        "pineapple",
+        "coconut_milk"
+      ],
+      "desc": "Pineapple and coconut. Holiday in a glass.",
+      "how": "blend(pineapple,coconut_milk)"
+    },
+    {
+      "id": "strawberry_milkshake",
+      "name": "Strawberry Milkshake",
+      "arch": [
+        "milkshake"
+      ],
+      "need": [
+        "strawberry"
+      ],
+      "desc": "Thick, pink and slurpable.",
+      "how": "blend(freeze(milk,sugar,strawberry),milk)"
+    },
+    {
+      "id": "choc_milkshake",
+      "name": "Chocolate Milkshake",
+      "arch": [
+        "milkshake"
+      ],
+      "need": [
+        "chocolate"
+      ],
+      "desc": "Rich and chocolatey with a straw.",
+      "how": "blend(freeze(milk,sugar,chocolate),milk)"
+    },
+    {
+      "id": "orange_juice",
+      "name": "Orange Juice",
+      "arch": [
+        "juice"
+      ],
+      "need": [
+        "orange"
+      ],
+      "only": [
+        "orange"
+      ],
+      "desc": "Freshly squeezed sunshine.",
+      "how": "squeeze(orange)"
+    },
+    {
+      "id": "limeade",
+      "name": "Limeade",
+      "arch": [
+        "ade",
+        "cooler"
+      ],
+      "need": [
+        "lime"
+      ],
+      "desc": "Sharp, sweet and very green.",
+      "how": "mix(squeeze(lime),water,sugar)"
+    },
+    {
+      "id": "mulled_clementine",
+      "name": "Mulled Clementine Punch",
+      "arch": [
+        "warmDrink"
+      ],
+      "need": [
+        "clementine"
+      ],
+      "season": "winter",
+      "desc": "A warm, spiced citrus drink.",
+      "how": "boil(squeeze(clementine))"
+    },
+    {
+      "id": "greek_salad",
+      "name": "Greek Salad",
+      "arch": [
+        "salad"
+      ],
+      "need": [
+        "cucumber",
+        "tomato",
+        "cheese"
+      ],
+      "desc": "Chunky, salty and sunny.",
+      "how": "mix(cucumber,tomato,cheese,onion)"
+    },
+    {
+      "id": "caesar",
+      "name": "Caesar Salad",
+      "arch": [
+        "salad"
+      ],
+      "need": [
+        "lettuce",
+        "arch:croutons"
+      ],
+      "desc": "Crisp lettuce, crunchy croutons, lots of cheese.",
+      "how": "mix(lettuce,bake(chop(bake(mix(flour,water,yeast)))),cheese,mix(oil,lemon))"
+    },
+    {
+      "id": "coleslaw",
+      "name": "Coleslaw",
+      "arch": [
+        "salad"
+      ],
+      "need": [
+        "cabbage",
+        "carrot"
+      ],
+      "desc": "Crunchy, creamy and great with everything.",
+      "how": "mix(cabbage,carrot,whisk(egg,oil))"
+    },
+    {
+      "id": "waldorf",
+      "name": "Waldorf Salad",
+      "arch": [
+        "salad",
+        "fruitSalad"
+      ],
+      "need": [
+        "apple",
+        "celery"
+      ],
+      "desc": "Apple, celery and walnuts, very New York.",
+      "how": "mix(apple,celery,nuts)"
+    },
+    {
+      "id": "tabbouleh",
+      "name": "Tabbouleh",
+      "arch": [
+        "salad"
+      ],
+      "need": [
+        "herbs",
+        "tomato",
+        "cucumber"
+      ],
+      "not": [
+        "cheese"
+      ],
+      "desc": "A bright, herby salad.",
+      "how": "mix(herbs,tomato,cucumber,lemon)"
+    },
+    {
+      "id": "nicoise",
+      "name": "Salade Niçoise",
+      "arch": [
+        "salad"
+      ],
+      "need": [
+        "fish",
+        "egg"
+      ],
+      "desc": "A French salad with egg and fish.",
+      "how": "mix(lettuce,boil(egg,water),steam(fish),tomato)"
+    },
+    {
+      "id": "cobb",
+      "name": "Cobb Salad",
+      "arch": [
+        "salad",
+        "fruitSalad"
+      ],
+      "need": [
+        "bacon",
+        "avocado",
+        "egg"
+      ],
+      "desc": "A hearty salad with neat rows of toppings.",
+      "how": "mix(lettuce,avocado,fry(bacon),boil(egg,water))"
+    },
+    {
+      "id": "panzanella",
+      "name": "Panzanella",
+      "arch": [
+        "salad"
+      ],
+      "need": [
+        "tomato",
+        "arch:croutons"
+      ],
+      "desc": "A Tuscan salad of bread and tomatoes.",
+      "how": "mix(tomato,cucumber,bake(chop(bake(mix(flour,water,yeast)))))"
+    },
+    {
+      "id": "seaweed_salad",
+      "name": "Seaweed Salad",
+      "arch": [
+        "salad"
+      ],
+      "need": [
+        "seaweed"
+      ],
+      "desc": "Slippery, tangy and green.",
+      "how": "mix(seaweed,cucumber,vinegar)"
+    },
+    {
+      "id": "watermelon_feta",
+      "name": "Watermelon & Feta Salad",
+      "arch": [
+        "salad"
+      ],
+      "need": [
+        "watermelon",
+        "cheese"
+      ],
+      "season": "summer",
+      "desc": "Sweet, salty and summery.",
+      "how": "mix(watermelon,cheese,mint)"
+    },
+    {
+      "id": "pomegranate_salad",
+      "name": "Pomegranate Salad",
+      "arch": [
+        "salad",
+        "fruitSalad"
+      ],
+      "need": [
+        "pomegranate"
+      ],
+      "season": "winter",
+      "desc": "Jewel-like seeds on crisp leaves.",
+      "how": "mix(pomegranate,lettuce)"
+    },
+    {
+      "id": "radish_salad",
+      "name": "Radish Salad",
+      "arch": [
+        "salad"
+      ],
+      "need": [
+        "radish"
+      ],
+      "season": "spring",
+      "desc": "Peppery pink radishes, crisp and fresh.",
+      "how": "mix(radish,lettuce,herbs)"
+    },
+    {
+      "id": "potato_salad",
+      "name": "Potato Salad",
+      "arch": [
+        "with",
+        "mix",
+        "salad"
+      ],
+      "need": [
+        "potato",
+        "arch:mayo"
+      ],
+      "desc": "Creamy potatoes for a picnic.",
+      "how": "mix(boil(potato,water),whisk(egg,oil))"
+    },
+    {
+      "id": "egg_mayo",
+      "name": "Egg Mayo",
+      "arch": [
+        "with",
+        "mix"
+      ],
+      "need": [
+        "arch:boiledEgg",
+        "arch:mayo"
+      ],
+      "desc": "Soft eggs in creamy mayo.",
+      "how": "mix(boil(egg,water),whisk(egg,oil))"
+    },
+    {
+      "id": "tzatziki",
+      "name": "Tzatziki",
+      "arch": [
+        "salad"
+      ],
+      "need": [
+        "yogurt",
+        "cucumber",
+        "garlic"
+      ],
+      "desc": "Cool yogurt, cucumber and garlic.",
+      "how": "mix(yogurt,cucumber,garlic)"
+    },
+    {
+      "id": "raita",
+      "name": "Raita",
+      "arch": [
+        "salad"
+      ],
+      "need": [
+        "yogurt",
+        "cucumber"
+      ],
+      "desc": "A cooling yogurt side.",
+      "how": "mix(yogurt,cucumber,mint)"
+    },
+    {
+      "id": "pico_de_gallo",
+      "name": "Pico de Gallo",
+      "arch": [
+        "chop"
+      ],
+      "need": [
+        "tomato",
+        "onion"
+      ],
+      "desc": "Fresh chopped salsa, bright and zingy.",
+      "how": "chop(tomato,onion,chili)"
+    },
+    {
+      "id": "mango_salsa",
+      "name": "Mango Salsa",
+      "arch": [
+        "chop"
+      ],
+      "need": [
+        "mango"
+      ],
+      "desc": "Sweet, spicy and tropical.",
+      "how": "chop(mango,onion,lime)"
+    },
+    {
+      "id": "baba_ganoush",
+      "name": "Baba Ganoush",
+      "arch": [
+        "mash",
+        "paste",
+        "puree"
+      ],
+      "need": [
+        "eggplant"
+      ],
+      "desc": "A smoky eggplant dip.",
+      "how": "mash(bake(eggplant),lemon)"
+    },
+    {
+      "id": "tahini",
+      "name": "Tahini",
+      "arch": [
+        "paste"
+      ],
+      "need": [
+        "sesame"
+      ],
+      "desc": "A smooth, nutty sesame paste.",
+      "how": "grind(sesame)"
+    },
+    {
+      "id": "aioli",
+      "name": "Aioli",
+      "arch": [
+        "mayo"
+      ],
+      "need": [
+        "garlic"
+      ],
+      "desc": "A punchy garlic mayonnaise.",
+      "how": "whisk(egg,oil,garlic)"
+    },
+    {
+      "id": "chimichurri",
+      "name": "Chimichurri",
+      "arch": [
+        "dressing"
+      ],
+      "need": [
+        "herbs",
+        "vinegar"
+      ],
+      "desc": "A zingy green Argentine sauce.",
+      "how": "mix(herbs,oil,vinegar,garlic)"
+    },
+    {
+      "id": "vinaigrette",
+      "name": "Vinaigrette",
+      "arch": [
+        "dressing"
+      ],
+      "need": [
+        "vinegar"
+      ],
+      "not": [
+        "herbs"
+      ],
+      "desc": "The little black dress of salad dressings.",
+      "how": "mix(oil,vinegar)"
+    },
+    {
+      "id": "mornay",
+      "name": "Mornay Sauce",
+      "arch": [
+        "bechamel"
+      ],
+      "need": [
+        "cheese"
+      ],
+      "desc": "A velvety cheese sauce.",
+      "how": "boil(boil(flour,butter),milk,cheese)"
+    },
+    {
+      "id": "chantilly",
+      "name": "Chantilly Cream",
+      "arch": [
+        "whipped"
+      ],
+      "need": [
+        "vanilla"
+      ],
+      "desc": "Sweet whipped cream with vanilla.",
+      "how": "whisk(cream,sugar,vanilla)"
+    },
+    {
+      "id": "garlic_butter",
+      "name": "Garlic Butter",
+      "arch": [
+        "compoundButter"
+      ],
+      "need": [
+        "garlic"
+      ],
+      "desc": "Melts beautifully on everything.",
+      "how": "mix(butter,garlic,herbs)"
+    },
+    {
+      "id": "honey_butter",
+      "name": "Honey Butter",
+      "arch": [
+        "compoundButter"
+      ],
+      "need": [
+        "honey"
+      ],
+      "desc": "Sweet, salty and spreadable.",
+      "how": "mix(butter,honey)"
+    },
+    {
+      "id": "paneer",
+      "name": "Paneer",
+      "arch": [
+        "cheeseMade"
+      ],
+      "need": [
+        [
+          "lemon",
+          "vinegar"
+        ]
+      ],
+      "desc": "A fresh, mild cheese for curries.",
+      "how": "age(milk,lemon)"
+    },
+    {
+      "id": "parmesan",
+      "name": "Parmesan",
+      "arch": [
+        "aged"
+      ],
+      "need": [
+        "cheese"
+      ],
+      "only": [
+        "cheese"
+      ],
+      "desc": "Aged until it’s crumbly and crystal-crunchy.",
+      "how": "age(cheese)"
+    },
+    {
+      "id": "kimchi",
+      "name": "Kimchi",
+      "arch": [
+        "fermented"
+      ],
+      "need": [
+        "cabbage",
+        "chili"
+      ],
+      "desc": "Spicy, tangy fermented cabbage.",
+      "how": "age(cabbage,salt,chili)"
+    },
+    {
+      "id": "sauerkraut",
+      "name": "Sauerkraut",
+      "arch": [
+        "fermented"
+      ],
+      "need": [
+        "cabbage"
+      ],
+      "desc": "Tangy, crunchy fermented cabbage.",
+      "how": "age(cabbage,salt)"
+    },
+    {
+      "id": "pickles",
+      "name": "Pickles",
+      "arch": [
+        "pickled"
+      ],
+      "need": [
+        "cucumber"
+      ],
+      "desc": "Crunchy, sour and very snappy.",
+      "how": "marinate(cucumber,vinegar,salt)"
+    },
+    {
+      "id": "pickled_onions",
+      "name": "Pickled Onions",
+      "arch": [
+        "pickled"
+      ],
+      "need": [
+        "onion"
+      ],
+      "desc": "Sharp, sweet pickled onions.",
+      "how": "marinate(onion,vinegar,salt)"
+    },
+    {
+      "id": "gari",
+      "name": "Gari",
+      "arch": [
+        "pickled",
+        "marinated"
+      ],
+      "need": [
+        "ginger",
+        "vinegar"
+      ],
+      "desc": "Sweet pink pickled ginger for sushi.",
+      "how": "marinate(ginger,vinegar,sugar)"
+    },
+    {
+      "id": "gravlax",
+      "name": "Gravlax",
+      "arch": [
+        "cured"
+      ],
+      "need": [
+        "fish"
+      ],
+      "desc": "Salmon cured with salt and sugar.",
+      "how": "age(fish,salt,sugar)"
+    },
+    {
+      "id": "beef_jerky",
+      "name": "Beef Jerky",
+      "arch": [
+        "cured"
+      ],
+      "need": [
+        "beef"
+      ],
+      "desc": "Chewy, salty and great for adventures.",
+      "how": "age(beef,salt)"
+    },
+    {
+      "id": "prosciutto",
+      "name": "Prosciutto",
+      "arch": [
+        "cured"
+      ],
+      "need": [
+        "ham"
+      ],
+      "desc": "Paper-thin slices of cured ham.",
+      "how": "age(ham)"
+    },
+    {
+      "id": "cider_vinegar",
+      "name": "Apple Cider Vinegar",
+      "arch": [
+        "vinegarOf"
+      ],
+      "need": [
+        "apple"
+      ],
+      "desc": "Tangy vinegar made from apple juice.",
+      "how": "age(squeeze(apple))"
+    },
+    {
+      "id": "mango_chutney",
+      "name": "Mango Chutney",
+      "arch": [
+        "compote",
+        "jam"
+      ],
+      "need": [
+        "mango",
+        "vinegar"
+      ],
+      "desc": "Sticky, sweet and tangy.",
+      "how": "boil(mango,vinegar,sugar)"
+    },
+    {
+      "id": "strawberry_jam",
+      "name": "Strawberry Jam",
+      "arch": [
+        "jam"
+      ],
+      "need": [
+        "strawberry"
+      ],
+      "desc": "Sticky, sweet and spreadable.",
+      "how": "boil(strawberry,sugar)"
+    },
+    {
+      "id": "marmalade",
+      "name": "Marmalade",
+      "arch": [
+        "jam"
+      ],
+      "need": [
+        "orange"
+      ],
+      "desc": "A bittersweet orange spread.",
+      "how": "boil(orange,sugar)"
+    },
+    {
+      "id": "fig_jam",
+      "name": "Fig Jam",
+      "arch": [
+        "jam"
+      ],
+      "need": [
+        "fig"
+      ],
+      "season": "autumn",
+      "desc": "Rich, seedy and luxurious.",
+      "how": "boil(fig,sugar)"
+    },
+    {
+      "id": "apricot_jam",
+      "name": "Apricot Jam",
+      "arch": [
+        "jam"
+      ],
+      "need": [
+        "apricot"
+      ],
+      "season": "summer",
+      "desc": "Golden and sunny on toast.",
+      "how": "boil(apricot,sugar)"
+    },
+    {
+      "id": "raspberry_jam",
+      "name": "Raspberry Jam",
+      "arch": [
+        "jam"
+      ],
+      "need": [
+        "raspberry"
+      ],
+      "season": "summer",
+      "desc": "Ruby red and tangy-sweet.",
+      "how": "boil(raspberry,sugar)"
+    },
+    {
+      "id": "tempura",
+      "name": "Shrimp Tempura",
+      "arch": [
+        "fritters"
+      ],
+      "need": [
+        "shrimp"
+      ],
+      "desc": "Feather-light, crispy battered prawns.",
+      "how": "fry(mix(flour,water,water),shrimp)"
+    },
+    {
+      "id": "onion_bhaji",
+      "name": "Onion Bhaji",
+      "arch": [
+        "fritters"
+      ],
+      "need": [
+        "onion",
+        "curry_powder"
+      ],
+      "desc": "Crispy spiced onion fritters.",
+      "how": "fry(mix(flour,water,water),onion,curry_powder)"
+    },
+    {
+      "id": "onion_rings",
+      "name": "Onion Rings",
+      "arch": [
+        "fritters"
+      ],
+      "need": [
+        "onion"
+      ],
+      "desc": "Golden rings of crispy onion.",
+      "how": "fry(mix(flour,water,water),chop(onion))"
+    },
+    {
+      "id": "okonomiyaki",
+      "name": "Okonomiyaki",
+      "arch": [
+        "fritters"
+      ],
+      "need": [
+        "cabbage"
+      ],
+      "desc": "A savoury Japanese cabbage pancake.",
+      "how": "fry(mix(flour,water,water),cabbage)"
+    },
+    {
+      "id": "pajeon",
+      "name": "Pajeon",
+      "arch": [
+        "fritters",
+        "flavPancakes"
+      ],
+      "need": [
+        "spring_onion"
+      ],
+      "season": "spring",
+      "desc": "A Korean pancake with spring onions.",
+      "how": "fry(mix(flour,water,water),spring_onion)"
+    },
+    {
+      "id": "corn_fritters",
+      "name": "Corn Fritters",
+      "arch": [
+        "fritters"
+      ],
+      "need": [
+        "corn"
+      ],
+      "desc": "Golden, sweet little corn cakes.",
+      "how": "fry(mix(flour,water,water),corn)"
+    },
+    {
+      "id": "zucchini_fritters",
+      "name": "Zucchini Fritters",
+      "arch": [
+        "fritters"
+      ],
+      "need": [
+        "zucchini"
+      ],
+      "season": "summer",
+      "desc": "Crispy green fritters.",
+      "how": "fry(mix(flour,water,water),zucchini)"
+    },
+    {
+      "id": "falafel",
+      "name": "Falafel",
+      "arch": [
+        "fried",
+        "panFried"
+      ],
+      "need": [
+        "chickpeas"
+      ],
+      "desc": "Crunchy chickpea balls with a herby middle.",
+      "how": "fry(shape(mash(chickpeas)))"
+    },
+    {
+      "id": "arancini",
+      "name": "Arancini",
+      "arch": [
+        "fried"
+      ],
+      "need": [
+        "rice",
+        "breadcrumbs"
+      ],
+      "desc": "Crispy fried risotto balls.",
+      "how": "fry(shape(boil(rice,water,cheese)),breadcrumbs)"
+    },
+    {
+      "id": "mozzarella_sticks",
+      "name": "Mozzarella Sticks",
+      "arch": [
+        "fried"
+      ],
+      "need": [
+        "mozzarella",
+        "breadcrumbs"
+      ],
+      "desc": "Crispy outside, stretchy inside.",
+      "how": "fry(mozzarella,breadcrumbs)"
+    },
+    {
+      "id": "croquettes",
+      "name": "Croquettes",
+      "arch": [
+        "fried"
+      ],
+      "need": [
+        "potato",
+        "breadcrumbs"
+      ],
+      "desc": "Crispy little rolls of creamy potato.",
+      "how": "fry(shape(mash(boil(potato,water))),breadcrumbs)"
+    },
+    {
+      "id": "scotch_egg",
+      "name": "Scotch Egg",
+      "arch": [
+        "fried",
+        "panFried"
+      ],
+      "need": [
+        "sausage",
+        "egg"
+      ],
+      "desc": "An egg wrapped in sausage and crumbs.",
+      "how": "fry(shape(sausage,boil(egg,water)),breadcrumbs)"
+    },
+    {
+      "id": "schnitzel",
+      "name": "Schnitzel",
+      "arch": [
+        "fried",
+        "panFried"
+      ],
+      "need": [
+        "chicken",
+        "breadcrumbs",
+        "arch:flattened"
+      ],
+      "desc": "Thin, crisp and golden.",
+      "how": "fry(roll(chicken),breadcrumbs)"
+    },
+    {
+      "id": "chicken_katsu",
+      "name": "Chicken Katsu",
+      "arch": [
+        "panFried",
+        "fried"
+      ],
+      "need": [
+        "chicken",
+        "breadcrumbs"
+      ],
+      "desc": "Crispy breaded chicken, Japanese style.",
+      "how": "fry(chicken,breadcrumbs)"
+    },
+    {
+      "id": "buffalo_wings",
+      "name": "Buffalo Wings",
+      "arch": [
+        "panFried"
+      ],
+      "need": [
+        "chicken",
+        "chili"
+      ],
+      "desc": "Spicy, buttery and sticky.",
+      "how": "fry(chicken,chili,butter)"
+    },
+    {
+      "id": "fish_fingers",
+      "name": "Fish Fingers",
+      "arch": [
+        "panFried",
+        "fried"
+      ],
+      "need": [
+        "fish",
+        "breadcrumbs"
+      ],
+      "desc": "Crispy golden fingers of fish.",
+      "how": "fry(fish,breadcrumbs)"
+    },
+    {
+      "id": "agedashi_tofu",
+      "name": "Agedashi Tofu",
+      "arch": [
+        "panFried",
+        "fried"
+      ],
+      "need": [
+        "tofu"
+      ],
+      "desc": "Crisp tofu in a light broth.",
+      "how": "fry(tofu,flour)"
+    },
+    {
+      "id": "bubble_squeak",
+      "name": "Bubble & Squeak",
+      "arch": [
+        "fried",
+        "sauteed"
+      ],
+      "need": [
+        "potato",
+        "cabbage",
+        "op:fry"
+      ],
+      "desc": "Fried leftovers that squeak in the pan.",
+      "how": "fry(mash(boil(potato,water)),cabbage)"
+    },
+    {
+      "id": "brussels_bacon",
+      "name": "Brussels Sprouts with Bacon",
+      "arch": [
+        "sauteed",
+        "panFried",
+        "fried",
+        "stirfry"
+      ],
+      "need": [
+        "brussels_sprouts",
+        "bacon"
+      ],
+      "season": "winter",
+      "desc": "Sprouts that even sprout-haters love.",
+      "how": "fry(brussels_sprouts,bacon)"
+    },
+    {
+      "id": "patatas_bravas",
+      "name": "Patatas Bravas",
+      "arch": [
+        "with",
+        "mix"
+      ],
+      "need": [
+        "arch:fries",
+        "chili"
+      ],
+      "desc": "Crispy potatoes with a spicy sauce.",
+      "how": "mix(fry(chop(potato)),boil(tomato,chili))"
+    },
+    {
+      "id": "poutine",
+      "name": "Poutine",
+      "arch": [
+        "with",
+        "mix"
+      ],
+      "need": [
+        "arch:fries",
+        "cheese"
+      ],
+      "desc": "Fries, cheese curds and joy.",
+      "how": "mix(fry(chop(potato)),cheese)"
+    },
+    {
+      "id": "sweet_potato_fries",
+      "name": "Sweet Potato Fries",
+      "arch": [
+        "flavFries"
+      ],
+      "need": [
+        "sweet_potato"
+      ],
+      "season": "autumn",
+      "desc": "Crispy orange fries, a little sweet.",
+      "how": "fry(chop(sweet_potato))"
+    },
+    {
+      "id": "jerk_chicken",
+      "name": "Jerk Chicken",
+      "arch": [
+        "grilled"
+      ],
+      "need": [
+        "chicken",
+        "chili",
+        "lime"
+      ],
+      "desc": "Fiery, smoky Caribbean chicken.",
+      "how": "grill(marinate(chicken,chili,lime))"
+    },
+    {
+      "id": "tandoori",
+      "name": "Tandoori Chicken",
+      "arch": [
+        "grilled"
+      ],
+      "need": [
+        "chicken",
+        "yogurt"
+      ],
+      "desc": "Spiced, smoky and bright red.",
+      "how": "grill(marinate(chicken,yogurt,curry_powder))"
+    },
+    {
+      "id": "kofta",
+      "name": "Kofta",
+      "arch": [
+        "grilled"
+      ],
+      "need": [
+        "beef",
+        "arch:patty"
+      ],
+      "desc": "Spiced meat grilled on the flames.",
+      "how": "grill(shape(beef,onion))"
+    },
+    {
+      "id": "steak",
+      "name": "Grilled Steak",
+      "arch": [
+        "grilled"
+      ],
+      "need": [
+        "beef"
+      ],
+      "desc": "Seared outside, juicy inside.",
+      "how": "grill(beef)"
+    },
+    {
+      "id": "grilled_fish",
+      "name": "Grilled Fish",
+      "arch": [
+        "grilled"
+      ],
+      "need": [
+        "fish"
+      ],
+      "desc": "Crispy skin and a squeeze of lemon.",
+      "how": "grill(fish)"
+    },
+    {
+      "id": "halloumi",
+      "name": "Grilled Halloumi",
+      "arch": [
+        "grilled"
+      ],
+      "need": [
+        "cheese"
+      ],
+      "only": [
+        "cheese",
+        "oil"
+      ],
+      "desc": "Squeaky, salty and golden.",
+      "how": "grill(cheese)"
+    },
+    {
+      "id": "grilled_peaches",
+      "name": "Grilled Peaches",
+      "arch": [
+        "grilled"
+      ],
+      "need": [
+        "peach"
+      ],
+      "desc": "Smoky, sticky and sweet.",
+      "how": "grill(peach)"
+    },
+    {
+      "id": "grilled_pineapple",
+      "name": "Grilled Pineapple",
+      "arch": [
+        "grilled"
+      ],
+      "need": [
+        "pineapple"
+      ],
+      "desc": "Caramelised tropical rings.",
+      "how": "grill(pineapple)"
+    },
+    {
+      "id": "satay",
+      "name": "Chicken Satay",
+      "arch": [
+        "skewers"
+      ],
+      "need": [
+        "chicken",
+        "arch:nutButter"
+      ],
+      "desc": "Skewers with a peanut sauce.",
+      "how": "grill(chicken,grind(nuts))"
+    },
+    {
+      "id": "souvlaki",
+      "name": "Souvlaki",
+      "arch": [
+        "skewers"
+      ],
+      "need": [
+        "chicken",
+        "lemon"
+      ],
+      "desc": "Greek skewers with lemon and herbs.",
+      "how": "grill(chicken,lemon,onion)"
+    },
+    {
+      "id": "yakitori",
+      "name": "Yakitori",
+      "arch": [
+        "skewers"
+      ],
+      "need": [
+        "chicken",
+        "soy_sauce"
+      ],
+      "season": "spring",
+      "desc": "Little grilled chicken skewers.",
+      "how": "grill(chicken,soy_sauce,spring_onion)"
+    },
+    {
+      "id": "shish_kebab",
+      "name": "Shish Kebab",
+      "arch": [
+        "skewers"
+      ],
+      "need": [
+        "beef",
+        "onion"
+      ],
+      "desc": "Meat and veg on a sizzling skewer.",
+      "how": "grill(beef,onion,bell_pepper)"
+    },
+    {
+      "id": "cottage_pie",
+      "name": "Cottage Pie",
+      "arch": [
+        "roast"
+      ],
+      "need": [
+        "beef",
+        "arch:mash"
+      ],
+      "desc": "Beef under a fluffy mash blanket.",
+      "how": "bake(beef,mash(boil(potato,water)))"
+    },
+    {
+      "id": "fish_pie",
+      "name": "Fish Pie",
+      "arch": [
+        "roast"
+      ],
+      "need": [
+        "fish",
+        "arch:mash"
+      ],
+      "desc": "Creamy fish under golden mash.",
+      "how": "bake(fish,mash(boil(potato,water)))"
+    },
+    {
+      "id": "moussaka",
+      "name": "Moussaka",
+      "arch": [
+        "roast"
+      ],
+      "need": [
+        "eggplant",
+        "beef"
+      ],
+      "desc": "Layers of eggplant and beef, Greek style.",
+      "how": "bake(eggplant,beef,cheese)"
+    },
+    {
+      "id": "stuffed_peppers",
+      "name": "Stuffed Peppers",
+      "arch": [
+        "roast"
+      ],
+      "need": [
+        "bell_pepper",
+        "rice"
+      ],
+      "desc": "Peppers stuffed with rice and beef.",
+      "how": "bake(bell_pepper,boil(rice,water),beef)"
+    },
+    {
+      "id": "meatloaf",
+      "name": "Meatloaf",
+      "arch": [
+        "roast"
+      ],
+      "need": [
+        "beef",
+        "breadcrumbs"
+      ],
+      "desc": "A hearty loaf for Sunday dinner.",
+      "how": "bake(beef,onion,breadcrumbs)"
+    },
+    {
+      "id": "glazed_ham",
+      "name": "Honey-Glazed Ham",
+      "arch": [
+        "roast"
+      ],
+      "need": [
+        "ham",
+        "honey"
+      ],
+      "desc": "Sticky, shiny and festive.",
+      "how": "bake(ham,honey)"
+    },
+    {
+      "id": "roast_beef",
+      "name": "Roast Beef",
+      "arch": [
+        "roast"
+      ],
+      "need": [
+        "beef"
+      ],
+      "desc": "A proper Sunday roast.",
+      "how": "bake(beef)"
+    },
+    {
+      "id": "potato_gratin",
+      "name": "Potato Gratin",
+      "arch": [
+        "roasted"
+      ],
+      "need": [
+        "potato",
+        "cream"
+      ],
+      "desc": "Thin potatoes baked in cream.",
+      "how": "bake(chop(potato),cream,cheese)"
+    },
+    {
+      "id": "roast_potatoes",
+      "name": "Roast Potatoes",
+      "arch": [
+        "roasted"
+      ],
+      "need": [
+        "potato",
+        "op:chop"
+      ],
+      "desc": "Crispy outside, fluffy inside.",
+      "how": "bake(chop(potato),oil)"
+    },
+    {
+      "id": "parmigiana",
+      "name": "Eggplant Parmigiana",
+      "arch": [
+        "roasted"
+      ],
+      "need": [
+        "eggplant",
+        "tomato",
+        "cheese"
+      ],
+      "desc": "Layers of eggplant, tomato and cheese.",
+      "how": "bake(fry(eggplant),boil(tomato),cheese)"
+    },
+    {
+      "id": "nasu_dengaku",
+      "name": "Nasu Dengaku",
+      "arch": [
+        "roasted"
+      ],
+      "need": [
+        "eggplant",
+        "miso"
+      ],
+      "desc": "Eggplant glazed with sweet miso.",
+      "how": "bake(eggplant,miso)"
+    },
+    {
+      "id": "enchiladas",
+      "name": "Enchiladas",
+      "arch": [
+        "roast",
+        "roasted",
+        "baked",
+        "melted"
+      ],
+      "need": [
+        "arch:wrap",
+        "tomato"
+      ],
+      "desc": "Rolled tortillas baked in sauce.",
+      "how": "bake(mix(fry(mix(flour,water,corn)),chicken),boil(tomato),cheese)"
+    },
+    {
+      "id": "nachos",
+      "name": "Nachos",
+      "arch": [
+        "roasted",
+        "baked",
+        "melted"
+      ],
+      "need": [
+        "corn",
+        "cheese",
+        "op:chop"
+      ],
+      "desc": "Crispy chips under melted cheese.",
+      "how": "bake(chop(fry(mix(flour,water,corn))),cheese)"
+    },
+    {
+      "id": "baked_camembert",
+      "name": "Baked Camembert",
+      "arch": [
+        "melted"
+      ],
+      "need": [
+        "cheese"
+      ],
+      "desc": "A whole cheese, warm and oozing.",
+      "how": "bake(cheese)"
+    },
+    {
+      "id": "roast_brussels",
+      "name": "Roasted Brussels Sprouts",
+      "arch": [
+        "roasted"
+      ],
+      "need": [
+        "brussels_sprouts"
+      ],
+      "season": "winter",
+      "desc": "Crispy, nutty little sprouts.",
+      "how": "bake(brussels_sprouts,oil)"
+    },
+    {
+      "id": "candied_yams",
+      "name": "Candied Sweet Potatoes",
+      "arch": [
+        "roasted"
+      ],
+      "need": [
+        "sweet_potato",
+        "maple_syrup"
+      ],
+      "season": "autumn",
+      "desc": "Sticky, sweet and festive.",
+      "how": "bake(sweet_potato,maple_syrup)"
+    },
+    {
+      "id": "baked_apples",
+      "name": "Baked Apples",
+      "arch": [
+        "baked"
+      ],
+      "need": [
+        "apple",
+        "cinnamon"
+      ],
+      "desc": "Soft, spiced and warm.",
+      "how": "bake(apple,cinnamon)"
+    },
+    {
+      "id": "poached_pears",
+      "name": "Poached Pears",
+      "arch": [
+        "boiled"
+      ],
+      "need": [
+        "pear"
+      ],
+      "season": "autumn",
+      "desc": "Tender pears in a gentle syrup.",
+      "how": "boil(pear,water)"
+    },
+    {
+      "id": "steamed_fish",
+      "name": "Steamed Fish with Ginger",
+      "arch": [
+        "steamed"
+      ],
+      "need": [
+        "fish",
+        "ginger"
+      ],
+      "desc": "Delicate fish with a gentle zing.",
+      "how": "steam(fish,ginger)"
+    },
+    {
+      "id": "stamppot",
+      "name": "Stamppot",
+      "arch": [
+        "mash"
+      ],
+      "need": [
+        "potato",
+        "kale"
+      ],
+      "season": "winter",
+      "desc": "Dutch mash with kale.",
+      "how": "mash(boil(potato,kale,water))"
+    },
+    {
+      "id": "colcannon",
+      "name": "Colcannon",
+      "arch": [
+        "mash"
+      ],
+      "need": [
+        "potato",
+        "cabbage"
+      ],
+      "desc": "Irish mash with cabbage.",
+      "how": "mash(boil(potato,cabbage,water))"
+    },
+    {
+      "id": "chickpea_hummus",
+      "name": "Hummus with Tahini",
+      "arch": [
+        "mash",
+        "paste",
+        "puree"
+      ],
+      "need": [
+        "chickpeas",
+        "sesame"
+      ],
+      "desc": "Smooth chickpeas with nutty tahini.",
+      "how": "mash(boil(chickpeas,water),lemon,sesame)"
+    },
+    {
+      "id": "chicken_waffles",
+      "name": "Chicken & Waffles",
+      "arch": [
+        "plateWith"
+      ],
+      "need": [
+        "chicken",
+        [
+          "arch:waffles",
+          "arch:flavWaffles"
+        ]
+      ],
+      "desc": "Crispy chicken on a waffle. Trust us.",
+      "how": "plate(fry(chicken,flour),waffle(mix(flour,egg,milk)))"
+    },
+    {
+      "id": "steak_frites",
+      "name": "Steak Frites",
+      "arch": [
+        "plateWith"
+      ],
+      "need": [
+        "beef",
+        "arch:fries"
+      ],
+      "desc": "A French bistro favourite.",
+      "how": "plate(grill(beef),fry(chop(potato)))"
+    },
+    {
+      "id": "surf_turf",
+      "name": "Surf & Turf",
+      "arch": [
+        "plateWith"
+      ],
+      "need": [
+        "beef",
+        "shrimp"
+      ],
+      "desc": "A little bit of land and sea.",
+      "how": "plate(grill(beef),fry(shrimp))"
+    },
+    {
+      "id": "bangers_mash",
+      "name": "Bangers & Mash",
+      "arch": [
+        "plateWith"
+      ],
+      "need": [
+        "sausage",
+        "arch:mash"
+      ],
+      "desc": "Sausages and mash, a British hug.",
+      "how": "plate(fry(sausage),mash(boil(potato,water)))"
+    },
+    {
+      "id": "sunday_roast",
+      "name": "Sunday Roast",
+      "arch": [
+        "plateWith"
+      ],
+      "need": [
+        "arch:roast",
+        "arch:roastVeg"
+      ],
+      "desc": "The whole family around the table.",
+      "how": "plate(bake(chicken,herbs),bake(potato,carrot,onion))"
+    },
+    {
+      "id": "jacket_beans",
+      "name": "Jacket Potato with Beans",
+      "arch": [
+        "plateWith"
+      ],
+      "need": [
+        "arch:bakedPotato",
+        "beans"
+      ],
+      "desc": "A fluffy potato with a saucy topping.",
+      "how": "plate(bake(potato),boil(beans,tomato))"
+    },
+    {
+      "id": "eggs_benedict",
+      "name": "Eggs Benedict",
+      "arch": [
+        "plateWith"
+      ],
+      "need": [
+        "egg",
+        "ham",
+        "arch:toast"
+      ],
+      "desc": "A fancy brunch with ham and egg.",
+      "how": "plate(peel(boil(egg,water)),ham,fry(chop(bake(mix(flour,water,yeast)))))"
+    },
+    {
+      "id": "eggs_soldiers",
+      "name": "Eggs & Soldiers",
+      "arch": [
+        "plateWith"
+      ],
+      "need": [
+        "arch:boiledEgg",
+        "arch:toast"
+      ],
+      "desc": "A soft egg with toast to dip.",
+      "how": "plate(boil(egg,water),fry(chop(bake(mix(flour,water,yeast)))))"
+    },
+    {
+      "id": "churros_chocolate",
+      "name": "Churros con Chocolate",
+      "arch": [
+        "plateWith"
+      ],
+      "need": [
+        "arch:churros",
+        "arch:hotChocolate"
+      ],
+      "desc": "Dunk crispy churros in thick chocolate.",
+      "how": "plate(fry(pipe(mix(flour,water))),boil(milk,chocolate))"
+    },
+    {
+      "id": "rhubarb_custard",
+      "name": "Rhubarb & Custard",
+      "arch": [
+        "plateWith"
+      ],
+      "need": [
+        "rhubarb",
+        "arch:custard"
+      ],
+      "season": "spring",
+      "desc": "Pink and yellow, sweet and tart.",
+      "how": "plate(boil(rhubarb,sugar),boil(egg,milk,sugar))"
+    },
+    {
+      "id": "fig_cheese",
+      "name": "Figs & Cheese",
+      "arch": [
+        "plateWith"
+      ],
+      "need": [
+        "fig",
+        "cheese"
+      ],
+      "season": "autumn",
+      "desc": "A grown-up little cheese board.",
+      "how": "plate(bake(fig,honey),cheese)"
+    },
+    {
       "id": "pumpkin_soup",
       "name": "Pumpkin Soup",
       "arch": [
