@@ -2,9 +2,9 @@
   "_help": [
     "handTools : utensils hanging on the wall rail. Drag one onto food (or a stack of food) to use it.",
     "            The hands have \"menu\": true, so they offer every hand action that makes sense (squish, squeeze, peel…).",
-    "            op = what it does: squish, chop, whisk, mix, roll, mash, grate, grind.",
+    "            op = what it does: squish, chop, whisk, mix, roll, mash, grate, grind, peel, pipe, rollup.",
     "appliances: the big tools on the counter. Drop food (or a stack) into one to cook it.",
-    "            op = boil, fry, bake, blend, grill, steam, freeze, marinate, age, plate.",
+    "            op = boil, fry, bake, blend, grill, steam, freeze, marinate, age, wok, waffle, plate.",
     "            The plate collects up to 'slots' things; press Serve to call the critic.",
     "pantry    : the sections of the pantry, and which ingredient categories ('cat' in ingredients.json) go in each."
   ],
@@ -81,6 +81,33 @@
         "color": "#b9b2a8",
         "accent": "#8f877c"
       }
+    },
+    {
+      "id": "peeler",
+      "op": "peel",
+      "art": {
+        "shape": "peeler",
+        "color": "#c9d2da",
+        "accent": "#79b55a"
+      }
+    },
+    {
+      "id": "pipingBag",
+      "op": "pipe",
+      "art": {
+        "shape": "pipingBag",
+        "color": "#f4f1ea",
+        "accent": "#f6b8c8"
+      }
+    },
+    {
+      "id": "sushiMat",
+      "op": "rollup",
+      "art": {
+        "shape": "sushiMat",
+        "color": "#e8cf96",
+        "accent": "#6b8f3e"
+      }
     }
   ],
   "appliances": [
@@ -113,6 +140,15 @@
       }
     },
     {
+      "id": "wok",
+      "op": "wok",
+      "art": {
+        "shape": "wok",
+        "color": "#4f4a46",
+        "accent": "#b98149"
+      }
+    },
+    {
       "id": "oven",
       "op": "bake",
       "art": {
@@ -128,6 +164,15 @@
         "shape": "blender",
         "color": "#cfe8ee",
         "accent": "#e07a6a"
+      }
+    },
+    {
+      "id": "waffleIron",
+      "op": "waffle",
+      "art": {
+        "shape": "waffleIron",
+        "color": "#e6dccb",
+        "accent": "#6b4a33"
       }
     },
     {
@@ -234,6 +279,12 @@
       "cats": [
         "sweet",
         "nut"
+      ]
+    },
+    {
+      "id": "garnish",
+      "cats": [
+        "garnish"
       ]
     }
   ],

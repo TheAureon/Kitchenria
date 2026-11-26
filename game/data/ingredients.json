@@ -1556,6 +1556,800 @@
         "color": "#f5a24a",
         "accent": "#5f9e45"
       }
+    },
+    {
+      "id": "shrimp",
+      "name": "Shrimp",
+      "mod": "Shrimp",
+      "cat": "protein",
+      "form": "whole",
+      "flags": [
+        "raw"
+      ],
+      "taste": {
+        "umami": 1.5,
+        "salty": 0.5,
+        "fresh": 0.5
+      },
+      "color": "#f4a07a",
+      "pack": "world",
+      "desc": "Curled up like a tiny comma. Very polite.",
+      "art": {
+        "shape": "shrimp",
+        "color": "#f4a07a",
+        "accent": "#e2775a"
+      }
+    },
+    {
+      "id": "beef",
+      "name": "Beef",
+      "mod": "Beef",
+      "cat": "protein",
+      "form": "whole",
+      "flags": [
+        "raw"
+      ],
+      "taste": {
+        "umami": 2,
+        "rich": 1.5
+      },
+      "color": "#c0574a",
+      "pack": "market",
+      "desc": "A hearty slab with big plans.",
+      "art": {
+        "shape": "strip",
+        "color": "#c0574a",
+        "accent": "#f2c1b5"
+      }
+    },
+    {
+      "id": "sausage",
+      "name": "Sausage",
+      "mod": "Sausage",
+      "cat": "protein",
+      "form": "whole",
+      "flags": [
+        "raw"
+      ],
+      "taste": {
+        "umami": 1.5,
+        "salty": 1,
+        "rich": 1.5
+      },
+      "color": "#c8714f",
+      "pack": "market",
+      "desc": "A plump little link. Sizzles with joy.",
+      "art": {
+        "shape": "sausage",
+        "color": "#c8714f",
+        "accent": "#9a4f35"
+      }
+    },
+    {
+      "id": "ham",
+      "name": "Ham",
+      "mod": "Ham",
+      "cat": "protein",
+      "form": "whole",
+      "flags": [],
+      "taste": {
+        "salty": 1.5,
+        "umami": 1
+      },
+      "color": "#f2a5a0",
+      "pack": "market",
+      "desc": "Thin pink slices, folded neatly.",
+      "art": {
+        "shape": "strip",
+        "color": "#f2a5a0",
+        "accent": "#fbd6d2"
+      }
+    },
+    {
+      "id": "tofu",
+      "name": "Tofu",
+      "mod": "Tofu",
+      "cat": "protein",
+      "form": "block",
+      "flags": [],
+      "taste": {
+        "umami": 0.5,
+        "fresh": 0.5
+      },
+      "color": "#f5efe0",
+      "pack": "world",
+      "desc": "A soft, wobbly cube that soaks up everything.",
+      "art": {
+        "shape": "block",
+        "color": "#f5efe0",
+        "accent": "#e2d8c0"
+      }
+    },
+    {
+      "id": "lime",
+      "name": "Lime",
+      "mod": "Lime",
+      "cat": "fruit",
+      "form": "whole",
+      "flags": [
+        "juicy",
+        "acid"
+      ],
+      "taste": {
+        "sour": 2.5,
+        "fresh": 1.5
+      },
+      "color": "#9ccf4f",
+      "pack": "world",
+      "desc": "Tiny, green and full of zing.",
+      "art": {
+        "shape": "lemon",
+        "color": "#9ccf4f",
+        "accent": "#7aae36"
+      }
+    },
+    {
+      "id": "mango",
+      "name": "Mango",
+      "mod": "Mango",
+      "cat": "fruit",
+      "form": "whole",
+      "flags": [
+        "juicy"
+      ],
+      "taste": {
+        "sweet": 2.5,
+        "fresh": 1
+      },
+      "color": "#f7b23b",
+      "pack": "world",
+      "desc": "Sunshine you can eat with a spoon.",
+      "art": {
+        "shape": "pear",
+        "color": "#f7b23b",
+        "accent": "#e6812e"
+      }
+    },
+    {
+      "id": "pineapple",
+      "name": "Pineapple",
+      "mod": "Pineapple",
+      "cat": "fruit",
+      "form": "whole",
+      "flags": [
+        "juicy",
+        "acid"
+      ],
+      "taste": {
+        "sweet": 2,
+        "sour": 1,
+        "fresh": 1
+      },
+      "color": "#f6d14a",
+      "pack": "world",
+      "desc": "Spiky outside, sweet inside. Like a good friend.",
+      "art": {
+        "shape": "pineapple",
+        "color": "#f6d14a",
+        "accent": "#6fae45"
+      }
+    },
+    {
+      "id": "cucumber",
+      "name": "Cucumber",
+      "mod": "Cucumber",
+      "cat": "veg",
+      "form": "whole",
+      "flags": [
+        "juicy"
+      ],
+      "taste": {
+        "fresh": 2.5
+      },
+      "color": "#7fb85a",
+      "pack": "garden",
+      "desc": "Cool as a… well, you know.",
+      "art": {
+        "shape": "cucumber",
+        "color": "#7fb85a",
+        "accent": "#5d963e"
+      }
+    },
+    {
+      "id": "lettuce",
+      "name": "Lettuce",
+      "mod": "Lettuce",
+      "cat": "veg",
+      "form": "leaves",
+      "flags": [],
+      "taste": {
+        "fresh": 2
+      },
+      "color": "#9fd36b",
+      "pack": "garden",
+      "desc": "Crunchy, frilly and always fresh.",
+      "art": {
+        "shape": "leaves",
+        "color": "#9fd36b",
+        "accent": "#79b84a"
+      }
+    },
+    {
+      "id": "eggplant",
+      "name": "Eggplant",
+      "mod": "Eggplant",
+      "cat": "veg",
+      "form": "whole",
+      "flags": [
+        "raw"
+      ],
+      "taste": {
+        "umami": 0.5,
+        "bitter": 0.3
+      },
+      "color": "#7a4a8c",
+      "pack": "garden",
+      "desc": "Glossy, purple and very proud of it.",
+      "art": {
+        "shape": "pear",
+        "color": "#7a4a8c",
+        "accent": "#5c3470"
+      }
+    },
+    {
+      "id": "cabbage",
+      "name": "Cabbage",
+      "mod": "Cabbage",
+      "cat": "veg",
+      "form": "leaves",
+      "flags": [],
+      "taste": {
+        "fresh": 1,
+        "sweet": 0.3
+      },
+      "color": "#b9d98a",
+      "pack": "garden",
+      "desc": "Leaf upon leaf upon leaf.",
+      "art": {
+        "shape": "pumpkin",
+        "color": "#b9d98a",
+        "accent": "#8fbf5a"
+      }
+    },
+    {
+      "id": "celery",
+      "name": "Celery",
+      "mod": "Celery",
+      "cat": "veg",
+      "form": "whole",
+      "flags": [],
+      "taste": {
+        "fresh": 1.5,
+        "salty": 0.3
+      },
+      "color": "#a8d672",
+      "pack": "garden",
+      "desc": "Snappy green sticks that crunch loudly.",
+      "art": {
+        "shape": "sticks",
+        "color": "#a8d672",
+        "accent": "#7fb84a"
+      }
+    },
+    {
+      "id": "lentils",
+      "name": "Lentils",
+      "mod": "Lentils",
+      "cat": "protein",
+      "form": "grains",
+      "flags": [
+        "raw",
+        "starchy"
+      ],
+      "taste": {
+        "umami": 1
+      },
+      "color": "#c98a4b",
+      "pack": "market",
+      "desc": "Tiny lenses for seeing dinner clearly.",
+      "art": {
+        "shape": "pieces",
+        "color": "#c98a4b",
+        "accent": "#a86a32"
+      }
+    },
+    {
+      "id": "chickpeas",
+      "name": "Chickpeas",
+      "mod": "Chickpeas",
+      "cat": "protein",
+      "form": "grains",
+      "flags": [
+        "raw",
+        "starchy"
+      ],
+      "taste": {
+        "umami": 0.8,
+        "rich": 0.5
+      },
+      "color": "#e2c27d",
+      "pack": "world",
+      "desc": "Round, nutty and a bit wrinkly.",
+      "art": {
+        "shape": "pieces",
+        "color": "#e2c27d",
+        "accent": "#c9a35c"
+      }
+    },
+    {
+      "id": "cream_cheese",
+      "name": "Cream Cheese",
+      "mod": "Cream Cheese",
+      "cat": "dairy",
+      "form": "block",
+      "flags": [
+        "dairy",
+        "fat"
+      ],
+      "taste": {
+        "rich": 2,
+        "sour": 0.5
+      },
+      "color": "#fbf6ec",
+      "pack": "bakery",
+      "desc": "Soft, tangy and spreads like a dream.",
+      "art": {
+        "shape": "ramekin",
+        "color": "#fbf6ec",
+        "accent": "#e9ddc8"
+      }
+    },
+    {
+      "id": "maple_syrup",
+      "name": "Maple Syrup",
+      "mod": "Maple",
+      "cat": "sweet",
+      "form": "liquid",
+      "flags": [
+        "sweetener"
+      ],
+      "taste": {
+        "sweet": 3
+      },
+      "color": "#b8702e",
+      "pack": "bakery",
+      "desc": "Tree sap with a cosy jumper on.",
+      "art": {
+        "shape": "bottle",
+        "color": "#b8702e",
+        "accent": "#8a4f1e"
+      }
+    },
+    {
+      "id": "mustard",
+      "name": "Mustard",
+      "mod": "Mustard",
+      "cat": "condiment",
+      "form": "liquid",
+      "flags": [
+        "seasoning"
+      ],
+      "taste": {
+        "spicy": 1.2,
+        "sour": 0.8
+      },
+      "color": "#e6b821",
+      "pack": "market",
+      "desc": "A yellow tingle for your nose.",
+      "art": {
+        "shape": "jar",
+        "color": "#e6b821",
+        "accent": "#b98a12"
+      },
+      "weight": 0.5
+    },
+    {
+      "id": "breadcrumbs",
+      "name": "Breadcrumbs",
+      "mod": "Breadcrumbs",
+      "cat": "grain",
+      "form": "powder",
+      "flags": [],
+      "taste": {
+        "sweet": 0.3
+      },
+      "color": "#d9a860",
+      "pack": "bakery",
+      "desc": "Crunchy crumbs, ready to coat things.",
+      "art": {
+        "shape": "sack",
+        "color": "#d9a860",
+        "accent": "#b98149"
+      }
+    },
+    {
+      "id": "miso",
+      "name": "Miso",
+      "mod": "Miso",
+      "cat": "condiment",
+      "form": "block",
+      "flags": [
+        "seasoning"
+      ],
+      "taste": {
+        "salty": 2,
+        "umami": 2.5
+      },
+      "color": "#c89a50",
+      "pack": "world",
+      "desc": "A deep, savoury paste that warms the soul.",
+      "art": {
+        "shape": "ramekin",
+        "color": "#c89a50",
+        "accent": "#a87a32"
+      },
+      "weight": 0.5
+    },
+    {
+      "id": "mozzarella",
+      "name": "Mozzarella",
+      "mod": "Mozzarella",
+      "cat": "dairy",
+      "form": "block",
+      "flags": [
+        "dairy"
+      ],
+      "taste": {
+        "rich": 1.5,
+        "fresh": 0.5
+      },
+      "color": "#fbfaf3",
+      "pack": "market",
+      "desc": "A soft white ball that stretches when warm.",
+      "art": {
+        "shape": "egg",
+        "color": "#fbfaf3",
+        "accent": "#ece7d6"
+      }
+    },
+    {
+      "id": "sprinkles",
+      "name": "Sprinkles",
+      "mod": "Sprinkles",
+      "cat": "garnish",
+      "form": "powder",
+      "flags": [
+        "garnish"
+      ],
+      "taste": {
+        "sweet": 1
+      },
+      "color": "#f48fb1",
+      "pack": "bakery",
+      "desc": "A tiny party in every pinch.",
+      "art": {
+        "shape": "jar",
+        "color": "#f48fb1",
+        "accent": "#7fc7e8"
+      },
+      "weight": 0.3
+    },
+    {
+      "id": "edible_flowers",
+      "name": "Edible Flowers",
+      "mod": "Edible Flowers",
+      "cat": "garnish",
+      "form": "leaves",
+      "flags": [
+        "garnish"
+      ],
+      "taste": {
+        "fresh": 0.5
+      },
+      "color": "#e889c4",
+      "pack": "garden",
+      "desc": "Pretty petals you are allowed to eat.",
+      "art": {
+        "shape": "flower",
+        "color": "#e889c4",
+        "accent": "#f6d14a"
+      },
+      "weight": 0.3
+    },
+    {
+      "id": "sesame",
+      "name": "Sesame Seeds",
+      "mod": "Sesame",
+      "cat": "garnish",
+      "form": "grains",
+      "flags": [
+        "garnish"
+      ],
+      "taste": {
+        "rich": 0.5,
+        "umami": 0.3
+      },
+      "color": "#ecd9a6",
+      "pack": "world",
+      "desc": "Little seeds with a toasty whisper.",
+      "art": {
+        "shape": "shaker",
+        "color": "#ecd9a6",
+        "accent": "#c9a35c"
+      },
+      "weight": 0.3
+    },
+    {
+      "id": "chives",
+      "name": "Chives",
+      "mod": "Chives",
+      "cat": "garnish",
+      "form": "leaves",
+      "flags": [
+        "garnish"
+      ],
+      "taste": {
+        "fresh": 1,
+        "spicy": 0.2
+      },
+      "color": "#6fb04a",
+      "pack": "garden",
+      "desc": "Thin green stems with a gentle oniony hello.",
+      "art": {
+        "shape": "sticks",
+        "color": "#6fb04a",
+        "accent": "#4f8f32"
+      },
+      "weight": 0.3
+    },
+    {
+      "id": "icing_sugar",
+      "name": "Icing Sugar",
+      "mod": "Icing",
+      "cat": "garnish",
+      "form": "powder",
+      "flags": [
+        "garnish",
+        "sweetener"
+      ],
+      "taste": {
+        "sweet": 2
+      },
+      "color": "#fffdfa",
+      "pack": "bakery",
+      "desc": "A snowy dusting for anything sweet.",
+      "art": {
+        "shape": "shaker",
+        "color": "#fffdfa",
+        "accent": "#e9e2d6"
+      },
+      "weight": 0.3
+    },
+    {
+      "id": "cocoa",
+      "name": "Cocoa Powder",
+      "mod": "Cocoa",
+      "cat": "garnish",
+      "form": "powder",
+      "flags": [
+        "garnish"
+      ],
+      "taste": {
+        "bitter": 1,
+        "sweet": 0.3,
+        "rich": 0.5
+      },
+      "color": "#6b4430",
+      "pack": "bakery",
+      "desc": "A dark, chocolatey dust.",
+      "art": {
+        "shape": "shaker",
+        "color": "#6b4430",
+        "accent": "#4a2e20"
+      },
+      "weight": 0.3
+    },
+    {
+      "id": "cress",
+      "name": "Cress",
+      "mod": "Cress",
+      "cat": "garnish",
+      "form": "leaves",
+      "flags": [
+        "garnish"
+      ],
+      "taste": {
+        "fresh": 1.5,
+        "spicy": 0.3
+      },
+      "color": "#8fcf5a",
+      "pack": "garden",
+      "desc": "A fluffy green cloud of tiny leaves.",
+      "art": {
+        "shape": "leaves",
+        "color": "#8fcf5a",
+        "accent": "#6aa83c"
+      },
+      "weight": 0.3
+    },
+    {
+      "id": "fig",
+      "name": "Fig",
+      "mod": "Fig",
+      "cat": "fruit",
+      "form": "whole",
+      "flags": [
+        "juicy"
+      ],
+      "taste": {
+        "sweet": 2.5
+      },
+      "color": "#8a4f7d",
+      "pack": "season",
+      "desc": "Jammy and purple, a little autumn secret.",
+      "art": {
+        "shape": "pear",
+        "color": "#8a4f7d",
+        "accent": "#5f3356"
+      },
+      "season": "autumn"
+    },
+    {
+      "id": "sweet_potato",
+      "name": "Sweet Potato",
+      "mod": "Sweet Potato",
+      "cat": "veg",
+      "form": "whole",
+      "flags": [
+        "starchy",
+        "raw"
+      ],
+      "taste": {
+        "sweet": 1.5
+      },
+      "color": "#e08a4a",
+      "pack": "season",
+      "desc": "An orange potato in a sweet mood.",
+      "art": {
+        "shape": "potato",
+        "color": "#e08a4a",
+        "accent": "#b8652e"
+      },
+      "season": "autumn"
+    },
+    {
+      "id": "brussels_sprouts",
+      "name": "Brussels Sprouts",
+      "mod": "Sprout",
+      "cat": "veg",
+      "form": "whole",
+      "flags": [
+        "raw"
+      ],
+      "taste": {
+        "bitter": 0.5,
+        "umami": 0.3
+      },
+      "color": "#8fbf5a",
+      "pack": "season",
+      "desc": "Tiny cabbages. Secretly delicious.",
+      "art": {
+        "shape": "berry",
+        "color": "#8fbf5a",
+        "accent": "#6a9c3c"
+      },
+      "season": "winter"
+    },
+    {
+      "id": "leek",
+      "name": "Leek",
+      "mod": "Leek",
+      "cat": "veg",
+      "form": "whole",
+      "flags": [],
+      "taste": {
+        "sweet": 0.5,
+        "fresh": 0.5
+      },
+      "color": "#b7d88a",
+      "pack": "season",
+      "desc": "A tall, gentle cousin of the onion.",
+      "art": {
+        "shape": "sticks",
+        "color": "#b7d88a",
+        "accent": "#e8f0d6"
+      },
+      "season": "winter"
+    },
+    {
+      "id": "spring_onion",
+      "name": "Spring Onion",
+      "mod": "Spring Onion",
+      "cat": "veg",
+      "form": "whole",
+      "flags": [],
+      "taste": {
+        "fresh": 1.5,
+        "spicy": 0.3
+      },
+      "color": "#9ad06a",
+      "pack": "season",
+      "desc": "Green and white and full of spring.",
+      "art": {
+        "shape": "sticks",
+        "color": "#9ad06a",
+        "accent": "#f2f6e6"
+      },
+      "season": "spring"
+    },
+    {
+      "id": "elderflower",
+      "name": "Elderflower",
+      "mod": "Elderflower",
+      "cat": "herb",
+      "form": "leaves",
+      "flags": [
+        "tea"
+      ],
+      "taste": {
+        "sweet": 1,
+        "fresh": 2
+      },
+      "color": "#f6f1d8",
+      "pack": "season",
+      "desc": "Lacy white blossoms that smell of spring.",
+      "art": {
+        "shape": "flower",
+        "color": "#f6f1d8",
+        "accent": "#e6d98a"
+      },
+      "season": "spring"
+    },
+    {
+      "id": "raspberry",
+      "name": "Raspberry",
+      "mod": "Raspberry",
+      "cat": "fruit",
+      "form": "whole",
+      "flags": [
+        "juicy"
+      ],
+      "taste": {
+        "sweet": 2,
+        "sour": 0.8
+      },
+      "color": "#e2475f",
+      "pack": "season",
+      "desc": "A little red hat of sweetness.",
+      "art": {
+        "shape": "berry",
+        "color": "#e2475f",
+        "accent": "#b82c44"
+      },
+      "season": "summer"
+    },
+    {
+      "id": "plum",
+      "name": "Plum",
+      "mod": "Plum",
+      "cat": "fruit",
+      "form": "whole",
+      "flags": [
+        "juicy"
+      ],
+      "taste": {
+        "sweet": 2,
+        "sour": 0.8
+      },
+      "color": "#7d3f73",
+      "pack": "season",
+      "desc": "Round, dusky and juicy.",
+      "art": {
+        "shape": "apple",
+        "color": "#7d3f73",
+        "accent": "#5a2a52"
+      },
+      "season": "summer"
     }
   ]
 }

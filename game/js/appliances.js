@@ -14,7 +14,7 @@ import { bounce, toast, esc } from './effects.js';
 let stripEl;
 let hooks = {};
 const busy = new Set();
-const SOUND = { boil: 'bubble', fry: 'sizzle', bake: 'ding', blend: 'whirr', grill: 'sizzle', steam: 'bubble', freeze: 'freeze', marinate: 'stir', age: 'ding', plate: 'drop' };
+const SOUND = { boil: 'bubble', fry: 'sizzle', bake: 'ding', blend: 'whirr', grill: 'sizzle', steam: 'bubble', freeze: 'freeze', marinate: 'stir', age: 'ding', wok: 'sizzle', waffle: 'ding', plate: 'drop' };
 
 /**
  * @param {object} h  hooks from main.js:

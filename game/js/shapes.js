@@ -754,3 +754,135 @@ Object.assign(SHAPES, {
     return { body: s, face: null, top: [50, 30, 30] };
   },
 });
+
+// ---------------- Stage 3: more food & new tools ----------------
+Object.assign(SHAPES, {
+  // ----- ingredients -----
+  shrimp(k, o) {
+    const outer = [[70, 26], [82, 44], [80, 66], [66, 82], [44, 86], [26, 76], [22, 62], [36, 64], [50, 66], [62, 56], [64, 42], [56, 34]];
+    let s = k.shape([[24, 70], [10, 62], [12, 80]], o.a, { wob: 0.6, sw: 2.4, sketch: false });
+    s += k.shape(outer, o.c, { wob: 0.9, tension: 0.8 });
+    for (const [a, b] of [[[74, 40], [62, 46]], [[78, 56], [64, 58]], [[70, 70], [56, 66]], [[56, 80], [46, 70]]]) s += k.line([a, b], { color: o.a, sw: 1.8, opacity: 0.8 });
+    s += k.line([[66, 28], [58, 14], [44, 10]], { color: o.a, sw: 1.6 }) + k.line([[70, 28], [70, 12]], { color: o.a, sw: 1.6 });
+    return { body: s, face: [70, 46, 0.6], top: [60, 30, 30] };
+  },
+  sausage(k, o) {
+    let s = `<g transform="rotate(-20 50 54)">` + k.shape(k.rectPts(12, 38, 76, 30, 15), o.c, { wob: 0.9 });
+    s += k.line([[24, 46], [70, 44]], { color: '#fff', sw: 2.4, opacity: 0.45 });
+    s += k.line([[10, 53], [4, 50]], { color: o.a, sw: 2.4 }) + k.line([[90, 53], [96, 56]], { color: o.a, sw: 2.4 }) + '</g>';
+    return { body: s, face: [50, 56, 0.85], top: [50, 36, 40] };
+  },
+  flower(k, o) {
+    let s = k.line([[50, 60], [48, 92]], { color: '#5f9e45', sw: 3.4 });
+    s += k.shape([[48, 78], [32, 70], [36, 82]], '#79b55a', { wob: 0.5, sw: 2, sketch: false });
+    for (let i = 0; i < 5; i++) { const a = -PI / 2 + (i / 5) * PI * 2; s += k.shape(lobe(50 + cos(a) * 15, 42 + sin(a) * 15, 11, 11, 9), o.c, { wob: 0.8, sw: 2.4, sketch: false }); }
+    s += k.circle(50, 42, 8, o.a, { sw: 2.2 });
+    return { body: s, face: [50, 43, 0.5], top: [50, 22, 30] };
+  },
+  pineapple(k, o) {
+    let s = '';
+    for (const [x2, y2] of [[34, 10], [50, 4], [66, 10], [42, 6], [58, 6]]) s += k.shape([[46, 32], [x2 - 3, y2 + 6], [x2, y2], [54, 32]], o.a, { wob: 0.5, sw: 2.2, sketch: false });
+    s += k.shape(lobe(50, 60, 26, 30, 14), o.c, { wob: 1 });
+    for (let i = 0; i < 4; i++) { s += k.line([[30, 42 + i * 12], [70, 54 + i * 12]], { color: k.shade(o.c, -0.25), sw: 1.4, opacity: 0.7 }); s += k.line([[70, 42 + i * 12], [30, 54 + i * 12]], { color: k.shade(o.c, -0.25), sw: 1.4, opacity: 0.7 }); }
+    return { body: s, face: [50, 62, 0.9], top: [50, 34, 30] };
+  },
+  cucumber(k, o) {
+    let s = `<g transform="rotate(-28 50 52)">` + k.shape(k.rectPts(10, 36, 80, 30, 15), o.c, { wob: 1 });
+    for (const [x, y] of [[24, 44], [40, 58], [56, 44], [72, 56], [32, 52], [64, 48]]) s += `<circle cx="${x}" cy="${y}" r="1.4" fill="${k.shade(o.c, 0.4)}"/>`;
+    s += k.line([[20, 42], [70, 40]], { color: '#fff', sw: 2, opacity: 0.4 }) + '</g>';
+    return { body: s, face: [50, 54, 0.85], top: [50, 36, 40] };
+  },
+
+  // ----- new dishes -----
+  piped(k, o) { // rosettes / meringues / piped dough on a little tray
+    let s = k.shape(lobe(50, 74, 42, 12, 16), '#f2efe8', { wob: 0.6, sw: 2.6 });
+    for (const [x, y, r] of [[30, 62, 13], [54, 58, 14], [74, 66, 11]]) {
+      s += k.shape([[x - r, y + 8], [x - r * 0.7, y - 2], [x - r * 0.2, y - r * 0.9], [x, y - r * 1.5], [x + r * 0.3, y - r * 0.8], [x + r * 0.8, y - 1], [x + r, y + 8]], o.c, { wob: 0.7, tension: 0.8 });
+      s += k.line([[x - r * 0.7, y + 2], [x, y - 3], [x + r * 0.6, y + 2]], { color: k.shade(o.c, -0.2), sw: 1.4, opacity: 0.8 });
+    }
+    return { body: s, face: [54, 56, 0.7], top: [52, 38, 40] };
+  },
+  sushi(k, o) { // three round slices of a rolled-up thing
+    let s = '';
+    for (const [x, y] of [[28, 64], [72, 64], [50, 46]]) {
+      s += k.shape(lobe(x, y, 18, 15, 12), '#2f3b2c', { wob: 0.7, sw: 2.6 });
+      s += k.fill(lobe(x, y, 14, 11.5, 12), '#fbf8f0', { wob: 0.5 });
+      s += k.fill(lobe(x, y, 6, 5, 8), o.f, { wob: 0.4 });
+    }
+    return { body: s, face: [50, 72, 0.6], top: [50, 30, 40] };
+  },
+  roulade(k, o) { // a spiral roll: swiss roll, cinnamon swirl, rolled omelette
+    let s = k.shape(k.rectPts(46, 34, 42, 40, 16), o.c, { wob: 0.8 });
+    s += k.shape(lobe(40, 54, 24, 22, 14), k.shade(o.c, 0.1), { wob: 0.9 });
+    const sp = []; for (let i = 0; i < 26; i++) { const a = i * 0.5, r = 2 + i * 0.75; sp.push([40 + cos(a) * r, 54 + sin(a) * r * 0.9]); }
+    s += k.line(sp, { color: o.f || k.shade(o.c, -0.3), sw: 3.4, wob: 0.2 });
+    return { body: s, face: [66, 60, 0.7], top: [58, 32, 40] };
+  },
+  waffle(k, o) {
+    const pts = lobe(50, 54, 38, 34, 16);
+    let s = k.shape(pts, o.c, { wob: 0.9 });
+    for (let i = -2; i <= 2; i++) { s += k.line([[50 + i * 13, 24], [50 + i * 13, 84]], { color: k.shade(o.c, -0.28), sw: 2.2, opacity: 0.85 }); s += k.line([[16, 54 + i * 12], [84, 54 + i * 12]], { color: k.shade(o.c, -0.28), sw: 2.2, opacity: 0.85 }); }
+    s += k.shape(pts, 'none', { wob: 0.4, sw: 3, sketch: false });
+    return { body: s, face: [50, 56, 0.9], top: [50, 28, 36] };
+  },
+
+  // ----- new hand tools -----
+  peeler(k, o) {
+    let s = k.shape(k.rectPts(44, 50, 12, 44, 6), o.a, { wob: 0.5, sw: 2.6 });
+    s += k.line([[38, 52], [30, 22], [50, 10], [70, 22], [62, 52]], { color: '#4a3426', sw: 6, wob: 0.3 }) + k.line([[38, 52], [30, 22], [50, 10], [70, 22], [62, 52]], { color: o.c, sw: 3, wob: 0 });
+    s += k.shape(k.rectPts(36, 22, 28, 8, 3), '#f4f7fa', { wob: 0.3, sw: 2.2, sketch: false });
+    s += k.line([[38, 26], [62, 26]], { color: '#4a3426', sw: 1.2, opacity: 0.7 });
+    return { body: s, face: null, top: [50, 30, 30] };
+  },
+  pipingBag(k, o) {
+    let s = k.shape(k.polyPts([[52, 88], [44, 74], [56, 74]]), '#c9d2da', { wob: 0.4, sw: 2.4, tension: 0.5 });
+    s += k.shape([[22, 14], [78, 14], [74, 30], [58, 74], [42, 74], [26, 30]], o.c, { wob: 0.8, tension: 0.7 });
+    s += k.fill([[30, 40], [70, 40], [58, 70], [42, 70]], o.a, { opacity: 0.75, tension: 0.7 });
+    s += k.line([[20, 14], [36, 20], [50, 14], [64, 20], [80, 14]], { color: '#4a3426', sw: 2.4 });
+    return { body: s, face: null, top: [50, 20, 30] };
+  },
+  sushiMat(k, o) {
+    let s = '';
+    for (let i = 0; i < 7; i++) s += k.shape(k.rectPts(16 + i * 10, 16, 8, 70, 3), i % 2 ? o.c : k.shade(o.c, -0.08), { wob: 0.3, sw: 2, sketch: false });
+    for (const y of [30, 52, 74]) s += k.line([[14, y], [86, y]], { color: o.a, sw: 1.6 });
+    return { body: s, face: null, top: [50, 30, 30] };
+  },
+
+  // ----- new appliances -----
+  wok(k, o) {
+    let s = k.line([[84, 44], [98, 34]], { color: '#4a3426', sw: 7 }) + k.line([[84, 44], [98, 34]], { color: o.a, sw: 3.5 });
+    s += k.line([[14, 44], [4, 40]], { color: '#4a3426', sw: 5 });
+    s += k.shape([[12, 44], [22, 66], [38, 78], [62, 78], [78, 66], [88, 44]], o.c, { wob: 0.8, tension: 0.8 });
+    s += k.shape(lobe(50, 44, 38, 8, 16), k.shade(o.c, 0.2), { wob: 0.5, sw: 2.6 });
+    s += k.line([[22, 86], [78, 86]], { color: '#e2533f', sw: 4, opacity: 0.8 });
+    for (const x of [34, 50, 66]) s += k.shape([[x - 5, 88], [x, 76], [x + 5, 88]], '#f2b33a', { wob: 0.5, sw: 1.6, sketch: false });
+    return { body: s, face: null, top: [50, 38, 40] };
+  },
+  waffleIron(k, o) {
+    let s = k.shape([[16, 40], [84, 40], [88, 70], [12, 70]], o.c, { wob: 0.8, tension: 0.5 });
+    s += k.shape([[18, 40], [26, 18], [74, 18], [82, 40]], k.shade(o.c, 0.12), { wob: 0.8, tension: 0.5 });
+    for (let i = 0; i < 4; i++) s += k.line([[32 + i * 12, 22], [28 + i * 14, 38]], { color: k.shade(o.c, -0.25), sw: 1.6 });
+    s += k.shape(k.rectPts(42, 70, 16, 12, 4), o.a, { wob: 0.4, sw: 2.4 });
+    s += k.circle(78, 56, 3, '#e8584c', { sw: 1.6 });
+    s += k.line([[44, 14], [42, 6]], { color: '#4a3426', sw: 2, opacity: 0.3, cls: 'steam-wisp' }) + k.line([[58, 14], [60, 6]], { color: '#4a3426', sw: 2, opacity: 0.3, cls: 'steam-wisp w1' });
+    return { body: s, face: null, top: [50, 14, 40] };
+  },
+});
+
+// garnishes on top of finished food
+TOPPINGS.sprinkles = (k, [x, y, w]) => {
+  const cols = ['#f48fb1', '#7fc7e8', '#f6d14a', '#9fd36b', '#ffffff', '#c9a0e8'];
+  let s = '';
+  for (let i = 0; i < 12; i++) { const px = x - w * 0.45 + ((i * 37) % 100) / 100 * w * 0.9, py = y - 8 + ((i * 53) % 100) / 100 * 18, a = (i * 47) % 180; s += `<rect x="${px.toFixed(1)}" y="${py.toFixed(1)}" width="5" height="2" rx="1" fill="${cols[i % cols.length]}" transform="rotate(${a} ${px.toFixed(1)} ${py.toFixed(1)})"/>`; }
+  return s;
+};
+TOPPINGS.flowers = (k, [x, y, w], col) => {
+  let s = '';
+  for (const [dx, dy, r] of [[-0.3, -2, 4.5], [0.25, -8, 4], [0.1, 6, 3.5]]) {
+    const cx = x + dx * w, cy = y + dy;
+    for (let i = 0; i < 5; i++) { const a = (i / 5) * PI * 2; s += `<circle cx="${(cx + cos(a) * r).toFixed(1)}" cy="${(cy + sin(a) * r).toFixed(1)}" r="${(r * 0.62).toFixed(1)}" fill="${col}" stroke="#4a3426" stroke-width=".8"/>`; }
+    s += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(r * 0.45).toFixed(1)}" fill="#f6d14a"/>`;
+  }
+  return s;
+};
+TOPPINGS.dust = (k, a, col) => scatter(k, a, 14, (px, py) => `<circle cx="${px}" cy="${py}" r="1.3" fill="${col}" opacity=".9"/>`);

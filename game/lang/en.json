@@ -1410,5 +1410,179 @@
   "atmo.lowPowerHint": "Stops moving decorations, lighting and Mochi's wandering, to save battery.",
   "atmo.south": "I live south of the equator",
   "atmo.southHint": "Flips the seasons (for example, summer in December).",
-  "atmo.seasonNow": "It's {season} in your kitchen (from your calendar)."
+  "atmo.seasonNow": "It's {season} in your kitchen (from your calendar).",
+  "tool.peeler": "Peeler",
+  "tool.pipingBag": "Piping Bag",
+  "tool.sushiMat": "Sushi Mat",
+  "tool.wok": "Wok",
+  "tool.waffleIron": "Waffle Iron",
+  "verb.peel": "Peel",
+  "verb.pipe": "Pipe",
+  "verb.rollup": "Roll up",
+  "verb.wok": "Stir-fry",
+  "verb.waffle": "Press",
+  "hand.garnish": "Garnish",
+  "pantry.garnish": "Garnishes",
+  "critic.good.garnish": [
+    "That little garnish on top? Chef’s kiss.",
+    "So pretty I almost didn’t want to eat it. Almost.",
+    "The garnish shows real care."
+  ],
+  "food.ribbons": "{x} Ribbons",
+  "desc.ribbons": [
+    "Thin, curly ribbons, light as paper."
+  ],
+  "food.meringueMix": "Meringue Mix",
+  "desc.meringueMix": [
+    "Glossy, cloud-white peaks. Pipe it or bake it!"
+  ],
+  "food.meringueSwirls": "Meringue Swirls",
+  "desc.meringueSwirls": [
+    "Little white swirls waiting for the oven."
+  ],
+  "food.meringues": "Meringues",
+  "desc.meringues": [
+    "Crisp outside, chewy inside, light as a sigh."
+  ],
+  "food.meringueNest": "Meringue Nest",
+  "desc.meringueNest": [
+    "A crunchy white nest, ready for cream and fruit."
+  ],
+  "food.rosettes": "{x} Rosettes",
+  "desc.rosettes": [
+    "Piped into neat little swirls.",
+    "Fancy little swirls, made with a steady hand."
+  ],
+  "food.duchess": "Piped {x} Swirls",
+  "desc.duchess": [
+    "Soft swirls of mash, waiting for the oven."
+  ],
+  "food.duchessBake": "Golden {x} Swirls",
+  "desc.duchessBake": [
+    "Crispy-edged swirls of baked mash."
+  ],
+  "food.pipedDough": "Piped Dough",
+  "desc.pipedDough": [
+    "Long ridged ropes of dough. Fry or bake them!"
+  ],
+  "food.pipedBatter": "Piped Batter",
+  "desc.pipedBatter": [
+    "Neat little fingers of batter, ready to bake or fry."
+  ],
+  "food.butterCookies": "Piped Butter Cookies",
+  "desc.butterCookies": [
+    "Buttery swirls that melt on your tongue."
+  ],
+  "food.breadsticks": "Breadsticks",
+  "desc.breadsticks": [
+    "Long, crunchy and perfect for dipping."
+  ],
+  "food.choux": "Choux Buns",
+  "desc.choux": [
+    "Puffy golden buns, hollow and waiting for a filling."
+  ],
+  "food.ladyfingers": "Ladyfingers",
+  "desc.ladyfingers": [
+    "Light little sponge fingers, dusted with sugar."
+  ],
+  "food.churros": "Churros",
+  "desc.churros": [
+    "Crispy ridged sticks of fried dough. Dip them!"
+  ],
+  "food.filled": "{y}-Filled {x}",
+  "desc.filled": [
+    "Something lovely hides inside.",
+    "Squeezed full of {y}."
+  ],
+  "food.frosted": "{x} with Piped {y}",
+  "desc.frosted": [
+    "Finished with a swirl of {y}.",
+    "Piped with care and a steady hand."
+  ],
+  "food.piped": "Piped {x}",
+  "desc.piped": [
+    "Squeezed out in a neat little line."
+  ],
+  "food.sushiRoll": "{x} Sushi Roll",
+  "desc.sushiRoll": [
+    "Rice and filling, rolled tight in seaweed and sliced.",
+    "Neat little rounds, ready for a dip of soy."
+  ],
+  "food.insideOut": "Inside-Out {x} Roll",
+  "desc.insideOut": [
+    "Rice on the outside, filling in the middle."
+  ],
+  "food.swissRoll": "{x} Swiss Roll",
+  "desc.swissRoll": [
+    "A soft sponge rolled around a sweet filling."
+  ],
+  "food.rolledDough": "{x} Swirl Dough",
+  "desc.rolledDough": [
+    "Dough rolled up around a filling. Bake it!"
+  ],
+  "food.strudel": "{x} Strudel",
+  "desc.strudel": [
+    "Flaky pastry wrapped around a warm filling."
+  ],
+  "food.swirlBuns": "{x} Swirl Buns",
+  "desc.swirlBuns": [
+    "Soft, spiralled buns that smell like a bakery."
+  ],
+  "food.leafRolls": "{x} Rolls",
+  "desc.leafRolls": [
+    "Tender leaves wrapped around {y}."
+  ],
+  "food.rolledUp": "Rolled {x}",
+  "desc.rolledUp": [
+    "Rolled up nice and tight."
+  ],
+  "food.rolledWith": "{x} Rolled with {y}",
+  "desc.rolledWith": [
+    "Rolled up with {y} inside."
+  ],
+  "food.wokNoodles": "{x} Wok Noodles",
+  "desc.wokNoodles": [
+    "Tossed in a roaring hot wok. Smoky and glossy."
+  ],
+  "food.scrambled": "Scrambled Eggs",
+  "desc.scrambled": [
+    "Soft, fluffy curls of egg."
+  ],
+  "food.wokTossed": "Wok-Tossed {x}",
+  "desc.wokTossed": [
+    "Seared fast in a very hot wok."
+  ],
+  "food.waffles": "Waffles",
+  "desc.waffles": [
+    "Crispy squares, perfect little pockets for syrup."
+  ],
+  "food.flavWaffles": "{x} Waffles",
+  "desc.flavWaffles": [
+    "Golden and crisp, with a hint of {x}."
+  ],
+  "food.waffleCookies": "{x} Waffle Cookies",
+  "desc.waffleCookies": [
+    "Thin, crisp cookies with a waffle pattern."
+  ],
+  "food.pressedSandwich": "Pressed {x} Sandwich",
+  "desc.pressedSandwich": [
+    "Squashed flat and toasted until it crackles."
+  ],
+  "food.potatoWaffle": "{x} Waffle",
+  "desc.potatoWaffle": [
+    "Crispy, golden and full of little squares."
+  ],
+  "food.eggWaffle": "{x} Omelette Waffle",
+  "desc.eggWaffle": [
+    "An omelette pressed into a waffle. Why not!"
+  ],
+  "food.pressed": "Pressed {x}",
+  "desc.pressed": [
+    "Pressed hot with a lovely pattern."
+  ],
+  "food.garnished": "{x} with {y}",
+  "desc.garnished": [
+    "Finished with a little {y} on top.",
+    "A pretty finishing touch of {y}."
+  ]
 }

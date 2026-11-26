@@ -12,7 +12,7 @@
 // This file never touches the page, so it can be tested on its own (dev/engine-sample.mjs).
 
 const TASTES = ['sweet', 'salty', 'sour', 'bitter', 'umami', 'spicy', 'rich', 'fresh'];
-const HEAT_OPS = new Set(['boil', 'fry', 'bake', 'grill', 'steam']);
+const HEAT_OPS = new Set(['boil', 'fry', 'bake', 'grill', 'steam', 'wok', 'waffle']);
 const LIQUID_FORMS = new Set(['liquid', 'drink', 'soup', 'sauce']);
 const PIECE_FORMS = new Set(['pieces', 'wedges', 'slices', 'crumbs']);
 
@@ -27,7 +27,7 @@ const FORM_ART = {
   icecream: { shape: 'icecream' }, ice: { shape: 'cubes' }, pop: { shape: 'icepop' }, skewer: { shape: 'skewer' },
   sandwich: { shape: 'sandwich' }, wrap: { shape: 'wrap' }, liquid: { shape: 'bowl' }, block: { shape: 'block' },
   powder: { shape: 'mound' }, lump: { shape: 'blob' }, whole: { shape: 'blob' }, drink: { shape: 'glass' }, egg: { shape: 'egg' },
-  bun: { shape: 'bun' },
+  bun: { shape: 'bun' }, piped: { shape: 'piped' }, sushi: { shape: 'sushi' }, roulade: { shape: 'roulade' }, waffle: { shape: 'waffle' },
 };
 
 /** Small, stable hash → short id like "c3k9x2". */
@@ -88,7 +88,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
   /** The main ingredients of a mixture, biggest first, skipping water, salt and spices when possible. */
   function mains(parts, { keepSweet = false } = {}) {
     const ids = sortIds(Object.keys(parts)).sort((a, b) => parts[b] - parts[a]);
-    const minor = (id) => flag(id, 'medium') || flag(id, 'seasoning') || flag(id, 'leaven') || id === 'oil' || (!keepSweet && flag(id, 'sweetener'));
+    const minor = (id) => flag(id, 'medium') || flag(id, 'seasoning') || flag(id, 'leaven') || flag(id, 'garnish') || id === 'oil' || (!keepSweet && flag(id, 'sweetener'));
     const main = ids.filter((id) => !minor(id));
     return main.length ? main : ids.filter((id) => !flag(id, 'medium')).length ? ids.filter((id) => !flag(id, 'medium')) : ids;
   }
@@ -168,7 +168,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
   const dk = (i) => i.doughKind || i.arch;
 
   function burnCheck(c, op) {
-    if (!['fry', 'bake', 'grill'].includes(op)) return null;
+    if (!['fry', 'bake', 'grill', 'wok', 'waffle'].includes(op)) return null;
     if (c.items.some((i) => i.burnt >= 1)) return R('charcoal', 'lump', '', { noun: true, burnt: 2 });
     const hot = c.items.find((i) => i.heat >= 2 && !LIQUID_FORMS.has(i.form));
     if (hot) return R('burnt', hot.form in FORM_ART ? hot.form : 'lump', subj(hot), { burnt: 1 });
@@ -216,7 +216,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
         if (['loaf', 'slices', 'cookie', 'cake'].includes(x.form) || x.arch === 'toast') return R(x.form === 'cookie' ? 'cookieCrumbs' : 'crumbs', 'crumbs', modOf(x));
         if (x.heat > 0 && (c.has('potato', 'carrot', 'beans', 'banana', 'avocado') || x.form === 'whole' || PIECE_FORMS.has(x.form))) return R('mash', 'paste', mods(c.mains));
       }
-      if (c.has('avocado', 'banana') || (c.maxHeat > 0 && c.has('potato', 'beans', 'carrot'))) return R('mash', 'paste', mods(c.mains));
+      if (c.has('avocado', 'banana') || (c.maxHeat > 0 && c.has('potato', 'beans', 'carrot', 'sweet_potato', 'chickpeas', 'lentils', 'pumpkin', 'parsnip'))) return R('mash', 'paste', mods(c.mains));
       return R('paste', 'paste', mods(c.mains));
     },
 
@@ -251,7 +251,14 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     },
     peel(c) {
       const x = c.items[0];
+      if (c.n > 1) return R('peeled', 'pieces', names(c.mains), { prep: true });
       if (x.arch === 'boiledEgg') return R('peeledEgg', 'egg', '', { noun: true });
+      if (c.isBase(x, 'chocolate') || c.isBase(x, 'cheese')) return R('shavings', 'crumbs', ING.get(x.id).mod);
+      // long vegetables: peel them (again) and they turn into thin ribbons
+      const ribbony = ['carrot', 'cucumber', 'zucchini', 'asparagus', 'parsnip'];
+      const id = Object.keys(x.parts).length === 1 ? Object.keys(x.parts)[0] : null;
+      if (ribbony.includes(id) && (x.states.includes('peel') || ['cucumber', 'zucchini', 'asparagus'].includes(id)) && ['whole', 'pieces'].includes(x.form) && !x.heat)
+        return R('ribbons', 'pieces', ING.get(id).mod, { prep: true });
       return R('peeled', 'whole', subj(x), { prep: true, peeled: x });
     },
     crack(c) {
@@ -285,6 +292,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     whisk(c) {
       if (c.all('egg', 'oil') && c.only('egg', 'oil', 'lemon', 'vinegar', 'salt', 'black_pepper', 'garlic')) return R('mayo', 'sauce', '', { noun: true });
       if (c.only('cream', 'sugar', 'vanilla', 'honey')) return R('whipped', 'paste', ING.get('cream').name);
+      if (c.has('egg') && c.has('sugar', 'icing_sugar') && c.only('egg', 'sugar', 'icing_sugar', 'vanilla', 'lemon', 'vinegar', 'salt')) return R('meringueMix', 'paste', '', { noun: true });
       if (c.has('egg') || c.has('flour') || (c.has('oil') && c.has('lemon', 'vinegar'))) {
         const r = RULES.mix(c);
         // a whisk turns a stiff dough into a pourable batter only if there's plenty of liquid
@@ -305,7 +313,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     },
     mash(c) {
       if (c.items.some((i) => i.form === 'dough')) return RULES.squish(c);
-      if (c.has('avocado', 'banana', 'potato', 'beans', 'carrot', 'strawberry', 'blueberry', 'apple', 'peach') || c.maxHeat > 0) return R('mash', 'paste', mods(c.mains));
+      if (c.has('avocado', 'banana', 'potato', 'beans', 'carrot', 'strawberry', 'blueberry', 'apple', 'peach', 'sweet_potato', 'chickpeas', 'raspberry', 'mango') || c.maxHeat > 0) return R('mash', 'paste', mods(c.mains));
       return R('squished', 'lump', c.n > 1 ? names(c.mains) : subj(c.items[0]));
     },
     grate(c) {
@@ -332,10 +340,10 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       if (fruit > 0) {
         const fl = mods(mains(c.parts).filter((id) => ING.get(id).cat === 'fruit' || ING.get(id).cat === 'veg'));
         if (c.has('milk', 'yogurt', 'cream', 'coconut_milk', 'banana') || c.items.some((i) => i.frozen) || c.count((i) => ING.get(Object.keys(i.parts)[0])?.cat === 'fruit') >= 2) return R('smoothie', 'drink', fl);
-        if (c.only('apple', 'orange', 'lemon', 'peach', 'strawberry', 'blueberry', 'water', 'sugar', 'honey', 'mint')) return R('juice', 'drink', fl);
+        if (c.ids.every((id) => (ING.get(id).cat === 'fruit' && flag(id, 'juicy')) || ['water', 'sugar', 'honey', 'mint', 'maple_syrup'].includes(id))) return R('juice', 'drink', fl);
         return R('puree', 'paste', fl);
       }
-      if (c.has('tomato', 'bell_pepper', 'carrot', 'spinach', 'onion', 'mushroom', 'corn', 'potato', 'beans')) {
+      if (c.catW('veg') > 0 || c.has('beans', 'chickpeas', 'lentils')) {
         if (c.liquids.length || c.items.some((i) => i.form === 'soup')) return c.maxHeat > 0 ? R('soup', 'soup', mods(c.mains)) : R('coldSoup', 'soup', mods(c.mains));
         return R('puree', 'paste', mods(c.mains));
       }
@@ -385,7 +393,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
         if (!c.items.some((i) => ['slices', 'loaf'].includes(i.form) || i.arch === 'toast')) return R('omeletteMix', 'liquid', c.flavour(['egg', 'milk', 'cream', 'salt', 'black_pepper']), { noun: true });
       }
       // cooked potatoes (or carrots, beans…) mixed with butter or milk → mash
-      const mashable = c.items.find((i) => i.heat > 0 && (i.parts.potato || i.parts.carrot || i.parts.beans) && !i.burnt && ['whole', 'pieces', 'plated'].includes(i.form));
+      const mashable = c.items.find((i) => i.heat > 0 && (i.parts.potato || i.parts.carrot || i.parts.beans || i.parts.sweet_potato || i.parts.parsnip || i.parts.pumpkin) && !i.burnt && ['whole', 'pieces', 'plated'].includes(i.form));
       if (mashable && c.items.every((i) => i === mashable || (i.kind === 'ingredient' && ['butter', 'milk', 'cream', 'salt', 'black_pepper', 'herbs', 'garlic', 'cheese', 'oil', 'yogurt'].includes(i.id))))
         return R('mash', 'paste', mods(mains(mashable.parts)));
       // butter with flavourings
@@ -498,6 +506,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       if (bread && others(bread).length === 0) return R('toast', 'slices', '', { noun: true });
       const omelette = c.items.find((i) => ['omeletteMix', 'whisked'].includes(i.arch));
       if (omelette) { const fl = c.flavour(['egg', 'milk', 'cream', 'salt', 'black_pepper', 'butter', 'oil']); return fl ? R('flavOmelette', 'flat', fl, { noun: true }) : R('omelette', 'flat', '', { noun: true }); }
+      if (c.items.some((i) => ['pipedDough', 'pipedBatter'].includes(i.arch))) return R('churros', 'piped', '', { noun: true });
       const batter = c.items.find((i) => i.form === 'batter');
       if (batter) {
         const fl = c.flavour(['flour', 'egg', 'milk', 'water', 'sugar', 'butter', 'oil', 'cream', 'yogurt', 'vanilla']);
@@ -518,7 +527,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       }
       const solids = c.solids.filter((i) => !(i.kind === 'ingredient' && (flag(i.id, 'seasoning') || flag(i.id, 'fat') || flag(i.id, 'sweetener'))));
       if (solids.length && solids.every((i) => i.arch === 'grated' && i.parts.potato)) return R('hashBrowns', 'flat', '', { noun: true });
-      const potatoish = solids.length && solids.every((i) => i.parts.potato || i.parts.carrot) && solids.every((i) => PIECE_FORMS.has(i.form));
+      const potatoish = solids.length && solids.every((i) => i.parts.potato || i.parts.carrot || i.parts.sweet_potato || i.parts.parsnip) && solids.every((i) => PIECE_FORMS.has(i.form));
       if (potatoish) return c.has('potato') ? R('fries', 'fries', '', { noun: true }) : R('flavFries', 'fries', mods(c.mains));
       if (c.only('corn', 'oil', 'butter', 'salt', 'sugar')) return R('popcorn', 'crumbs', '', { noun: true });
       if (solids.length === 1 && solids[0].heat >= 1 && !solids[0].noun) return R('twice', solids[0].form, solids[0].subject);
@@ -537,6 +546,23 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     bake(c) {
       const dough = c.items.find((i) => i.form === 'dough');
       const fl = (skip = []) => c.flavour(['flour', 'water', 'milk', 'egg', 'sugar', 'butter', 'yeast', 'oil', 'salt', 'cream', 'vanilla', ...skip]);
+      const loose = (x) => c.items.every((i) => i === x || LIQUID_FORMS.has(i.form) || (i.kind === 'ingredient' && (flag(i.id, 'sweetener') || flag(i.id, 'seasoning') || flag(i.id, 'fat') || flag(i.id, 'garnish'))));
+      // things squeezed out of the piping bag
+      const piped = c.items.find((i) => ['meringueSwirls', 'duchess', 'pipedDough', 'pipedBatter'].includes(i.arch));
+      if (piped && loose(piped)) {
+        if (piped.arch === 'meringueSwirls') return R('meringues', 'piped', '', { noun: true });
+        if (piped.arch === 'duchess') return R('duchessBake', 'piped', mods(mains(piped.parts)));
+        const kind = piped.doughKind;
+        if (piped.arch === 'pipedBatter') return ['cakeBatter', 'pancakeBatter'].includes(kind) || c.sweetish ? R('ladyfingers', 'cookie', '', { noun: true }) : R('choux', 'bun', '', { noun: true, round: true });
+        if (kind === 'cookieDough') return R('butterCookies', 'cookie', '', { noun: true });
+        if (['breadDough', 'flavBreadDough', 'sourdough'].includes(kind)) return R('breadsticks', 'piped', '', { noun: true });
+        return R('choux', 'bun', '', { noun: true, round: true });
+      }
+      if (c.items.some((i) => i.arch === 'meringueMix') && loose(c.items.find((i) => i.arch === 'meringueMix'))) return R('meringueNest', 'piped', '', { noun: true });
+      // dough rolled up around a filling (sushi mat)
+      if (dough && dough.arch === 'rolledDough' && loose(dough)) {
+        return ['pastryDough', 'cookieDough'].includes(dough.doughKind) ? R('strudel', 'roulade', dough.x || '', { fillColor: dough.art?.fill }) : R('swirlBuns', 'roulade', dough.x || '', { fillColor: dough.art?.fill });
+      }
       const extrasAreLoose = dough && c.items.every((i) => i === dough || LIQUID_FORMS.has(i.form) || (i.kind === 'ingredient' && (flag(i.id, 'sweetener') || flag(i.id, 'seasoning') || flag(i.id, 'fat'))));
       if (dough && (c.n === 1 || extrasAreLoose) && dough.arch === 'pizzaBase') return R('flatbread', 'flat', '', { noun: true });
       if (dough && (c.n === 1 || extrasAreLoose) && dough.arch === 'doughBalls' && !['cookieDough', 'pastryDough', 'pastaDough'].includes(dk(dough))) return R('rolls', 'bun', '', { noun: true });
@@ -625,6 +651,108 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       return R('marinated', (solids[0] || c.items[0]).form, label);
     },
 
+    // ----- the piping bag: squeeze soft things into pretty shapes, fill buns, frost cakes -----
+    pipe(c) {
+      const soft = (i) => ['whipped', 'mash', 'melted', 'jam', 'custard', 'custardBase', 'compote', 'caramel', 'mayo', 'nutButter', 'compoundButter', 'puree', 'paste', 'meringueMix', 'crème', 'pesto', 'syrup', 'sauce'].includes(i.arch)
+        || ['paste', 'sauce', 'batter', 'dough'].includes(i.form)
+        || (i.kind === 'ingredient' && ['cream_cheese', 'cream', 'yogurt', 'honey', 'maple_syrup', 'mustard', 'chocolate', 'butter'].includes(i.id));
+      const fillings = c.items.filter(soft);
+      const hosts = c.items.filter((i) => !fillings.includes(i) && !(i.kind === 'ingredient' && (flag(i.id, 'garnish') || flag(i.id, 'seasoning'))));
+      if (hosts.length === 1 && fillings.length && !fillings.some((i) => ['dough', 'batter'].includes(i.form))) {
+        const h = hosts[0];
+        const label = h.noun || h.kind === 'ingredient' ? h.name : subj(h);
+        const y = joinNames(fillings.slice(0, 2).map(modOf));
+        const fillColor = mixColors(fillings.map((i) => [i.color, 1]));
+        const filled = ['bun', 'pieces', 'egg'].includes(h.form) || ['doughnuts', 'choux', 'rolls', 'buns', 'peeledEgg', 'boiledEgg'].includes(h.arch);
+        return R(filled ? 'filled' : 'frosted', h.form in FORM_ART ? h.form : 'plated', label, { y, keepArt: h, keepSig: h.sig, noun: !!h.noun, fillColor });
+      }
+      if (!hosts.length) {
+        const x = c.items[0];
+        if (c.n === 1 && x.arch === 'meringueMix') return R('meringueSwirls', 'piped', '', { noun: true });
+        if (c.n === 1 && x.arch === 'mash') return R('duchess', 'piped', mods(mains(x.parts)));
+        if (c.n === 1 && x.form === 'dough') return R('pipedDough', 'piped', '', { noun: true, doughKind: dk(x) });
+        if (c.n === 1 && x.form === 'batter') return R('pipedBatter', 'piped', '', { noun: true, doughKind: x.arch });
+        return R('rosettes', 'piped', c.n > 1 ? mods(c.mainsSweet) : modOf(x));
+      }
+      return R('piped', 'piped', c.n > 1 ? names(c.mains) : subj(c.items[0]));
+    },
+
+    // ----- the sushi mat: roll things up -----
+    rollup(c) {
+      const isOnly = (i, ...ids) => Object.keys(i.parts).length >= 1 && Object.keys(i.parts).every((id) => ids.includes(id));
+      const others = (...skip) => c.items.filter((i) => !skip.includes(i));
+      const fillName = (list) => mods(mains(mergeParts(list)).filter((id) => !['rice', 'seaweed', 'vinegar', 'sugar', 'salt', 'water', 'flour', 'egg', 'butter', 'milk', 'yeast', 'oil'].includes(id) || list.every((i) => isOnly(i, id))));
+      const fillColor = (list) => (list.length ? mixColors(list.map((i) => [i.color, 1])) : undefined);
+      const rice = c.items.find((i) => ['rice', 'risotto'].includes(i.arch) || (i.parts.rice && i.heat > 0 && ['marinated', 'seasoned', 'stirred', 'mix'].includes(i.arch)));
+      const nori = c.items.find((i) => isOnly(i, 'seaweed'));
+      const leafy = c.items.find((i) => ['cabbage', 'lettuce', 'kale', 'spinach'].some((id) => isOnly(i, id)));
+      if (rice && !nori && leafy) { const fill = others(leafy); return R('leafRolls', 'roulade', ING.get(Object.keys(leafy.parts)[0]).mod, { y: fillName(fill), fillColor: fillColor(fill) }); }
+      if (rice) {
+        const fill = others(rice, nori);
+        const f = fillName(fill);
+        return R(nori ? 'sushiRoll' : 'insideOut', 'sushi', f, { noun: !f, fillColor: fillColor(fill) || '#f4a07a' });
+      }
+      const label = (i) => (i.noun || i.kind === 'ingredient' ? i.name : subj(i));
+      const cake = c.items.find((i) => ['cake', 'flavCake', 'ladyfingers'].includes(i.arch) || i.sig && i.form === 'cake');
+      if (cake && c.n > 1) { const fill = others(cake); return R('swissRoll', 'roulade', fillName(fill), { noun: !fillName(fill), fillColor: fillColor(fill) }); }
+      const dough = c.items.find((i) => i.form === 'dough');
+      if (dough && c.n > 1) { const fill = others(dough); return R('rolledDough', 'dough', fillName(fill), { noun: true, doughKind: dk(dough), artForm: 'roulade', fillColor: fillColor(fill) }); }
+      const leaf = c.items.find((i) => ['cabbage', 'lettuce', 'kale', 'spinach'].some((id) => isOnly(i, id)));
+      if (leaf && c.n > 1) { const fill = others(leaf); return R('leafRolls', 'roulade', ING.get(Object.keys(leaf.parts)[0]).mod, { y: fillName(fill), fillColor: fillColor(fill) }); }
+      if (nori && c.n > 1) { const fill = others(nori); return R('sushiRoll', 'sushi', fillName(fill), { fillColor: fillColor(fill) }); }
+      const flat = c.items.find((i) => ['flat', 'stack', 'wrap'].includes(i.form));
+      if (flat && c.n > 1) { const fill = others(flat); return R('rolledWith', 'roulade', label(flat), { y: fillName(fill), fillColor: fillColor(fill), keepSig: flat.sig }); }
+      if (c.n === 1) return R('rolledUp', 'roulade', label(c.items[0]), { keepSig: c.items[0].sig });
+      return R('rolledUp', 'roulade', names(c.mains));
+    },
+
+    // ----- the wok: very hot, very fast -----
+    wok(c) {
+      if (c.items.some((i) => ['batter', 'dough', 'piped'].includes(i.form))) return RULES.fry(c);
+      const rice = c.items.find((i) => i.arch === 'rice' || i.arch === 'risotto');
+      if (rice) { const fl = c.flavour(['rice', 'water', 'oil', 'butter', 'salt', 'soy_sauce']); return R('friedRice', 'mixbowl', fl, { noun: !fl }); }
+      const noodles = c.items.find((i) => i.form === 'noodles' || i.form === 'pasta');
+      if (noodles) { const fl = c.flavour(['flour', 'egg', 'water', 'oil', 'butter', 'salt', 'soy_sauce']); return R('wokNoodles', 'pasta', fl, { noun: !fl }); }
+      const eggy = (i) => c.isBase(i, 'egg') || ['cracked', 'whisked', 'omeletteMix'].includes(i.arch);
+      if (c.items.some(eggy) && c.items.every((i) => eggy(i) || (i.kind === 'ingredient' && (['milk', 'cream', 'butter', 'oil', 'chives', 'salt', 'black_pepper'].includes(i.id))))) return R('scrambled', 'plated', '', { noun: true });
+      if (c.has('curry_powder') && c.liquids.length) return R('curry', 'soup', c.flavour(['curry_powder', 'coconut_milk', 'water']));
+      const solids = c.solids.filter((i) => !(i.kind === 'ingredient' && (flag(i.id, 'seasoning') || flag(i.id, 'fat') || flag(i.id, 'sweetener') || flag(i.id, 'garnish'))));
+      if (solids.length >= 2) return R('stirfry', 'plated', mods(c.mains.filter((id) => id !== 'soy_sauce')));
+      if (solids.length === 1) return R('wokTossed', 'plated', subj(solids[0]));
+      return R('sizzled', c.items[0].form, subj(c.items[0]));
+    },
+
+    // ----- the waffle iron: press it, and it gets a crispy pattern -----
+    waffle(c) {
+      const fl = c.flavour(['flour', 'egg', 'milk', 'water', 'sugar', 'butter', 'oil', 'cream', 'yogurt', 'vanilla', 'yeast', 'salt']);
+      const batter = c.items.find((i) => i.form === 'batter');
+      const dough = c.items.find((i) => i.form === 'dough');
+      if (batter || (dough && !['cookieDough', 'pastryDough'].includes(dk(dough)))) return fl ? R('flavWaffles', 'waffle', fl, { noun: true }) : R('waffles', 'waffle', '', { noun: true });
+      if (dough) return R('waffleCookies', 'cookie', fl, { noun: !fl });
+      const sand = c.items.find((i) => i.form === 'sandwich');
+      const bread = c.items.find((i) => i.form === 'slices' || i.form === 'loaf');
+      if (sand && c.n === 1) return R('pressedSandwich', 'sandwich', sand.x || '', { noun: !sand.x, keepSig: sand.sig });
+      if (bread && c.n > 1) return R('pressedSandwich', 'sandwich', mods(mains(mergeParts(c.items.filter((i) => i !== bread)))));
+      if (bread) return R('toast', 'slices', '', { noun: true });
+      if (c.items.some((i) => i.parts.potato || i.parts.sweet_potato) && c.items.every((i) => i.parts.potato || i.parts.sweet_potato || i.kind === 'ingredient')) return R('potatoWaffle', 'waffle', mods(c.mains));
+      if (c.items.some((i) => c.isBase(i, 'egg') || ['whisked', 'omeletteMix', 'cracked'].includes(i.arch))) return R('eggWaffle', 'waffle', c.flavour(['egg', 'milk', 'cream', 'salt', 'black_pepper', 'butter', 'oil']));
+      const x = c.items[0];
+      return R('pressed', 'flat', c.n > 1 ? names(c.mains) : subj(x));
+    },
+
+    // ----- garnish: the finishing touch (hands → Garnish) -----
+    garnish(c) {
+      const isG = (i) => (i.kind === 'ingredient' && (flag(i.id, 'garnish') || ['herbs', 'mint'].includes(i.id))) || ['zest', 'shavings', 'torn'].includes(i.arch) && Object.keys(i.parts).length === 1;
+      const gs = c.items.filter(isG), rest = c.items.filter((i) => !isG(i));
+      if (!gs.length || !rest.length) return RULES.season(c);
+      const main = rest.length === 1 ? rest[0] : null;
+      const label = main ? (main.noun || main.kind === 'ingredient' ? main.name : subj(main)) : names(mains(mergeParts(rest)));
+      const gid = Object.keys(gs[0].parts)[0];
+      const top = { sprinkles: 'sprinkles', edible_flowers: 'flowers', elderflower: 'flowers', icing_sugar: 'dust', cocoa: 'dust', sesame: 'dust' }[gid] || 'specks';
+      const y = joinNames(gs.slice(0, 2).map((g) => (g.kind === 'ingredient' ? ING.get(g.id).name : g.name)));
+      return R('garnished', main ? (main.form in FORM_ART ? main.form : 'plated') : 'mixbowl', label, { y, keepArt: main && main.art ? main : null, keepSig: main?.sig, noun: !!main?.noun, garnishTop: top, garnishColor: ING.get(gid)?.color });
+    },
+
     age(c) {
       const x = c.items[0];
       if (c.items.some((i) => i.states.includes('age'))) return R('vintage', x.form, subj(x));
@@ -675,9 +803,9 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     // colour: the mix of the main ingredients, tinted by the cooking
     const ids = mains(parts, { keepSweet: true }).slice(0, 3);
     let color = mixColors(ids.map((id) => [ING.get(id).color, parts[id]]));
-    if (['fry', 'bake', 'grill'].includes(op) && !['friedEgg', 'omelette', 'flavOmelette'].includes(r.arch)) {
+    if (['fry', 'bake', 'grill', 'wok', 'waffle'].includes(op) && !['friedEgg', 'omelette', 'flavOmelette', 'scrambled', 'meringues', 'meringueNest'].includes(r.arch)) {
       // doughs and batters turn properly golden; other things just get a little colour
-      const golden = ['loaf', 'cookie', 'cake', 'pie', 'stack', 'flat', 'pizza', 'slices', 'crumbs', 'fries'].includes(r.form);
+      const golden = ['loaf', 'cookie', 'cake', 'pie', 'stack', 'flat', 'pizza', 'slices', 'crumbs', 'fries', 'waffle', 'piped'].includes(r.form);
       color = tint(color, golden ? '#d48f45' : '#d99a53', golden ? 0.6 : 0.35);
     }
     if (['caramel', 'brownButter'].includes(r.arch)) color = '#d48a3a';
@@ -694,7 +822,10 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       from: { op, inputs: items.map((i) => i.id) },
       hot: !frozen && heat > 0 && !burnt && op !== 'freeze',
     };
-    if (r.keepSig) return { ...item, sig: r.keepSig }; // a sprinkled classic is still that classic
+    if (r.keepSig) { // a sprinkled (frosted, garnished…) classic is still that classic, unless it just became a new one
+      const s = applySignature(item);
+      return s.sig && s.sig !== r.keepSig ? s : { ...item, sig: r.keepSig };
+    }
     return applySignature(item);
   }
 
@@ -708,6 +839,12 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     if (r.peeled) {
       const g = r.peeled.kind === 'ingredient' ? ING.get(r.peeled.id) : null;
       return { ...(r.peeled.art || {}), color: g ? g.color : color, accent: tint(g ? g.color : color, '#4a3426', 0.2), top: undefined };
+    }
+    if (r.keepArt && r.keepArt.art && !burnt && (op === 'garnish' || op === 'pipe')) {
+      const a = { ...r.keepArt.art };
+      if (op === 'garnish') { a.top = r.garnishTop || 'specks'; a.topColor = r.garnishTop === 'dust' && r.garnishColor === '#fffdfa' ? '#ffffff' : r.garnishColor || '#79b55a'; }
+      else { a.top = 'swirl'; a.topColor = r.fillColor || '#fff6e0'; }
+      return a;
     }
     if (r.keepArt && r.keepArt.art && !burnt && (op === 'season' || op === 'squeeze')) {
       const a = { ...r.keepArt.art };
@@ -735,6 +872,9 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     }
     if (r.form === 'drink' && (r.hot || c.maxHeat > 0 || op === 'boil')) { a.shape = 'mug'; a.color = '#f6c7a6'; a.fill = color; }
     if (r.round) a.round = true;
+    if (r.fillColor) a.fill = r.fillColor;
+    if (['meringues', 'meringueSwirls', 'meringueNest', 'meringueMix'].includes(r.arch)) { a.color = '#fffaf2'; a.accent = '#eadfcf'; }
+    if (r.garnishTop && !burnt) { a.top = r.garnishTop; a.topColor = r.garnishColor; }
     // garnish: the most interesting minor ingredient shows on top
     const garnish = ['herbs', 'spinach', 'mint', 'cheese', 'tomato', 'chili', 'blueberry', 'strawberry', 'nuts', 'chocolate', 'black_pepper', 'bell_pepper', 'mushroom', 'bacon']
       .find((id) => parts[id] && mains(parts)[0] !== id);
@@ -848,11 +988,13 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
     const baking = items.some((i) => c.isBase(i, 'flour') || i.arch === 'flourOf' || i.form === 'dough');
     // in a stack, only citrus and fruit get squeezed over the rest; on its own anything juicy can be
     const squeezable = one ? juicy : items.some((i) => i.kind === 'ingredient' && (flag(i.id, 'acid') || ING.get(i.id).cat === 'fruit') && flag(i.id, 'juicy'));
+    const garnishy = (i) => (i.kind === 'ingredient' && flag(i.id, 'garnish')) || (['zest', 'shavings'].includes(i.arch) && Object.keys(i.parts).length === 1);
+    if (!baking && c.n >= 2 && items.some(garnishy) && items.some((i) => !garnishy(i) && i.kind !== 'ingredient')) out.push('garnish');
     if (baking) out.push('squish');
     if (base === 'egg' || base === 'nuts') out.push('crack');
     if (squeezable && !(base === 'egg') && !baking) out.push('squeeze');
-    if (one && (['banana', 'orange', 'potato', 'carrot', 'onion', 'garlic', 'ginger', 'avocado', 'apple', 'peach', 'lemon'].includes(base) || one.arch === 'boiledEgg')) out.push('peel');
-    if (one && (['herbs', 'spinach', 'mint', 'seaweed', 'mushroom', 'cheese'].includes(base) || ['loaf', 'slices', 'flat'].includes(one.form) || (one.parts.chicken && one.heat > 0))) out.push('tear');
+    if (one && (['banana', 'orange', 'potato', 'carrot', 'onion', 'garlic', 'ginger', 'avocado', 'apple', 'peach', 'lemon', 'lime', 'mango', 'pineapple', 'cucumber', 'sweet_potato', 'parsnip', 'clementine', 'pear', 'shrimp', 'kiwi'].includes(base) || one.arch === 'boiledEgg')) out.push('peel');
+    if (one && (['herbs', 'spinach', 'mint', 'seaweed', 'mushroom', 'cheese', 'lettuce', 'cabbage', 'kale', 'mozzarella', 'cress'].includes(base) || ['loaf', 'slices', 'flat'].includes(one.form) || (one.parts.chicken && one.heat > 0))) out.push('tear');
     if (items.some((i) => i.form === 'dough' || ['rice', 'risotto', 'friedRice', 'mash'].includes(i.arch)) || c.catW('protein') > 0) out.push('shape');
     const mainsCount = items.filter((i) => !seasoning(i)).length;
     if (!baking && c.n >= 2 && items.some(seasoning) && mainsCount >= 1) out.push('season');

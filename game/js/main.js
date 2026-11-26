@@ -112,8 +112,8 @@ async function boot() {
   scheduleOffer();
 }
 
-const HAND_SOUND = { squeeze: 'stir', peel: 'pick', crack: 'chop', tear: 'poof', shape: 'grind', toss: 'stir', season: 'freeze', crumble: 'grind' };
-const TOOL_SOUND = { hands: 'grind', knife: 'chop', whisk: 'whirr', spoon: 'stir', pin: 'grind', masher: 'grind', grater: 'chop', mortar: 'grind' };
+const HAND_SOUND = { squeeze: 'stir', peel: 'pick', crack: 'chop', tear: 'poof', shape: 'grind', toss: 'stir', season: 'freeze', crumble: 'grind', garnish: 'freeze' };
+const TOOL_SOUND = { hands: 'grind', knife: 'chop', whisk: 'whirr', spoon: 'stir', pin: 'grind', masher: 'grind', grater: 'chop', mortar: 'grind', peeler: 'chop', pipingBag: 'stir', sushiMat: 'grind' };
 
 /** With the AI on, new food gets a creative name a moment after it appears. */
 function askAIName(res) {

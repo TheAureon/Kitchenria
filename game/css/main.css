@@ -240,6 +240,12 @@ svg { overflow: visible; }
 .fx-freeze i, .fx-age i { width: auto; height: auto; border-radius: 0; font-style: normal; font-size: 12px; animation-name: flake; }
 .fx-freeze i::before { content: '❄'; color: #7fb6d6; }
 .fx-age i::before { content: '·'; font-size: 22px; color: #b98149; }
+.fx-wok i { width: 3px; height: 9px; border-radius: 2px; background: #f2b33a; animation-name: spark; }
+.fx-wok i:nth-child(3n) { width: 8px; height: 8px; border-radius: 50%; background: #e2533f; filter: blur(1px); animation-name: smoke; }
+.fx-wok .food-in { animation: food-in .45s ease-in forwards, wok-toss .35s ease-in-out .45s 3 alternate; }
+.fx-waffle { background: radial-gradient(ellipse 50% 40% at 50% 55%, rgba(255, 190, 90, .5), transparent 70%); animation: glow-pulse .35s ease-in-out infinite alternate; }
+.fx-waffle i { border: 0; background: rgba(255, 255, 255, .95); width: 10px; height: 10px; filter: blur(1px); animation-name: bubble; }
+@keyframes wok-toss { from { transform: translateY(0) rotate(0); } to { transform: translateY(-18px) rotate(40deg); } }
 @keyframes bubble { 0% { opacity: 0; transform: translateY(6px) scale(.4); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(-34px) scale(1.1); } }
 @keyframes spark { 0% { opacity: 1; transform: translate(0, 0) rotate(calc(var(--i) * 30deg - 90deg)); } 100% { opacity: 0; transform: translate(calc((var(--i) - 3) * 9px), -30px) rotate(calc(var(--i) * 30deg - 90deg)); } }
 @keyframes smoke { 0% { opacity: 0; transform: translateY(0) scale(.6); } 40% { opacity: .7; } 100% { opacity: 0; transform: translateY(-36px) scale(1.6); } }
@@ -256,6 +262,14 @@ svg { overflow: visible; }
 .act-whisk .tool-show-art, .act-mix .tool-show-art { animation: stir-round .35s linear 2; }
 .act-roll .tool-show-art { animation: roll .3s ease-in-out 2 alternate; }
 .act-mash .tool-show-art, .act-grind .tool-show-art { animation: press .18s ease-in-out 4 alternate; }
+.act-peel .tool-show-art { animation: peel-stroke .22s ease-in-out 3 alternate; }
+.act-pipe .tool-show-art { animation: pipe-squeeze .3s ease-in-out 3 alternate; }
+.act-rollup .tool-show-art { animation: roll .3s ease-in-out 2 alternate; }
+.act-garnish .tool-show-art { animation: press .25s ease-in-out 2 alternate; }
+.act-peel i { background: #b9d98a; border-radius: 6px 1px; }
+.act-pipe i { background: #fff6e0; border-radius: 50%; }
+@keyframes peel-stroke { from { transform: translate(-12px, -10px) rotate(-35deg); } to { transform: translate(10px, 6px) rotate(-35deg); } }
+@keyframes pipe-squeeze { from { transform: scale(1, 1); } to { transform: scale(1.12, .88) translateY(4px); } }
 .tool-show i { position: absolute; left: 0; top: -10px; width: 6px; height: 6px; border-radius: 2px; background: var(--wood); border: 1.5px solid var(--ink); opacity: 0; animation: crumb .6s ease-out forwards; animation-delay: calc(.1s + var(--i) * .05s); }
 @keyframes chop { from { transform: translateY(-14px) rotate(-30deg); } to { transform: translateY(8px) rotate(-10deg); } }
 @keyframes stir-round { from { transform: rotate(0) translateX(8px) rotate(0); } to { transform: rotate(360deg) translateX(8px) rotate(-360deg); } }

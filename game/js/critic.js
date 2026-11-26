@@ -18,11 +18,16 @@ const PAIRS = [
   ['tea_leaves', 'milk'], ['coffee', 'milk'], ['peach', 'cream'], ['blueberry', 'lemon'], ['oats', 'honey'], ['nuts', 'honey'],
   ['vanilla', 'cream'], ['bacon', 'tomato'], ['cheese', 'herbs'], ['butter', 'flour'], ['milk', 'egg'], ['banana', 'honey'],
   ['oil', 'herbs'], ['oil', 'tomato'], ['beans', 'tomato'], ['chili', 'beans'], ['cinnamon', 'sugar'], ['strawberry', 'sugar'],
+  ['lime', 'chili'], ['mango', 'lime'], ['shrimp', 'garlic'], ['beef', 'onion'], ['ham', 'cheese'], ['cucumber', 'yogurt'], ['pineapple', 'ham'],
+  ['tofu', 'soy_sauce'], ['miso', 'tofu'], ['sausage', 'mustard'], ['mozzarella', 'tomato'], ['cream_cheese', 'fish'], ['maple_syrup', 'bacon'],
+  ['raspberry', 'chocolate'], ['fig', 'cheese'], ['plum', 'cinnamon'], ['sweet_potato', 'maple_syrup'], ['leek', 'potato'], ['chickpeas', 'garlic'],
+  ['lentils', 'onion'], ['eggplant', 'tomato'], ['cabbage', 'bacon'], ['mango', 'coconut_milk'], ['elderflower', 'lemon'], ['celery', 'carrot'],
 ];
 const CLASHES = [
   ['fish', 'chocolate'], ['fish', 'strawberry'], ['garlic', 'chocolate'], ['onion', 'chocolate'], ['vinegar', 'milk'],
   ['soy_sauce', 'chocolate'], ['fish', 'banana'], ['curry_powder', 'strawberry'], ['coffee', 'tomato'], ['chili', 'cream'],
   ['bacon', 'strawberry'], ['onion', 'banana'], ['garlic', 'strawberry'], ['lemon', 'milk'], ['mint', 'cheese'], ['fish', 'cheese'],
+  ['shrimp', 'chocolate'], ['mustard', 'chocolate'], ['miso', 'strawberry'], ['sprinkles', 'fish'], ['sprinkles', 'garlic'],
 ];
 
 function hash(s) { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
@@ -98,6 +103,7 @@ export function scoreDish(dish, { t, pick, ING, favourite }) {
   if (dish.hot && !dish.burnt) { score += 0.3; good.push(['warm', 0.35]); }
   if (dish.frozen) { if (taste.sweet >= 1.2) { score += 0.3; good.push(['cool', 0.3]); } else { score -= 0.5; bad.push(['weird', 0.5]); } }
   if ((dish.components?.length || 1) >= 2) { score += 0.3; good.push(['plated', 0.25]); }
+  if (dish.states.includes('arch:garnished') || dish.states.includes('arch:frosted')) { score += 0.35; good.push(['garnish', 0.45]); }
 
   // a pinch of personality: the same dish always gets the same nudge
   score += ((hash(seed) % 1000) / 1000 - 0.5) * 0.5;
