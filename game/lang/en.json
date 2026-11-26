@@ -1593,5 +1593,14 @@
   "food.macarons": "Macarons",
   "desc.macarons": [
     "Dainty, nutty and crisp, with frilly little feet."
-  ]
+  ],
+  "book.sketchIntro": "Pencil sketches show dishes still to find. Stuck? Ask for a hint.",
+  "book.filter.all": "All",
+  "book.filter.todo": "To find",
+  "book.filter.found": "Found",
+  "book.hintFirst": "💡 Hint",
+  "book.hintMore": "💡 Another hint",
+  "book.hintLabel": "Get a hint for {name}",
+  "book.hintTool": "Finished with: {tool}",
+  "book.hintIngredients": "Uses: {list}"
 }

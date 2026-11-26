@@ -122,10 +122,10 @@ async function startGame(page) {
   check(await page.locator('.ai-offer').count() === 0, '"No thanks" closes the offer');
   check(/AI off/.test(await page.textContent('#ai-status')), 'the AI stays off');
 
-  check(await page.locator('.tile').count() === 56, 'all 52 ingredients + 4 seasonal ones are in the pantry from the start (no unlocks)');
-  check(await page.locator('.shelf-section').count() === 9, 'the pantry is sorted into 9 sections (one is "in season")');
-  check(await page.locator('.hand-tool').count() === 8, '8 hand tools hang on the wall rail');
-  check(await page.locator('.appliance').count() === 10, '10 appliances on the counter (with the plate first)');
+  check(await page.locator('.tile').count() === 86, 'all 80 ingredients + 6 seasonal ones are in the pantry from the start (no unlocks)');
+  check(await page.locator('.shelf-section').count() === 10, 'the pantry is sorted into 10 sections (one is "in season", one is garnishes)');
+  check(await page.locator('.hand-tool').count() === 11, '11 hand tools hang on the wall rail');
+  check(await page.locator('.appliance').count() === 12, '12 appliances on the counter (with the plate first)');
 
   // stacking: food on food makes a stack, nothing is combined yet
   await mouseDrag(page, await center(page, tile('flour')), [320, 560]);
@@ -264,7 +264,7 @@ async function startGame(page) {
 
   // pantry sections and search
   await page.click('[data-section="fruit"]');
-  check(await page.locator('.tile').count() === 8 && await page.locator('.shelf-section').count() === 1, 'the Fruit tab shows only fruit');
+  check(await page.locator('.tile').count() === 11 && await page.locator('.shelf-section').count() === 1, 'the Fruit tab shows only fruit');
   await page.click('[data-section="all"]');
   await page.fill('#shelf-search', 'pep');
   await page.waitForTimeout(100);
@@ -441,7 +441,7 @@ async function startGame(page) {
   watch(fp, 'file');
   await fp.goto('file://' + path.resolve(__dirname, '..', 'index.html'));
   await fp.waitForSelector('body.ready', { timeout: 5000 }); await startGame(fp);
-  check(await fp.locator('.tile').count() === 56, 'opens from disk with all 56 ingredients');
+  check(await fp.locator('.tile').count() === 86, 'opens from disk with all 86 ingredients');
   check(await fp.locator('#boot-error').isHidden(), 'no "didn\'t open" message');
   await mouseDrag(fp, await center(fp, tile('tomato')), [500, 560]);
   await mouseDrag(fp, await center(fp, tool('knife')), await chipAt(fp, 'Tomato'));

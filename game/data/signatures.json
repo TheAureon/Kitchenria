@@ -1842,15 +1842,15 @@
       "how": "mix(yogurt,strawberry,bake(oats,honey))"
     },
     {
-      "id": "rosti",
-      "name": "Rösti",
+      "id": "hash_browns",
+      "name": "Hash Browns",
       "arch": [
         "hashBrowns"
       ],
       "need": [
         "potato"
       ],
-      "desc": "A crispy Swiss potato cake.",
+      "desc": "Crispy, golden shreds of potato.",
       "how": "fry(grate(potato))"
     },
     {

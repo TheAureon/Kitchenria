@@ -2,16 +2,20 @@
 // stars and review, plus the collection of classic dishes you've cooked.
 
 import { db } from './data.js';
-import { state } from './state.js';
+import { state, save } from './state.js';
 import { renderArt } from './doodle.js';
 import { t } from './i18n.js';
 import { esc } from './effects.js';
 import { criticFace } from './review.js';
 import { animalFace, animalSilhouette } from './animals.js';
 import { weeklyFavourite, favouriteFound } from './cozy.js';
+import { cookHow, howSummary } from './recipes.js';
+import { play } from './audio.js';
 
 let tab = 'dishes';
 let sort = 'newest';
+let classicFilter = 'all';
+const sketchCache = new Map(); // classic id -> the dish its recipe makes (for the pencil sketch)
 
 export function openBook() {
   const dlg = document.getElementById('book');
@@ -41,6 +45,16 @@ function openTab(dlg) {
     c.setAttribute('aria-expanded', String(open));
   }));
   body.querySelectorAll('[data-sort]').forEach((b) => b.addEventListener('click', () => { sort = b.dataset.sort; openTab(dlg); }));
+  body.querySelectorAll('[data-cfilter]').forEach((b) => b.addEventListener('click', () => { classicFilter = b.dataset.cfilter; openTab(dlg); }));
+  body.querySelectorAll('[data-hint]').forEach((b) => b.addEventListener('click', () => {
+    const id = b.dataset.hint;
+    state.hints = state.hints || {};
+    state.hints[id] = Math.min(2, (state.hints[id] || 0) + 1);
+    save();
+    play('pick');
+    openTab(dlg);
+    dlg.querySelector(`[data-hint="${id}"]`)?.focus({ preventScroll: true });
+  }));
 }
 
 const starsText = (s) => '★'.repeat(Math.round(s)) + '☆'.repeat(5 - Math.round(s));
@@ -74,17 +88,50 @@ function dishes() {
     </button>`).join('')}</div>`;
 }
 
+/** The dish a classic's recipe makes, cooked once and remembered (for its sketch). */
+function sketchOf(sig) {
+  if (!sig.how) return null;
+  if (!sketchCache.has(sig.id)) {
+    try { sketchCache.set(sig.id, cookHow(db.engine, sig.how)); } catch { sketchCache.set(sig.id, null); }
+  }
+  return sketchCache.get(sig.id);
+}
+
+/** Who does the last step of a recipe: "the Oven", "your Hands"… */
+function toolFor(op) {
+  if (op === 'plate') return t('tool.plate');
+  const tool = db.handTools.find((h) => h.op === op && !h.menu) || db.appliances.find((a) => a.op === op);
+  return tool ? t(`tool.${tool.id}`) : t('tool.hands');
+}
+
+function classicCard(s) {
+  const found = state.signatures.includes(s.id);
+  const dish = sketchOf(s);
+  const art = dish ? `<span class="classic-art${found ? '' : ' sketch'}" aria-hidden="true">${renderArt(dish)}</span>` : '';
+  if (found) return `<div class="classic found">${art}<span class="classic-name">${esc(s.name)}</span><span class="classic-desc">${esc(s.desc || '')}</span></div>`;
+  // undiscovered classics show only their first letters as a hint: "M_________ P____"
+  const hint = s.name.replace(/\p{L}+/gu, (w) => w[0] + '_'.repeat(w.length - 1));
+  const level = state.hints?.[s.id] || 0;
+  let tips = '';
+  if (s.how && level >= 1) {
+    const { op, ingredients } = howSummary(s.how);
+    tips += `<span class="classic-tip">${esc(t('book.hintTool', { tool: toolFor(op) }))}</span>`;
+    if (level >= 2) tips += `<span class="classic-tip">${esc(t('book.hintIngredients', { list: ingredients.map((id) => db.engine.ING.get(id)?.name || id).join(', ') }))}</span>`;
+  }
+  const more = s.how && level < 2
+    ? `<button type="button" class="hint-btn" data-hint="${s.id}" aria-label="${esc(t('book.hintLabel', { name: hint }))}">${esc(t(level ? 'book.hintMore' : 'book.hintFirst'))}</button>` : '';
+  return `<div class="classic">${art}<span class="classic-name" aria-label="${esc(t('book.hidden'))}">${esc(hint)}</span>${s.season ? `<span class="classic-season">${esc(t('book.seasonHint', { season: t(`season.${s.season}`) }))}</span>` : ''}${tips}${more}</div>`;
+}
+
 function classics() {
   const total = db.signatures.length, n = state.signatures.length;
   const pct = Math.round((n / total) * 100);
+  const list = db.signatures.filter((s) => classicFilter === 'all' || (classicFilter === 'found') === state.signatures.includes(s.id));
   return `<p class="book-progress">${esc(t('book.classicsCount', { n, total, pct }))}</p>
     <div class="progress-track"><span style="width:${pct}%"></span></div>
-    <div class="classic-grid">${db.signatures.map((s) => {
-      const found = state.signatures.includes(s.id);
-      // undiscovered classics show only their first letters as a hint: "M_________ P____"
-      const hint = s.name.replace(/\p{L}+/gu, (w) => w[0] + '_'.repeat(w.length - 1));
-      return `<div class="classic ${found ? 'found' : ''}"><span class="classic-name" ${found ? '' : `aria-label="${esc(t('book.hidden'))}"`}>${esc(found ? s.name : hint)}</span>${found ? `<span class="classic-desc">${esc(s.desc || '')}</span>` : s.season ? `<span class="classic-season">${esc(t('book.seasonHint', { season: t(`season.${s.season}`) }))}</span>` : ''}</div>`;
-    }).join('')}</div>`;
+    <div class="book-bar"><span>${esc(t('book.sketchIntro'))}</span>
+      <span class="book-sort">${['all', 'todo', 'found'].map((k) => `<button type="button" data-cfilter="${k}" aria-pressed="${classicFilter === k}">${esc(t(`book.filter.${k}`))}</button>`).join('')}</span></div>
+    <div class="classic-grid">${list.map(classicCard).join('')}</div>`;
 }
 
 function friends() {
