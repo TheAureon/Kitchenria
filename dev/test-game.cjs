@@ -223,14 +223,16 @@ async function startGame(page) {
   await page.waitForTimeout(300);
 
   // double-click a stack to spread it out
-  await mouseDrag(page, await center(page, tile('apple')), [200, 650]);
-  await mouseDrag(page, await center(page, tile('banana')), [202, 650]);
+  const fruitSpot = await clearSpot(page);
+  await mouseDrag(page, await center(page, tile('apple')), fruitSpot);
+  await mouseDrag(page, await center(page, tile('banana')), [fruitSpot[0] + 2, fruitSpot[1]]);
   await chip(page, 'Stack of 2').dblclick();
   await page.waitForTimeout(400);
   check(await chip(page, 'Apple').count() === 1 && await chip(page, 'Banana').count() === 1, 'double-clicking a stack spreads it out');
 
   // stack limit
-  for (let i = 0; i < 7; i++) await mouseDrag(page, await center(page, tile('sugar')), [120, 420]);
+  const sugarSpot = await clearSpot(page);
+  for (let i = 0; i < 7; i++) await mouseDrag(page, await center(page, tile('sugar')), sugarSpot);
   check(await chip(page, 'Stack of 6').count() === 1, 'a stack holds at most 6 things');
 
   // plate & serve
@@ -297,7 +299,7 @@ async function startGame(page) {
   await vp.waitForSelector('#visitor:not([hidden])', { timeout: 6000 });
   check(/Hazel the Hedgehog/.test(await vp.textContent('.visitor-bubble')) && /warm/.test(await vp.textContent('.visitor-bubble')), 'a friend knocks at the window and wishes for something warm');
   check(await vp.textContent('#hearts-count') === '0', 'a new player has 0 hearts');
-  if (await vp.locator('.ai-offer').count()) await vp.click('.ai-offer [data-a="no"]');
+  await vp.waitForSelector('.ai-offer', { timeout: 5000 }).then(() => vp.click('.ai-offer [data-a="no"]')).catch(() => {}); // the AI offer pops up a moment after starting
   await mouseDrag(vp, await center(vp, tile('egg')), [500, 560]);
   await mouseDrag(vp, await chipAt(vp, 'Egg'), await center(vp, '.visitor-btn'));
   check(/cook it/.test(await vp.textContent('.visitor-bubble')) && await chip(vp, 'Egg').count() === 1, 'a raw egg is politely refused (and stays on the counter)');
@@ -349,7 +351,7 @@ async function startGame(page) {
   watch(lp, 'life');
   await lp.goto(BASE + '?season=winter');
   await lp.waitForSelector('body.ready'); await startGame(lp);
-  if (await lp.locator('.ai-offer').count()) await lp.click('.ai-offer [data-a="no"]');
+  await lp.waitForSelector('.ai-offer', { timeout: 5000 }).then(() => lp.click('.ai-offer [data-a="no"]')).catch(() => {}); // the AI offer pops up a moment after starting
   check(/Winter/.test(await lp.textContent('.shelf-section.in-season')), 'the pantry has a Winter section in winter');
   check(await lp.locator(tile('clementine')).count() === 1 && await lp.locator(tile('pumpkin')).count() === 0, 'clementines are in season; pumpkins wait for autumn');
   check(await lp.locator('#window-slot .faller').count() > 0, 'snow falls past the window');
@@ -392,6 +394,64 @@ async function startGame(page) {
   await lp.waitForTimeout(500);
   await lp.goto(BASE); await lp.waitForSelector('body.ready'); await startGame(lp);
   check(await lp.evaluate(() => document.body.classList.contains('raining') && document.body.classList.contains('low-power')), 'weather and Low Power are remembered');
+
+  // ---------------- more food (Stage 3) ----------------
+  console.log('More food:');
+  const foodCtx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const mf = await foodCtx.newPage();
+  watch(mf, 'food');
+  await mf.goto(BASE + '?season=autumn');
+  await mf.waitForSelector('body.ready'); await startGame(mf);
+  await mf.waitForSelector('.ai-offer', { timeout: 5000 }).then(() => mf.click('.ai-offer [data-a="no"]')).catch(() => {}); // the AI offer pops up a moment after starting
+  const useOn = async (name, sel, wait = 300) => { await chip(mf, name).first().click({ force: true }); await mf.click(sel); await mf.waitForTimeout(wait); };
+  check(await mf.locator(tile('chives')).count() === 1 && await mf.locator(tile('sprinkles')).count() === 1, 'the pantry has a Garnishes section (chives, sprinkles…)');
+  // whisk → piping bag → oven
+  await mf.click(tile('egg')); await mf.waitForTimeout(200);
+  await mouseDrag(mf, await center(mf, tile('sugar')), await chipAt(mf, 'Egg'));
+  await useOn('Stack of 2', tool('whisk'));
+  check(await chip(mf, 'Meringue Mix').count() === 1, 'egg + sugar + whisk → Meringue Mix');
+  await useOn('Meringue Mix', tool('pipingBag'));
+  check(await chip(mf, 'Meringue Swirls').count() === 1 && await mf.locator('.tool-show.act-pipe').count() === 1, 'the piping bag squeezes out Meringue Swirls');
+  await useOn('Meringue Swirls', appliance('oven'), 1300);
+  check(await chip(mf, 'Meringue Kisses').count() === 1, 'baked swirls → Meringue Kisses (a classic)');
+  // waffle iron
+  await mf.click(tile('flour')); await mf.waitForTimeout(200);
+  await mouseDrag(mf, await center(mf, tile('egg')), await chipAt(mf, 'Flour'));
+  await mouseDrag(mf, await center(mf, tile('milk')), await chipAt(mf, 'Stack of 2'));
+  await useOn('Stack of 3', tool('whisk'));
+  await useOn('Pancake Batter', appliance('waffleIron'), 1300);
+  check(await chip(mf, 'Belgian Waffles').count() === 1, 'batter in the waffle iron → Belgian Waffles');
+  // peeler
+  await mf.click(tile('carrot')); await mf.waitForTimeout(200);
+  await useOn('Carrot', tool('peeler'));
+  check(await chip(mf, 'Peeled Carrot').count() === 1, 'the peeler peels a carrot');
+  await useOn('Peeled Carrot', tool('peeler'));
+  check(await chip(mf, 'Carrot Ribbons').count() === 1, 'peel it again → Carrot Ribbons');
+  // garnish with the hands
+  await mf.click(tile('pumpkin')); await mf.waitForTimeout(200);
+  await mouseDrag(mf, await center(mf, tile('onion')), await chipAt(mf, 'Pumpkin'));
+  await mouseDrag(mf, await center(mf, tile('water')), await chipAt(mf, 'Stack of 2'));
+  await useOn('Stack of 3', appliance('pot'), 1300);
+  check(await chip(mf, 'Pumpkin Soup').count() === 1, 'pumpkin, onion and water in the pot → Pumpkin Soup');
+  await mouseDrag(mf, await center(mf, tile('chives')), await chipAt(mf, 'Pumpkin Soup'));
+  await mouseDrag(mf, await center(mf, tool('hands')), await chipAt(mf, 'Stack of 2'));
+  check(await mf.locator('.hand-menu [data-op="garnish"]').count() === 1, 'hands on soup + chives offer Garnish');
+  await mf.click('.hand-menu [data-op="garnish"]');
+  check(await chip(mf, 'Pumpkin Soup with Chives').count() === 1, 'garnish → Pumpkin Soup with Chives');
+  await mf.screenshot({ path: SHOTS + 'more-food.png' });
+  // recipe sketches & hints
+  await mf.click('#btn-book'); await mf.waitForSelector('#book[open]');
+  await mf.click('#book [data-tab="classics"]');
+  check(await mf.locator('#book .classic').count() >= 300, `the Recipe Book lists 300+ classics (${await mf.locator('#book .classic').count()})`);
+  check(await mf.locator('#book .classic-art.sketch').count() > 250, 'undiscovered classics show a pencil sketch');
+  await mf.click('#book .classic:not(.found) .hint-btn >> nth=0');
+  check(/Finished with/.test(await mf.textContent('#book .classic-tip >> nth=0')), 'a hint says which tool finishes the dish');
+  await mf.click('#book .classic:has(.classic-tip) .hint-btn');
+  check(/Uses:/.test(await mf.locator('#book .classic-tip').allTextContents().then((x) => x.join(' '))), 'a second hint lists the ingredients');
+  await mf.click('#book [data-cfilter="found"]');
+  check(await mf.locator('#book .classic').count() === await mf.locator('#book .classic.found').count(), 'the Found filter shows only found classics');
+  await mf.screenshot({ path: SHOTS + 'book-sketches.png' });
+  await mf.keyboard.press('Escape');
 
   // ---------------- mobile (real touch events) ----------------
   console.log('Phone (touch):');

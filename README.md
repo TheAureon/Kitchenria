@@ -32,7 +32,11 @@ Progress is saved separately for each way of playing (and each website), so the 
   * **Knife**: chop · **Whisk**: whisk (egg → Whisked Eggs) · **Spoon**: stir
   * **Rolling pin**: roll (Dough → Pizza Base, Pastry Dough → Pie Crust)
   * **Masher**: mash · **Grater**: grate (cheese, potato, lemon zest…) · **Mortar**: grind
-* **Appliances** stand along the counter: pot, pan, oven, blender, grill, steamer, freezer, marinade jar and cellar. Drop food or a stack into one and it cooks straight away. Cook something too often and it burns!
+  * **Peeler**: peel (carrot → Peeled Carrot; peel again → Carrot Ribbons; chocolate or cheese → Shavings)
+  * **Piping bag**: pipe soft things into shapes (Meringue Mix → Meringue Swirls, mash → Duchess swirls, dough → Churros or Choux Buns), **fill** buns and doughnuts, or **frost** cakes (cake + whipped cream)
+  * **Sushi mat**: roll up (rice + seaweed + fish → Sushi Roll; cake + jam → Swiss Roll; dough + cinnamon → Cinnamon Rolls; cabbage + rice → Cabbage Rolls)
+  * **Hands → Garnish**: stack a finished dish with a garnish (chives, cress, sprinkles, edible flowers, sesame, icing sugar, cocoa) and the hands offer **Garnish**. It looks prettier and Madame Purrline gives a little bonus
+* **Appliances** stand along the counter: pot, pan, **wok** (stir-fries, wok noodles, scrambled eggs), oven, blender, **waffle iron** (waffles, waffle cookies, pressed sandwiches), grill, steamer, freezer, marinade jar and cellar. Drop food or a stack into one and it cooks straight away. Cook something too often and it burns!
 * Example: stack Pizza Base + Tomato Sauce + Grated Cheese, put the stack in the oven, and you get **Cheese Pizza**, a classic dish!
 * Put up to four things on the **plate** and press **Serve!** The critic tastes it and writes a review. Cooked, balanced, well-paired, classic dishes score best. Finished dishes are kept in your **Recipe Book**, along with your collection of classic dishes.
 * **Tap instead of drag:** tap food to pick it up, then tap a hand tool, an appliance, or more food (to stack). **Keyboard:** Tab to food and press Enter, then Tab to a tool and press Enter. Arrow keys move food, Delete puts it away, Escape lets go.
@@ -56,6 +60,11 @@ Progress is saved separately for each way of playing (and each website), so the 
   * **Lighting effects** (on at first): sunlight slants in through the window and moves with the real time of day; in the evening the room dims and a warm lamp glows (from your hanging lamp, if you bought one)
   * **Low Power mode:** stops the lighting, moving decorations and Mochi's wandering, to save battery on a laptop
   * **I live south of the equator:** flips the seasons
+
+### 🍣 More food
+* **104 ingredients**, including shrimp, beef, sausage, ham, tofu, lime, mango, pineapple, cucumber, lettuce, eggplant, cabbage, lentils, chickpeas, cream cheese, mozzarella, maple syrup, miso, a **Garnishes** section, and 6 seasonal ingredients for each season.
+* **472 classic dishes** to discover, from all over the world: Ramen, Pad Thai, Paella, Tiramisu, Cinnamon Rolls, Croque Monsieur, Pavlova, Bibimbap, Chana Masala, Churros, Macarons…
+* **Recipe sketches:** in the Recipe Book → Classics, every dish you haven't found yet is shown as a **pencil sketch**. Stuck? Press **💡 Hint** to learn which tool finishes it, and again to see which ingredients it uses. Filters show **All**, **To find** or **Found**.
 
 ## ✨ The Kitchen Helper AI (optional)
 
@@ -99,6 +108,7 @@ Kitchenria/
 │   │   ├── daily.js           ←   today's recipe card
 │   │   ├── cat.js             ←   Mochi the kitchen cat
 │   │   ├── season.js          ←   which season it is
+│   │   ├── recipes.js         ←   reads the little recipe notes of classic dishes (for sketches & hints)
 │   │   ├── atmosphere.js      ←   rain, lighting effects, Low Power mode and the Weather & light switches
 │   │   ├── ai.js              ←   the optional Kitchen Helper AI (runs the model, checks and saves its answers)
 │   │   ├── ai-ui.js           ←   the AI panel, its button and the one-time offer
@@ -123,6 +133,7 @@ Kitchenria/
 │   └── vendor/web-llm/        ← the WebLLM library that runs the AI (only loaded if you turn the AI on)
 └── dev/                       ← helper tools for development. NOT needed on your website.
     ├── build-standalone.mjs   ← packs game/ into the one-file index.html
+    ├── check-classics.mjs     ← cooks every classic dish's recipe to prove it can really be made
     ├── engine-sample.mjs      ← prints what the food engine makes, to check names
     ├── gallery.html           ← shows every doodle on one page
     └── test-game.cjs          ← automatic browser test
@@ -145,8 +156,11 @@ There is no list of every recipe. The **food engine** (`game/js/engine.js`) look
 **A new classic dish**: add a line to `game/data/signatures.json`. For example, this turns any soup that contains pumpkin into "Pumpkin Soup", with a nicer description and a critic bonus:
 
 ```json
-{ "id": "pumpkin_soup", "name": "Pumpkin Soup", "arch": ["soup", "creamySoup"], "need": ["pumpkin"], "desc": "Velvety and orange, like autumn in a bowl." },
+{ "id": "pumpkin_soup", "name": "Pumpkin Soup", "arch": ["soup", "creamySoup"], "need": ["pumpkin"], "season": "autumn",
+  "desc": "Velvety and orange, like autumn in a bowl.", "how": "boil(pumpkin,onion,water)" },
 ```
+
+`how` is one recipe that makes it: each word before a bracket is a tool action (`boil`, `bake`, `chop`, `pipe`, `rollup`, `plate`…) and the rest are ingredient ids. The Recipe Book draws its pencil sketch and hints from it. Run `node dev/check-classics.mjs` to check that every classic's recipe really cooks into that classic (it also warns if a classic higher up the list "steals" it).
 
 **Hand tools, appliances and pantry sections** are in `game/data/kitchen.json`. **All text** (including the dish name patterns like `"{x} Soup"` and Madame Purrline's phrases) is in `game/lang/en.json`.
 
@@ -181,7 +195,7 @@ That's it. The picture replaces the doodle everywhere. Delete the `image` line t
 | Stage | What gets built | Status |
 |---|---|---|
 | **1. Kitchen & core play** | Stacking, hand tools (hands with 9 actions), appliances, the food engine (any combination works), burning/freezing/marinating/ageing, plating, the critic with 0.0–5.0 stars and reviews, painted dish portraits, the Recipe Book, 52 ingredients, 75 classic dishes, sounds, auto-save, mouse/touch/keyboard | ✅ done |
-| **2. Bigger world** | Many more ingredients and classic dishes (aim: 500+ across Italian, French, Japanese, Mexican, Indian, Middle Eastern…), smarter naming, more doodle shapes, better critic variety | next |
+| **2. Bigger world** | 104 ingredients with garnishes and seasonal produce, 472 classic dishes from around the world, new tools (peeler, piping bag, sushi mat, wok, waffle iron), garnishing, recipe sketches & hints in the Recipe Book | ✅ done |
 | **3. Kitchen helper AI** | Optional Qwen3.5 4B / 2B (or Chrome's built-in AI) on the player's own device, writing creative names, descriptions and critic reviews. Asks first, shows download size and progress, can be deleted, answers checked and saved forever, works offline | ✅ built (needs testing on a real Mac) |
 | **4. Friends & decorating** | 8 animal friends with wishes and presents, hearts, the Decorate shop with 4 themes and 6 kinds of decoration, the daily recipe card, the critic's weekly favourite flavour | ✅ done |
 | **5. Kitchen life** | Mochi the cat, seasons with a seasonal pantry and classics, rain, lighting effects (real-time sunlight, evening lamp glow, steam, shadows), Low Power mode, cooking animations, ~~music~~ (done early) | ✅ done |

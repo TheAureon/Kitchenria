@@ -26917,7 +26917,9 @@ function openTab(dlg) {
     state.hints[id] = Math.min(2, (state.hints[id] || 0) + 1);
     save();
     play('pick');
+    const scroller = dlg.querySelector('.book-body'), top = scroller.scrollTop;
     openTab(dlg);
+    scroller.scrollTop = top; // stay where you were in the long list
     dlg.querySelector(`[data-hint="${id}"]`)?.focus({ preventScroll: true });
   }));
 }
