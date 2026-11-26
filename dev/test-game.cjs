@@ -439,6 +439,13 @@ async function startGame(page) {
   await mf.click('.hand-menu [data-op="garnish"]');
   check(await chip(mf, 'Pumpkin Soup with Chives').count() === 1, 'garnish → Pumpkin Soup with Chives');
   await mf.screenshot({ path: SHOTS + 'more-food.png' });
+  // tools say no to nonsense, and the food stays put
+  await mf.click(tile('celery')); await mf.waitForTimeout(200);
+  await useOn('Celery', tool('whisk'));
+  check(await chip(mf, 'Celery').count() === 1 && /whisk/i.test(await mf.textContent('.toasts')), 'the whisk refuses celery (with a friendly reason), and the celery stays');
+  await mf.click(tile('water')); await mf.waitForTimeout(200);
+  await useOn('Water', appliance('grill'), 1300);
+  check(await chip(mf, 'Water').count() === 1 && /liquid/i.test(await mf.textContent('.toasts')), 'water on the grill comes back out: "You can\'t grill a liquid"');
   // recipe sketches & hints
   await mf.click('#btn-book'); await mf.waitForSelector('#book[open]');
   await mf.click('#book [data-tab="classics"]');

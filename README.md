@@ -36,6 +36,7 @@ Progress is saved separately for each way of playing (and each website), so the 
   * **Piping bag**: pipe soft things into shapes (Meringue Mix → Meringue Swirls, mash → Duchess swirls, dough → Churros or Choux Buns), **fill** buns and doughnuts, or **frost** cakes (cake + whipped cream)
   * **Sushi mat**: roll up (rice + seaweed + fish → Sushi Roll; cake + jam → Swiss Roll; dough + cinnamon → Cinnamon Rolls; cabbage + rice → Cabbage Rolls)
   * **Hands → Garnish**: stack a finished dish with a garnish (chives, cress, sprinkles, edible flowers, sesame, icing sugar, cocoa) and the hands offer **Garnish**. It looks prettier and Madame Purrline gives a little bonus
+* **Tools use common sense.** If something makes no sense (whisking a radish, grilling water, mashing a raw potato, a pot with no water), the tool politely says why and your food stays where it was. Mix strong savoury things with sweet treats (fish + chocolate) and you get an honest *Muddle* that Madame Purrline will not enjoy.
 * **Appliances** stand along the counter: pot, pan, **wok** (stir-fries, wok noodles, scrambled eggs), oven, blender, **waffle iron** (waffles, waffle cookies, pressed sandwiches), grill, steamer, freezer, marinade jar and cellar. Drop food or a stack into one and it cooks straight away. Cook something too often and it burns!
 * Example: stack Pizza Base + Tomato Sauce + Grated Cheese, put the stack in the oven, and you get **Cheese Pizza**, a classic dish!
 * Put up to four things on the **plate** and press **Serve!** The critic tastes it and writes a review. Cooked, balanced, well-paired, classic dishes score best. Finished dishes are kept in your **Recipe Book**, along with your collection of classic dishes.
@@ -134,6 +135,7 @@ Kitchenria/
 └── dev/                       ← helper tools for development. NOT needed on your website.
     ├── build-standalone.mjs   ← packs game/ into the one-file index.html
     ├── check-classics.mjs     ← cooks every classic dish's recipe to prove it can really be made
+    ├── engine-expect.mjs      ← 165 common-sense checks ("tomato + water in the pot → soup", "you can't grill water")
     ├── engine-sample.mjs      ← prints what the food engine makes, to check names
     ├── gallery.html           ← shows every doodle on one page
     └── test-game.cjs          ← automatic browser test

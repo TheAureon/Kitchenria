@@ -22581,14 +22581,14 @@ function createEngine({ ingredients, signatures = [], t, pick }) {
     const rule = RULES[op];
     if (!rule) throw new Error(`Unknown tool action: ${op}`);
     const no = refusal(op, c);
-    if (no) return { refused: true, reason: t(`refuse.${no.key}`, { x: no.x, tool: t(`verb.${op}`) }), op, key };
+    if (no) return { refused: true, reason: t(`refuse.${no.key}`, { x: no.x, tool: t(`verb.${op}`).toLowerCase() }), op, key };
     const charcoal = sorted.some((i) => i.arch === 'charcoal' || i.arch === 'stillCharcoal');
     const bad = clash(op, c);
     const mess = sorted.some((i) => i.arch === 'mess') || bad;
     let r = charcoal ? R('stillCharcoal', 'lump', '', { noun: true, burnt: 2 })
       : mess ? R('mess', 'lump', bad ? joinNames(bad.map((id) => ING.get(id).name)) : subj(sorted.find((i) => i.arch === 'mess')))
       : burnCheck(c, op) || rule(c);
-    if (r.refuse) return { refused: true, reason: t(`refuse.${r.refuse}`, { x: names(c.mains), tool: t(`verb.${op}`) }), op, key };
+    if (r.refuse) return { refused: true, reason: t(`refuse.${r.refuse}`, { x: names(c.mains), tool: t(`verb.${op}`).toLowerCase() }), op, key };
     return finish(op, sorted, r, key);
   }
 
