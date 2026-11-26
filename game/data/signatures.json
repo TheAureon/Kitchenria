@@ -8,7 +8,8 @@
     "       'op:fry' means it must have been fried at some point; 'arch:caramel' means caramel was used.",
     "not  : ingredients that must NOT be inside.   only: nothing else may be inside.",
     "desc : the cute description.",
-    "season: (optional) the season whose ingredient it needs; the Recipe Book shows it as a hint."
+    "season: (optional) the season whose ingredient it needs; the Recipe Book shows it as a hint.",
+    "how  : one recipe that makes it, e.g. bake(mix(flour,butter),apple). The Recipe Book sketches it as a hint, and dev/check-classics.mjs checks it really works."
   ],
   "signatures": [
     {
@@ -22,7 +23,8 @@
         "pumpkin"
       ],
       "season": "autumn",
-      "desc": "Orange velvet in a bowl. Autumn, but drinkable."
+      "desc": "Orange velvet in a bowl. Autumn, but drinkable.",
+      "how": "boil(pumpkin,onion,water)"
     },
     {
       "id": "pumpkin_pie",
@@ -34,7 +36,8 @@
         "pumpkin"
       ],
       "season": "autumn",
-      "desc": "Spiced, silky and made for chilly evenings."
+      "desc": "Spiced, silky and made for chilly evenings.",
+      "how": "bake(mix(flour,butter),pumpkin)"
     },
     {
       "id": "cranberry_sauce",
@@ -48,7 +51,8 @@
         "cranberry"
       ],
       "season": "autumn",
-      "desc": "Tart little jewels, gently bubbled."
+      "desc": "Tart little jewels, gently bubbled.",
+      "how": "boil(cranberry,sugar)"
     },
     {
       "id": "roast_chestnuts",
@@ -63,7 +67,8 @@
         "chestnut"
       ],
       "season": "autumn",
-      "desc": "Warm in your pocket, sweet in your mouth."
+      "desc": "Warm in your pocket, sweet in your mouth.",
+      "how": "bake(chestnut)"
     },
     {
       "id": "pea_soup",
@@ -76,7 +81,8 @@
         "peas"
       ],
       "season": "spring",
-      "desc": "Bright green and full of spring."
+      "desc": "Bright green and full of spring.",
+      "how": "boil(peas,onion,water)"
     },
     {
       "id": "rhubarb_pie",
@@ -88,7 +94,8 @@
         "rhubarb"
       ],
       "season": "spring",
-      "desc": "Sweet, sour and very pink inside."
+      "desc": "Sweet, sour and very pink inside.",
+      "how": "bake(mix(flour,butter),rhubarb)"
     },
     {
       "id": "grilled_asparagus",
@@ -100,7 +107,8 @@
         "asparagus"
       ],
       "season": "spring",
-      "desc": "Smoky spears with little stripes."
+      "desc": "Smoky spears with little stripes.",
+      "how": "grill(asparagus)"
     },
     {
       "id": "watermelon_juice",
@@ -113,7 +121,8 @@
         "watermelon"
       ],
       "season": "summer",
-      "desc": "Summer, poured into a glass."
+      "desc": "Summer, poured into a glass.",
+      "how": "squeeze(watermelon)"
     },
     {
       "id": "cherry_pie",
@@ -125,7 +134,8 @@
         "cherry"
       ],
       "season": "summer",
-      "desc": "A lattice of golden crust over ruby cherries."
+      "desc": "A lattice of golden crust over ruby cherries.",
+      "how": "bake(mix(flour,butter),cherry)"
     },
     {
       "id": "roast_parsnips",
@@ -139,7 +149,8 @@
         "parsnip"
       ],
       "season": "winter",
-      "desc": "Golden edges, sweet middles."
+      "desc": "Golden edges, sweet middles.",
+      "how": "bake(parsnip)"
     },
     {
       "id": "kale_crisps",
@@ -153,7 +164,8 @@
         "kale"
       ],
       "season": "winter",
-      "desc": "Crunchy green clouds."
+      "desc": "Crunchy green clouds.",
+      "how": "bake(kale,oil)"
     },
     {
       "id": "margherita",
@@ -166,7 +178,8 @@
         "cheese",
         "herbs"
       ],
-      "desc": "Red, white and green, like a tiny Italian flag."
+      "desc": "Red, white and green, like a tiny Italian flag.",
+      "how": "bake(mix(flour,water),boil(tomato),cheese,herbs)"
     },
     {
       "id": "cheese_pizza",
@@ -178,7 +191,8 @@
         "tomato",
         "cheese"
       ],
-      "desc": "Stretchy, bubbly, golden. The people's pizza."
+      "desc": "Stretchy, bubbly, golden. The people's pizza.",
+      "how": "bake(mix(flour,water),boil(tomato),cheese)"
     },
     {
       "id": "mushroom_pizza",
@@ -189,7 +203,8 @@
       "need": [
         "mushroom"
       ],
-      "desc": "A pizza that went for a walk in the woods."
+      "desc": "A pizza that went for a walk in the woods.",
+      "how": "bake(mix(flour,water),boil(tomato),mushroom)"
     },
     {
       "id": "apple_pie",
@@ -200,7 +215,8 @@
       "need": [
         "apple"
       ],
-      "desc": "Golden crust, soft apples, pure cosiness."
+      "desc": "Golden crust, soft apples, pure cosiness.",
+      "how": "bake(mix(flour,butter),apple)"
     },
     {
       "id": "quiche",
@@ -214,7 +230,8 @@
         "bacon",
         "cheese"
       ],
-      "desc": "A savoury custard pie with bacon and a French accent."
+      "desc": "A savoury custard pie with bacon and a French accent.",
+      "how": "bake(mix(flour,butter),egg,bacon,cheese)"
     },
     {
       "id": "lasagna",
@@ -230,7 +247,8 @@
           "cream"
         ]
       ],
-      "desc": "Layers upon layers of saucy happiness."
+      "desc": "Layers upon layers of saucy happiness.",
+      "how": "bake(boil(chop(mix(flour,egg)),water),boil(tomato),cheese,milk)"
     },
     {
       "id": "mac_cheese",
@@ -249,7 +267,8 @@
       "not": [
         "tomato"
       ],
-      "desc": "Creamy, cheesy and very hard to share."
+      "desc": "Creamy, cheesy and very hard to share.",
+      "how": "mix(boil(chop(mix(flour,egg)),water),cheese,milk)"
     },
     {
       "id": "gnocchi_pomodoro",
@@ -262,7 +281,8 @@
         "tomato",
         "arch:cookedGnocchi"
       ],
-      "desc": "Pillowy potato gnocchi in a sunny tomato blanket."
+      "desc": "Pillowy potato gnocchi in a sunny tomato blanket.",
+      "how": "mix(boil(chop(mix(boil(potato,water),flour)),water),boil(tomato))"
     },
     {
       "id": "pesto_pasta",
@@ -273,7 +293,8 @@
       "need": [
         "arch:pesto"
       ],
-      "desc": "Bright green, garlicky and full of summer."
+      "desc": "Bright green, garlicky and full of summer.",
+      "how": "mix(boil(chop(mix(flour,egg)),water),grind(herbs,oil,nuts))"
     },
     {
       "id": "pomodoro",
@@ -284,7 +305,8 @@
       "need": [
         "tomato"
       ],
-      "desc": "A twirly Italian classic. Mamma mia, how cosy!"
+      "desc": "A twirly Italian classic. Mamma mia, how cosy!",
+      "how": "mix(boil(chop(mix(flour,egg)),water),boil(tomato))"
     },
     {
       "id": "carbonara",
@@ -297,7 +319,8 @@
         "egg",
         "cheese"
       ],
-      "desc": "Silky, peppery, and secretly very simple."
+      "desc": "Silky, peppery, and secretly very simple.",
+      "how": "mix(boil(chop(mix(flour,egg)),water),fry(bacon),egg,cheese)"
     },
     {
       "id": "pad_thai",
@@ -309,7 +332,8 @@
         "egg",
         "nuts"
       ],
-      "desc": "Sweet, sour, nutty noodles from a busy street stall."
+      "desc": "Sweet, sour, nutty noodles from a busy street stall.",
+      "how": "fry(boil(chop(mix(flour,egg)),water),egg,nuts)"
     },
     {
       "id": "fried_rice",
@@ -320,7 +344,8 @@
       "need": [
         "egg"
       ],
-      "desc": "Every grain wok-tossed and wearing a little egg."
+      "desc": "Every grain wok-tossed and wearing a little egg.",
+      "how": "fry(boil(rice,water),egg)"
     },
     {
       "id": "sushi",
@@ -333,7 +358,8 @@
         "fish",
         "seaweed"
       ],
-      "desc": "Neat little rolls, wrapped with care."
+      "desc": "Neat little rolls, wrapped with care.",
+      "how": "shape(boil(rice,water),fish,seaweed)"
     },
     {
       "id": "onigiri",
@@ -345,7 +371,8 @@
       "need": [
         "seaweed"
       ],
-      "desc": "A rice triangle in a seaweed jacket. Picnic perfect."
+      "desc": "A rice triangle in a seaweed jacket. Picnic perfect.",
+      "how": "shape(boil(rice,water),seaweed)"
     },
     {
       "id": "risotto_funghi",
@@ -356,7 +383,8 @@
       "need": [
         "mushroom"
       ],
-      "desc": "Creamy rice stirred slowly with forest mushrooms."
+      "desc": "Creamy rice stirred slowly with forest mushrooms.",
+      "how": "boil(rice,water,mushroom)"
     },
     {
       "id": "chicken_curry",
@@ -367,7 +395,8 @@
       "need": [
         "chicken"
       ],
-      "desc": "Warm spices, tender chicken, a bowl that hugs back."
+      "desc": "Warm spices, tender chicken, a bowl that hugs back.",
+      "how": "boil(chicken,curry_powder,coconut_milk)"
     },
     {
       "id": "dal",
@@ -380,7 +409,8 @@
         "beans",
         "curry_powder"
       ],
-      "desc": "Golden, spiced and deeply comforting."
+      "desc": "Golden, spiced and deeply comforting.",
+      "how": "boil(beans,curry_powder,water)"
     },
     {
       "id": "chili",
@@ -394,7 +424,8 @@
         "chili",
         "tomato"
       ],
-      "desc": "A spicy pot of beans that warms you to your toes."
+      "desc": "A spicy pot of beans that warms you to your toes.",
+      "how": "boil(beans,chili,tomato)"
     },
     {
       "id": "baked_beans",
@@ -408,7 +439,8 @@
         "beans",
         "tomato"
       ],
-      "desc": "Sweet, saucy beans. A breakfast hero."
+      "desc": "Sweet, saucy beans. A breakfast hero.",
+      "how": "boil(beans,tomato)"
     },
     {
       "id": "chicken_noodle",
@@ -419,7 +451,8 @@
       "need": [
         "chicken"
       ],
-      "desc": "The soup grandmas make when you have a sniffle."
+      "desc": "The soup grandmas make when you have a sniffle.",
+      "how": "boil(chop(mix(flour,egg)),water,chicken)"
     },
     {
       "id": "minestrone",
@@ -440,7 +473,8 @@
           "rice"
         ]
       ],
-      "desc": "A chunky Italian soup with a bit of everything."
+      "desc": "A chunky Italian soup with a bit of everything.",
+      "how": "boil(tomato,carrot,chop(mix(flour,egg)),water)"
     },
     {
       "id": "french_onion",
@@ -453,7 +487,8 @@
         "onion",
         "cheese"
       ],
-      "desc": "Sweet onions, melty cheese, oh là là."
+      "desc": "Sweet onions, melty cheese, oh là là.",
+      "how": "boil(onion,cheese,water)"
     },
     {
       "id": "tomato_soup",
@@ -478,7 +513,8 @@
         "black_pepper",
         "garlic"
       ],
-      "desc": "A big red hug in a bowl."
+      "desc": "A big red hug in a bowl.",
+      "how": "boil(tomato,onion,water)"
     },
     {
       "id": "gazpacho",
@@ -489,7 +525,8 @@
       "need": [
         "tomato"
       ],
-      "desc": "A chilled Spanish soup for very hot days."
+      "desc": "A chilled Spanish soup for very hot days.",
+      "how": "blend(tomato,water)"
     },
     {
       "id": "shakshuka",
@@ -504,7 +541,8 @@
         "egg",
         "tomato"
       ],
-      "desc": "Eggs poached in a bubbling, spiced tomato sauce."
+      "desc": "Eggs poached in a bubbling, spiced tomato sauce.",
+      "how": "boil(tomato,egg)"
     },
     {
       "id": "ratatouille",
@@ -520,7 +558,8 @@
         "bell_pepper",
         "onion"
       ],
-      "desc": "A colourful vegetable stew from Provence."
+      "desc": "A colourful vegetable stew from Provence.",
+      "how": "boil(tomato,bell_pepper,onion)"
     },
     {
       "id": "mashed",
@@ -532,7 +571,8 @@
         "potato",
         "op:boil"
       ],
-      "desc": "A fluffy cloud you can eat with a spoon."
+      "desc": "A fluffy cloud you can eat with a spoon.",
+      "how": "mash(boil(potato,water))"
     },
     {
       "id": "guacamole",
@@ -552,7 +592,8 @@
           "chili"
         ]
       ],
-      "desc": "Creamy green avocado with a zesty kick."
+      "desc": "Creamy green avocado with a zesty kick.",
+      "how": "mash(avocado,lemon)"
     },
     {
       "id": "hummus",
@@ -569,7 +610,8 @@
           "oil"
         ]
       ],
-      "desc": "Smooth, nutty and made for dipping."
+      "desc": "Smooth, nutty and made for dipping.",
+      "how": "mash(boil(beans,water),lemon)"
     },
     {
       "id": "pesto",
@@ -586,7 +628,8 @@
           "garlic"
         ]
       ],
-      "desc": "Basil, oil and friends, pounded into green magic."
+      "desc": "Basil, oil and friends, pounded into green magic.",
+      "how": "grind(herbs,oil,nuts)"
     },
     {
       "id": "caprese",
@@ -599,7 +642,8 @@
         "cheese",
         "herbs"
       ],
-      "desc": "Tomato, cheese and basil, simple and perfect."
+      "desc": "Tomato, cheese and basil, simple and perfect.",
+      "how": "mix(tomato,cheese,herbs)"
     },
     {
       "id": "bruschetta",
@@ -610,7 +654,8 @@
       "need": [
         "tomato"
       ],
-      "desc": "Crunchy toast with a juicy Italian topping."
+      "desc": "Crunchy toast with a juicy Italian topping.",
+      "how": "mix(fry(chop(bake(mix(flour,water,yeast)))),tomato)"
     },
     {
       "id": "avocado_toast",
@@ -621,7 +666,8 @@
       "need": [
         "avocado"
       ],
-      "desc": "Smashed avocado on toast. Very fashionable."
+      "desc": "Smashed avocado on toast. Very fashionable.",
+      "how": "mix(fry(chop(bake(mix(flour,water,yeast)))),avocado)"
     },
     {
       "id": "garlic_bread",
@@ -636,7 +682,8 @@
         "garlic",
         "butter"
       ],
-      "desc": "Buttery, garlicky and impossible to resist."
+      "desc": "Buttery, garlicky and impossible to resist.",
+      "how": "mix(fry(chop(bake(mix(flour,water,yeast)))),garlic,butter)"
     },
     {
       "id": "blt",
@@ -653,7 +700,8 @@
           "herbs"
         ]
       ],
-      "desc": "Bacon, leaves and tomato, stacked high."
+      "desc": "Bacon, leaves and tomato, stacked high.",
+      "how": "mix(chop(bake(mix(flour,water,yeast))),bacon,tomato,spinach)"
     },
     {
       "id": "egg_sandwich",
@@ -665,7 +713,8 @@
         "egg",
         "op:boil"
       ],
-      "desc": "A picnic favourite with a sunny centre."
+      "desc": "A picnic favourite with a sunny centre.",
+      "how": "mix(chop(bake(mix(flour,water,yeast))),boil(egg,water))"
     },
     {
       "id": "tacos",
@@ -681,7 +730,8 @@
           "beans"
         ]
       ],
-      "desc": "Folded corn tortillas with a happy filling."
+      "desc": "Folded corn tortillas with a happy filling.",
+      "how": "mix(fry(mix(flour,water,corn)),fry(chicken))"
     },
     {
       "id": "burrito",
@@ -693,7 +743,8 @@
         "rice",
         "beans"
       ],
-      "desc": "A cosy blanket of tortilla around rice and beans."
+      "desc": "A cosy blanket of tortilla around rice and beans.",
+      "how": "mix(fry(mix(flour,water)),boil(rice,water),boil(beans,water))"
     },
     {
       "id": "tortilla",
@@ -705,7 +756,8 @@
       "need": [
         "corn"
       ],
-      "desc": "A soft round corn flatbread, ready for fillings."
+      "desc": "A soft round corn flatbread, ready for fillings.",
+      "how": "fry(mix(flour,water,corn))"
     },
     {
       "id": "naan",
@@ -717,7 +769,8 @@
       "need": [
         "yogurt"
       ],
-      "desc": "Pillowy flatbread, blistered and soft."
+      "desc": "Pillowy flatbread, blistered and soft.",
+      "how": "fry(mix(flour,yogurt))"
     },
     {
       "id": "french_toast",
@@ -725,7 +778,8 @@
       "arch": [
         "frenchToast"
       ],
-      "desc": "Golden, eggy and très délicieux."
+      "desc": "Golden, eggy and très délicieux.",
+      "how": "fry(chop(bake(mix(flour,water,yeast))),mix(egg,milk,sugar))"
     },
     {
       "id": "grilled_cheese",
@@ -733,7 +787,8 @@
       "arch": [
         "grilledCheese"
       ],
-      "desc": "Crispy bread, molten cheese. A hug in sandwich form."
+      "desc": "Crispy bread, molten cheese. A hug in sandwich form.",
+      "how": "fry(chop(bake(mix(flour,water,yeast))),cheese)"
     },
     {
       "id": "tortilla_espanola",
@@ -746,7 +801,8 @@
         "potato",
         "onion"
       ],
-      "desc": "A thick Spanish omelette with soft potatoes."
+      "desc": "A thick Spanish omelette with soft potatoes.",
+      "how": "fry(mix(egg,potato,onion))"
     },
     {
       "id": "pancakes_blue",
@@ -757,7 +813,8 @@
       "need": [
         "blueberry"
       ],
-      "desc": "Fluffy pancakes freckled with blueberries."
+      "desc": "Fluffy pancakes freckled with blueberries.",
+      "how": "fry(mix(flour,egg,milk,blueberry))"
     },
     {
       "id": "banana_bread",
@@ -770,7 +827,8 @@
       "need": [
         "banana"
       ],
-      "desc": "Sweet, moist and the best use of a spotty banana."
+      "desc": "Sweet, moist and the best use of a spotty banana.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter,banana))"
     },
     {
       "id": "carrot_cake",
@@ -781,7 +839,8 @@
       "need": [
         "carrot"
       ],
-      "desc": "A cake with vegetables in it. Totally healthy."
+      "desc": "A cake with vegetables in it. Totally healthy.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter,carrot))"
     },
     {
       "id": "brownies",
@@ -793,7 +852,8 @@
         "chocolate",
         "nuts"
       ],
-      "desc": "Fudgy, nutty squares of chocolate joy."
+      "desc": "Fudgy, nutty squares of chocolate joy.",
+      "how": "bake(mix(flour,egg,milk,sugar,chocolate,nuts))"
     },
     {
       "id": "choc_cake",
@@ -804,7 +864,8 @@
       "need": [
         "chocolate"
       ],
-      "desc": "Dark, rich and made for birthdays."
+      "desc": "Dark, rich and made for birthdays.",
+      "how": "bake(mix(flour,egg,milk,sugar,butter,chocolate))"
     },
     {
       "id": "choc_cookies",
@@ -815,7 +876,8 @@
       "need": [
         "chocolate"
       ],
-      "desc": "Golden cookies with melty chocolate puddles."
+      "desc": "Golden cookies with melty chocolate puddles.",
+      "how": "bake(mix(flour,butter,sugar,egg,chocolate))"
     },
     {
       "id": "cornbread",
@@ -826,7 +888,8 @@
       "need": [
         "corn"
       ],
-      "desc": "Golden, crumbly and a little bit sweet."
+      "desc": "Golden, crumbly and a little bit sweet.",
+      "how": "bake(mix(flour,water,yeast,corn))"
     },
     {
       "id": "creme_brulee",
@@ -837,7 +900,8 @@
       "need": [
         "vanilla"
       ],
-      "desc": "Crack the glassy top, find the silky custard."
+      "desc": "Crack the glassy top, find the silky custard.",
+      "how": "bake(mix(egg,milk,sugar,vanilla))"
     },
     {
       "id": "lemon_curd",
@@ -848,7 +912,8 @@
       "need": [
         "lemon"
       ],
-      "desc": "Bright, tangy, spoonable sunshine."
+      "desc": "Bright, tangy, spoonable sunshine.",
+      "how": "boil(egg,milk,sugar,lemon)"
     },
     {
       "id": "hot_chocolate",
@@ -856,7 +921,8 @@
       "arch": [
         "hotChocolate"
       ],
-      "desc": "Thick, sweet and best with a blanket."
+      "desc": "Thick, sweet and best with a blanket.",
+      "how": "boil(milk,chocolate)"
     },
     {
       "id": "chai",
@@ -873,7 +939,8 @@
           "cinnamon"
         ]
       ],
-      "desc": "Spiced milky tea that smells like a warm hug."
+      "desc": "Spiced milky tea that smells like a warm hug.",
+      "how": "boil(tea_leaves,milk,water,ginger)"
     },
     {
       "id": "mint_tea",
@@ -884,7 +951,8 @@
       "need": [
         "mint"
       ],
-      "desc": "Cool leaves in hot water. Very calming."
+      "desc": "Cool leaves in hot water. Very calming.",
+      "how": "boil(mint,water)"
     },
     {
       "id": "latte",
@@ -898,7 +966,8 @@
       "not": [
         "chocolate"
       ],
-      "desc": "Coffee and warm milk, half and half."
+      "desc": "Coffee and warm milk, half and half.",
+      "how": "boil(coffee,water,milk)"
     },
     {
       "id": "mocha",
@@ -909,7 +978,8 @@
       "need": [
         "chocolate"
       ],
-      "desc": "Coffee that met chocolate and fell in love."
+      "desc": "Coffee that met chocolate and fell in love.",
+      "how": "boil(coffee,water,milk,chocolate)"
     },
     {
       "id": "hot_cider",
@@ -920,7 +990,8 @@
       "need": [
         "apple"
       ],
-      "desc": "Smells like autumn and fuzzy socks."
+      "desc": "Smells like autumn and fuzzy socks.",
+      "how": "boil(squeeze(apple))"
     },
     {
       "id": "lemonade",
@@ -941,7 +1012,8 @@
         "orange",
         "strawberry"
       ],
-      "desc": "Sour, sweet and full of summer."
+      "desc": "Sour, sweet and full of summer.",
+      "how": "mix(squeeze(lemon),water,sugar)"
     },
     {
       "id": "strawberry_cream",
@@ -957,7 +1029,8 @@
         "strawberry",
         "cream"
       ],
-      "desc": "A garden-party classic."
+      "desc": "A garden-party classic.",
+      "how": "mix(strawberry,whisk(cream,sugar))"
     },
     {
       "id": "caramel_apple",
@@ -971,7 +1044,8 @@
         "apple",
         "arch:caramel"
       ],
-      "desc": "An apple on a stick, dressed for the fair."
+      "desc": "An apple on a stick, dressed for the fair.",
+      "how": "mix(apple,boil(sugar,butter))"
     },
     {
       "id": "applesauce",
@@ -984,7 +1058,8 @@
       "need": [
         "apple"
       ],
-      "desc": "Smooth, sweet and gentle as a lullaby."
+      "desc": "Smooth, sweet and gentle as a lullaby.",
+      "how": "boil(apple)"
     },
     {
       "id": "banana_split",
@@ -998,7 +1073,8 @@
         "banana",
         "arch:iceCream"
       ],
-      "desc": "A boat of banana sailing on ice cream."
+      "desc": "A boat of banana sailing on ice cream.",
+      "how": "freeze(milk,sugar,banana)"
     },
     {
       "id": "granola",
@@ -1006,7 +1082,8 @@
       "arch": [
         "granola"
       ],
-      "desc": "Crunchy toasted oats with a honey glow."
+      "desc": "Crunchy toasted oats with a honey glow.",
+      "how": "bake(oats,honey)"
     },
     {
       "id": "popcorn",
@@ -1014,7 +1091,8 @@
       "arch": [
         "popcorn"
       ],
-      "desc": "Pop! Pop! A bowl of fluffy crunch."
+      "desc": "Pop! Pop! A bowl of fluffy crunch.",
+      "how": "fry(corn,oil)"
     },
     {
       "id": "fried_chicken",
@@ -1027,7 +1105,8 @@
         "chicken",
         "flour"
       ],
-      "desc": "Crispy, crunchy, golden all over."
+      "desc": "Crispy, crunchy, golden all over.",
+      "how": "fry(chicken,flour)"
     },
     {
       "id": "roast_chicken",
@@ -1039,7 +1118,8 @@
         "chicken",
         "herbs"
       ],
-      "desc": "Golden skin, juicy inside, smells like Sunday."
+      "desc": "Golden skin, juicy inside, smells like Sunday.",
+      "how": "bake(chicken,herbs)"
     },
     {
       "id": "teriyaki",
@@ -1059,7 +1139,8 @@
           "sugar"
         ]
       ],
-      "desc": "Sticky, sweet and glossy."
+      "desc": "Sticky, sweet and glossy.",
+      "how": "marinate(chicken,soy_sauce,honey)"
     },
     {
       "id": "ceviche",
@@ -1067,7 +1148,8 @@
       "arch": [
         "ceviche"
       ],
-      "desc": "Fresh fish 'cooked' in zingy citrus juice."
+      "desc": "Fresh fish 'cooked' in zingy citrus juice.",
+      "how": "marinate(fish,lemon)"
     },
     {
       "id": "fish_chips",
@@ -1080,7 +1162,8 @@
         "potato",
         "op:fry"
       ],
-      "desc": "Crispy fish and chunky chips by the seaside."
+      "desc": "Crispy fish and chunky chips by the seaside.",
+      "how": "plate(fry(fish),fry(chop(potato)))"
     },
     {
       "id": "full_breakfast",
@@ -1097,7 +1180,8 @@
           "arch:bakedBeans"
         ]
       ],
-      "desc": "A plate that means business. Good morning!"
+      "desc": "A plate that means business. Good morning!",
+      "how": "plate(fry(egg),fry(bacon),fry(chop(bake(mix(flour,water,yeast)))))"
     },
     {
       "id": "bacon_eggs",
@@ -1109,7 +1193,8 @@
         "egg",
         "bacon"
       ],
-      "desc": "The sizzling start to a good day."
+      "desc": "The sizzling start to a good day.",
+      "how": "plate(fry(egg),fry(bacon))"
     },
     {
       "id": "afternoon_tea",
@@ -1132,7 +1217,8 @@
           "arch:bread"
         ]
       ],
-      "desc": "Tea and treats at four o'clock sharp. Pinkies up!"
+      "desc": "Tea and treats at four o'clock sharp. Pinkies up!",
+      "how": "plate(boil(tea_leaves,water),bake(mix(flour,egg,milk,sugar,butter)))"
     },
     {
       "id": "soup_bread",
@@ -1153,7 +1239,8 @@
           "arch:toast"
         ]
       ],
-      "desc": "A bowl for dipping and a loaf for dunking."
+      "desc": "A bowl for dipping and a loaf for dunking.",
+      "how": "plate(boil(tomato,onion,water),bake(mix(flour,water,yeast)))"
     }
   ]
 }

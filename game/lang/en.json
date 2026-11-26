@@ -1584,5 +1584,14 @@
   "desc.garnished": [
     "Finished with a little {y} on top.",
     "A pretty finishing touch of {y}."
+  ],
+  "food.burger": "{x} Burger",
+  "desc.burger": [
+    "Stacked high in a soft bun.",
+    "A bun hugging something delicious."
+  ],
+  "food.macarons": "Macarons",
+  "desc.macarons": [
+    "Dainty, nutty and crisp, with frilly little feet."
   ]
 }

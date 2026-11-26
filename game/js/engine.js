@@ -88,7 +88,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
   /** The main ingredients of a mixture, biggest first, skipping water, salt and spices when possible. */
   function mains(parts, { keepSweet = false } = {}) {
     const ids = sortIds(Object.keys(parts)).sort((a, b) => parts[b] - parts[a]);
-    const minor = (id) => flag(id, 'medium') || flag(id, 'seasoning') || flag(id, 'leaven') || flag(id, 'garnish') || id === 'oil' || (!keepSweet && flag(id, 'sweetener'));
+    const minor = (id) => flag(id, 'medium') || flag(id, 'seasoning') || flag(id, 'leaven') || flag(id, 'garnish') || id === 'oil' || (!keepSweet && flag(id, 'sweetener') && id !== 'chocolate');
     const main = ids.filter((id) => !minor(id));
     return main.length ? main : ids.filter((id) => !flag(id, 'medium')).length ? ids.filter((id) => !flag(id, 'medium')) : ids;
   }
@@ -387,7 +387,8 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
         if (others.some((i) => i.form === 'sauce' || i.arch === 'sauce')) return R('rawPizza', 'pizza', top);
         return R('flavDough', 'dough', top, { noun: true });
       }
-      if (c.has('egg') && c.items.some((i) => c.isBase(i, 'egg') || i.arch === 'whisked' || i.arch === 'cracked')) {
+      const hasPasta = c.items.some((i) => ['cookedPasta', 'cookedGnocchi'].includes(i.arch) || (i.form === 'noodles' && i.heat > 0));
+      if (c.has('egg') && !hasPasta && c.items.some((i) => c.isBase(i, 'egg') || i.arch === 'whisked' || i.arch === 'cracked')) {
         if (c.has('milk', 'cream') && c.sweetish) return R('custardBase', 'liquid', '', { noun: true });
         if (c.has('milk', 'cream') && c.only('egg', 'milk', 'cream', 'sugar', 'vanilla', 'honey')) return R('custardBase', 'liquid', '', { noun: true });
         if (!c.items.some((i) => ['slices', 'loaf'].includes(i.form) || i.arch === 'toast')) return R('omeletteMix', 'liquid', c.flavour(['egg', 'milk', 'cream', 'salt', 'black_pepper']), { noun: true });
@@ -411,6 +412,8 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       const bread = c.items.find((i) => i.form === 'slices' || i.arch === 'toast' || i.form === 'loaf');
       const flat = c.items.find((i) => i.form === 'flat' && ['flatbread', 'flavFlatbread'].includes(i.arch));
       const fill = (x) => mods(mains(mergeParts(c.items.filter((i) => i !== x))));
+      const bun = c.items.find((i) => ['rolls', 'buns'].includes(i.arch));
+      if (bun && c.n > 1) return R('burger', 'sandwich', fill(bun));
       if (bread && c.n > 1) return bread.arch === 'toast' || bread.arch === 'toasted' ? R('onToast', 'sandwich', fill(bread)) : R('sandwich', 'sandwich', fill(bread));
       if (flat && c.n > 1) return R('wrap', 'wrap', fill(flat));
       // pasta, rice
@@ -438,7 +441,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       const solids = c.solids;
       if (c.n === 1 && c.isBase(c.items[0], 'water')) return R('boilingWater', 'liquid', '', { noun: true });
       const tea = c.items.filter((i) => i.kind === 'ingredient' && (flag(i.id, 'tea') || i.id === 'herbs' || i.id === 'ginger'));
-      if (liquid && tea.length && c.only('water', 'milk', 'sugar', 'honey', 'lemon', 'herbs', 'mint', 'tea_leaves', 'coffee', 'ginger', 'cinnamon', 'cream', 'chocolate', 'vanilla')) {
+      if (liquid && tea.length && c.only('water', 'milk', 'sugar', 'honey', 'lemon', 'lime', 'herbs', 'mint', 'tea_leaves', 'coffee', 'ginger', 'cinnamon', 'cream', 'chocolate', 'vanilla', 'elderflower', 'maple_syrup')) {
         if (c.has('coffee')) return R('coffee', 'drink', c.has('milk', 'cream') ? t('food.withMilk') : '', { noun: true, hot: true });
         if (c.only('water', 'tea_leaves', 'sugar', 'honey', 'milk', 'lemon')) return R('cupOfTea', 'drink', '', { noun: true, hot: true });
         return R('tea', 'drink', mods(tea.map((i) => i.id).filter((id) => id !== 'tea_leaves').concat(tea.some((i) => i.id === 'tea_leaves') ? [] : [])), { hot: true });
@@ -549,6 +552,7 @@ export function createEngine({ ingredients, signatures = [], t, pick }) {
       const loose = (x) => c.items.every((i) => i === x || LIQUID_FORMS.has(i.form) || (i.kind === 'ingredient' && (flag(i.id, 'sweetener') || flag(i.id, 'seasoning') || flag(i.id, 'fat') || flag(i.id, 'garnish'))));
       // things squeezed out of the piping bag
       const piped = c.items.find((i) => ['meringueSwirls', 'duchess', 'pipedDough', 'pipedBatter'].includes(i.arch));
+      if (piped && piped.arch === 'meringueSwirls' && c.items.some((i) => i !== piped && i.parts.nuts) && c.items.every((i) => i === piped || i.parts.nuts || i.kind === 'ingredient')) return R('macarons', 'cookie', '', { noun: true });
       if (piped && loose(piped)) {
         if (piped.arch === 'meringueSwirls') return R('meringues', 'piped', '', { noun: true });
         if (piped.arch === 'duchess') return R('duchessBake', 'piped', mods(mains(piped.parts)));
